@@ -25,9 +25,11 @@ sudo:
 	test -e /etc/sudoers.d/50_$$(id -u -n) || \
 	su -c "sh ./_dfutils/editsudoers.sh $$(id -u -n)"
 
+~/.config/git/: basefiles .config/git/
+	ln -s "$$(pwd)/.config/git/" ~/.config/git
+
 git: basefiles \
      ~/.config/git/
-	ln -s "$$(pwd)/.config/git/" ~/.config/git
 	mkdir -p ~/.local/srv/git/
 	mkdir -p ~/.local/srv/git/github.com/
 
@@ -49,12 +51,14 @@ bash: sudo basefiles
 	sudo apt install -y bash bash-completion
 	ln -s "$$(pwd)/.config/bash/" ~/.config/bash
 
+~/.local/srv/git/github.com/akinomyoga/ble.sh/: git
+	mkdir -p ~/.local/srv/git/github.com/akinomyoga/
+	git clone --recursive 'git://github.com/akinomyoga/ble.sh.git' \
+	    ~/.local/srv/git/github.com/akinomyoga/ble.sh/
+
 blesh: git bash basefiles \
        ~/.local/srv/git/github.com/akinomyoga/ble.sh/
 	sudo apt install -y gawk
-	mkdir -p ~/.local/srv/git/github.com/akinomyoga/
-	git clone --recursive 'git://github.com/akinomyoga/ble.sh.git' \
-	       ~/.local/srv/git/github.com/akinomyoga/ble.sh/
 	cd ~/.local/srv/git/github.com/akinomyoga/ble.sh/
 	make install
 	ln -s "$$(pwd)/.config/blesh/" ~/.config/blesh
@@ -76,12 +80,19 @@ ibus: sudo
 	gsettings set org.freedesktop.ibus.general.hotkey next-engine-in-menu '[]'
 	gsettings set org.freedesktop.ibus.general.hotkey trigger '['"'"'Control+space'"'"']'
 
-x11: basefiles
-	ln -s "$$(pwd)/.config/X11/" ~/.config/X11
-	ln -s "$$(pwd)/.config/.xsessionrc" ~/.xsessionrc
+~/.config/X11: .config/X11/
+	ln -s "$$(pwd)/$<" "$@"
 
-less: basefiles
-	sh ./_dfutils/genlesskey.sh
+~/.xsessionrc: .config/.xsessionrc
+	ln -s "$$(pwd)/$<" "$@"
+
+x11: basefiles \
+     ~/.config/X11 \
+     ~/.xsessionrc
+
+less: basefiles \
+      _dfutils/genlesskey.sh
+	sh "$$(pwd)/$<"
 
 xdg: basefiles
 	mkdir -p ~/.local/var/fd.o/
