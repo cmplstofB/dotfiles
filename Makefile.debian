@@ -7,7 +7,12 @@ install: l10n \
          vimdoc-ja \
          x11-arc-theme x11-papirus-icon x11-breeze-cursor_theme
 
-basefiles:
+backups:
+	mkdir -p ~/.local/var/bkp/mnl/
+
+basefiles: backups
+	[ -r ~/.profile ] && \
+	mv ~/.profile ~/.local/var/bkp/mnl/.profile.bkp-$$(date +'%Y%m%dT%H%M%S')
 	ln -s ./.profile ~/.profile
 	. ~/.profile
 	mkdir ~/.config
@@ -30,6 +35,9 @@ utils: sudo basefiles
 	ln -s ./.config/dircolors ~/.config/dircolors
 
 bash: sudo basefiles
+	[ -r ~/.bash* ] && { \
+	set -- ~/.local/var/bkp/mnl/bashfiles.bkp-$$(date +'%Y%m%dT%H%M%S'); \
+	mkdir $$1; mv ~/.bash* $$1; }
 	sudo apt install -y bash bash-completion
 	ln -s ./.config/bash/ ~/.config/bash/
 
