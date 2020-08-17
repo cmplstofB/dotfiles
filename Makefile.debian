@@ -137,7 +137,8 @@ vimdoc-ja: ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
            ~/.config/vim/pack/_/start/vimdoc-ja
 
 xfce:
-	sudo apt install -y xfce4
+	sudo apt install -y xfce4 \
+	  xfce4-battery-plugin xfce4-clipman xfce4-whiskermenu-plugin
 	xfconf-query -c keyboards -p '/Default/Numlock' -s 'true'
 	xfconf-query -c keyboards -p '/Default/RestoreNumlock' -s 'true'
 	xfconf-query -c xsettings -p '/Gtk/DecorationLayout' -s 'menu:minimize,maximize,close'
