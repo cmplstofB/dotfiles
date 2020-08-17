@@ -83,8 +83,10 @@ ibus: sudo
 ~/.config/X11: .config/X11/
 	ln -s "$$(pwd)/$<" "$@"
 
-~/.xsessionrc: .config/.xsessionrc
-	ln -s "$$(pwd)/$<" "$@"
+~/.xsessionrc: basefiles
+	echo xkbcomp -I$${XDG_CONFIG_HOME:-$$HOME/.config}/X11/xkb \
+	     $${XDG_CONFIG_HOME:-$$HOME/.config}/X11/xkb/keymap/_.xkb \$DISPLAY \
+	> "$@"
 
 x11: basefiles \
      ~/.config/X11 \
