@@ -34,6 +34,10 @@ l10n: sudo basefiles
 	sudo apt install -y manpages-ja-dev
 
 utils: sudo basefiles
+	if [ -r ~/.config/dircolors ]; then \
+		mv ~/.config/dircolors \
+		   ~/.local/var/bkp/mnl/dircolors.bkp-$$(date +'%Y%m%dT%H%M%S'); \
+	fi
 	ln -s "$$(pwd)/.config/dircolors" ~/.config/dircolors
 
 bash: sudo basefiles
@@ -87,6 +91,10 @@ xdg: basefiles
 	mkdir ~/.local/var/fd.o/muz
 	mkdir ~/.local/var/fd.o/pic
 	mkdir ~/.local/var/fd.o/vid
+	if [ -r ~/.config/user-dirs.dirs ]; then \
+		mv ~/.config/user-dirs.dirs \
+		   ~/.local/var/bkp/mnl/user-dirs.dirs.bkp-$$(date +'%Y%m%dT%H%M%S'); \
+	fi
 	ln -s "$$(pwd)/.config/user-dirs.dirs" ~/.config/user-dirs.dirs
 	mkdir -p ~/.local/var/fd.o/
 	xdg-user-dirs-update
@@ -105,7 +113,7 @@ vimdoc-ja: git vim
 	      ~/.config/vim/pack/_/start/vimdoc-ja
 
 
-xfce: sudo
+xfce: sudo xdg
 	sudo apt install -y xfce4
 	xfconf-query -c keyboards -p '/Default/Numlock' -s 'true'
 	xfconf-query -c keyboards -p '/Default/RestoreNumlock' -s 'true'
