@@ -69,7 +69,7 @@ bash: ~/.config/bash \
 	ln -s "$$(pwd)/$<" "$@"
 
 blesh: ~/.local/srv/git/github.com/akinomyoga/ble.sh/ \
-       ~/.config/blesh
+       ~/.config/blesh \
        sudo basefiles git
 	sudo apt install -y gawk
 	cd "$<"
@@ -145,7 +145,7 @@ vimdoc-ja: ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
            ~/.config/vim/pack/_/start/vimdoc-ja \
            vim
 
-xfce: x11
+xfce: xdg
 	sudo apt install -y xfce4 \
 	  xfce4-battery-plugin xfce4-clipman xfce4-whiskermenu-plugin
 	xfconf-query -c keyboards -p '/Default/Numlock' -s 'true'
