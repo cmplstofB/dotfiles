@@ -25,7 +25,8 @@ sudo:
 	test -e /etc/sudoers.d/50_$$(id -u -n) || \
 	su -c "sh ./_dfutils/editsudoers.sh $$(id -u -n)"
 
-git: basefiles
+git: basefiles \
+     ~/.config/git/
 	ln -s "$$(pwd)/.config/git/" ~/.config/git
 	mkdir -p ~/.local/srv/git/
 	mkdir -p ~/.local/srv/git/github.com/
@@ -48,7 +49,8 @@ bash: sudo basefiles
 	sudo apt install -y bash bash-completion
 	ln -s "$$(pwd)/.config/bash/" ~/.config/bash
 
-blesh: git bash basefiles
+blesh: git bash basefiles \
+       ~/.local/srv/git/github.com/akinomyoga/ble.sh/
 	sudo apt install -y gawk
 	mkdir -p ~/.local/srv/git/github.com/akinomyoga/
 	git clone --recursive 'git://github.com/akinomyoga/ble.sh.git' \
