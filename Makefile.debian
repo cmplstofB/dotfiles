@@ -7,7 +7,6 @@ install: l10n \
          vimdoc-ja \
          x11-arc-theme x11-papirus-icon x11-breeze-cursor_theme
 
-
 basefiles:
 	ln -s ./.profile ~/.profile
 	. ~/.profile
@@ -31,7 +30,7 @@ bash: sudo basefiles
 	ln -s ./.config/bash/ ~/.config/bash/
 
 blesh: git bash basefiles
-	sudo apt install -y make gawk
+	sudo apt install -y gawk
 	mkdir -p ~/.local/srv/git/github.com/akinomyoga/
 	git clone --recursive 'git://github.com/akinomyoga/ble.sh.git' \
 	       ~/.local/srv/git/github.com/akinomyoga/ble.sh/
