@@ -66,7 +66,7 @@ l10n: sudo
 utils: ~/.config/dircolors \
        ~/.config/lesskey \
        sudo
-	sudo apt install -y jq curl 7z
+	sudo apt install -y jq curl p7zip
 
 ~/.config/bash: .config/bash/ \
                 ~/.config/
