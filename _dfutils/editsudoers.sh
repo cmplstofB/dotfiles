@@ -18,6 +18,6 @@ export PATH="$(command -p getconf PATH)${PATH:+:$PATH}"
 export POSIXLY_CORRECT='200809' UNIX_STD='2003' \
        COMMAND_MODE='unix2003' XPG_SUS_ENV='ON'
 
-<<. cat > "/etc/sudoers.d/$1"
-$(id -u -n)	ALL=(ALL) NOPASSWD: ALL
+<<. cat > "/etc/sudoers.d/50_$1"
+$1	ALL=(ALL) NOPASSWD: ALL
 .
