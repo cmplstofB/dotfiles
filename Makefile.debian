@@ -53,7 +53,7 @@ utils: ~/.config/dircolors \
 bash: ~/.config/bash
 	for _f in ~/.bash?*; do \
 		mv "$$_f" \
-		   "~/.local/var/bkp/mnl/$${_f##*/}.bkp-$$(date +'%Y%m%dT%H%M%S')"; \
+		   ~"/.local/var/bkp/mnl/$${_f##*/}.bkp-$$(date +'%Y%m%dT%H%M%S')"; \
 	done
 	ln -s "$$(pwd)/.config/bash/" ~/.config/bash
 	sudo apt install -y bash bash-completion
