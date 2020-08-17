@@ -23,7 +23,7 @@ basefiles: backups
 sudo:
 	command -v sudo || su -c 'apt install -y sudo'
 	test -e /etc/sudoers.d/50_$$(id -u -n) || \
-	su -c "sh ./_dfutils/editsudoers.sh 50_$$(id -u -n)"
+	su -c "sh ./_dfutils/editsudoers.sh $$(id -u -n)"
 
 git: basefiles
 	ln -s "$$(pwd)/.config/git/" ~/.config/git/
