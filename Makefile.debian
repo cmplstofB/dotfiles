@@ -2,8 +2,7 @@
 
 install: all
 
-all: basefiles \
-     sudo utils git l10n \
+all: sudo utils git l10n \
      bash blesh \
      libskk ibus ibus-skk \
      vim vimdoc-ja \
@@ -25,7 +24,7 @@ all: basefiles \
 ~/.cache/:
 	mkdir -p "$@"
 
-basefiles: ~/.local/var/bkp/mnl/ \
+~/.profile: ~/.local/var/bkp/mnl/ \
            ~/.config/ \
            ~/.local/share/ \
            ~/.cache/
@@ -56,7 +55,7 @@ l10n: sudo
 	sudo apt install -y manpages-ja-dev
 
 ~/.config/dircolors: .config/dircolors \
-                   ~/.config
+                     ~/.config
 	ln -s "$$(pwd)/$<" "$@"
 
 ~/.config/lesskey: _dfutils/genlesskey.sh \
@@ -91,7 +90,7 @@ bash: ~/.config/bash \
 
 blesh: ~/.local/srv/git/github.com/akinomyoga/ble.sh/ \
        ~/.config/blesh \
-       sudo basefiles git
+       sudo ~/.profile git
 	sudo apt install -y gawk
 	cd "$<"
 	make install
@@ -172,7 +171,7 @@ xdg: x11 \
 	if [ -r ~/.config/user-dirs.dirs ]; then \
 		for _s in DESKTOP DOWNLOAD TEMPLATES PUBLICSHARE \
 		          DOCUMENTS MUSIC PICTURES VIDEOS; do \
-			rm "$$(xdg-user-dir $$_s)"; \
+			rm -r "$$(xdg-user-dir $$_s)"; \
 		done; \
 		mv ~/.config/user-dirs.dirs \
 		   ~/".local/var/bkp/mnl/user-dirs.dirs.bkp-$$(date +'%Y%m%dT%H%M%S')"; \
