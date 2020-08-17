@@ -51,10 +51,10 @@ utils: ~/.config/dircolors \
 	ln -s "$$(pwd)/$<" "$@"
 
 bash: ~/.config/bash
-	if [ -r ~/.bash?* ]; then \
-		set -- ~/.local/var/bkp/mnl/bashfiles.bkp-$$(date +'%Y%m%dT%H%M%S'); \
-		mkdir $$1/; mv ~/.bash?* $$1/; \
-	fi
+	for _f in ~/.bash?*; do \
+		mv "$$_f" \
+		   "~/.local/var/bkp/mnl/$${_f##*/}.bkp-$$(date +'%Y%m%dT%H%M%S')"; \
+	done
 	ln -s "$$(pwd)/.config/bash/" ~/.config/bash
 	sudo apt install -y bash bash-completion
 
