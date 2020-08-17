@@ -13,7 +13,7 @@ backups:
 basefiles: backups
 	[ -r ~/.profile ] && \
 	mv ~/.profile ~/.local/var/bkp/mnl/.profile.bkp-$$(date +'%Y%m%dT%H%M%S')
-	ln -s ./.profile ~/.profile
+	ln -s ./.config/.profile ~/.profile
 	. ~/.profile
 	mkdir ~/.config
 	mkdir -p ~/.local/share
