@@ -71,7 +71,7 @@ if ! command -v git > '/dev/null' 2>&1; then
 	echo 'Installing ‘git’...'
 	case $_ostype in
 		'debian')
-			su -c 'apt install git'
+			su -c 'apt install -y git'
 			;;
 	esac
 fi
