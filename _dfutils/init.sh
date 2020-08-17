@@ -68,10 +68,10 @@ die '‘su’命令を用意して下さい。'
 
 # git命令があるか確認，なければ引装。
 if ! command -v git > '/dev/null' 2>&1; then
-	echo 'Installing ‘git’...'
+	echo 'Installing ‘git’ and ‘make’...'
 	case $_ostype in
 		'debian')
-			su -c 'apt install -y git'
+			su -c 'apt install -y git make'
 			;;
 	esac
 fi
