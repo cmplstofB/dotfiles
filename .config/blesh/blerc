@@ -1,0 +1,194 @@
+bleopt char_width_mode=west
+bleopt default_keymap=vi
+bleopt edit_abell=
+bleopt edit_vbell=
+bleopt undo_point=orig
+bleopt history_preserve_point=orig
+bleopt term_cursor_external=5
+bleopt history_share=1
+
+bleopt filename_ls_colors="$LS_COLORS"
+# ble-color-setface auto_complete fg=gray
+# ble-color-setface command_alias fg=green,bold
+# ble-color-setface command_builtin fg=green,bold
+# ble-color-setface command_builtin_dot fg=green,bold
+# ble-color-setface command_directory fg=26,underline
+# ble-color-setface command_file fg=green,bold
+# ble-color-setface command_function fg=green,bold
+# ble-color-setface command_jobs fg=green,bold
+# ble-color-setface command_keyword fg=green,bold
+# ble-color-setface disabled fg=silver
+# ble-color-setface filename_block fg=yellow,bg=black,underline
+# ble-color-setface filename_character fg=white,bg=black,underline
+# ble-color-setface filename_directory fg=26,underline
+# ble-color-setface filename_directory_sticky fg=white,bg=26,underline
+# ble-color-setface filename_executable fg=green,underline
+# ble-color-setface filename_link fg=teal,underline
+# ble-color-setface filename_ls_colors underline
+# ble-color-setface filename_orphan fg=teal,bg=224,underline
+# ble-color-setface filename_other underline
+# ble-color-setface filename_pipe fg=lime,bg=black,underline
+# ble-color-setface filename_setgid fg=black,bg=191,underline
+# ble-color-setface filename_setuid fg=black,bg=220,underline
+# ble-color-setface filename_socket fg=cyan,bg=black,underline
+# ble-color-setface filename_url fg=blue,underline
+# ble-color-setface filename_warning fg=red,underline
+# ble-color-setface menu_filter_fixed bold
+# ble-color-setface menu_filter_input fg=16,bg=229
+# ble-color-setface overwrite_mode reverse
+# ble-color-setface region fg=black,bg=gray
+# ble-color-setface region_insert fg=blue,bg=252
+# ble-color-setface region_match fg=yellow,bold,reverse
+# ble-color-setface region_target fg=yellow,bold,reverse
+# ble-color-setface syntax_brace fg=bold
+# ble-color-setface syntax_command fg=green,bold
+# ble-color-setface syntax_comment fg=gray
+# ble-color-setface syntax_default none
+# ble-color-setface syntax_delimiter bold
+# ble-color-setface syntax_document none
+# ble-color-setface syntax_document_begin fg=orange
+# ble-color-setface syntax_error fg=black,bg=red
+# ble-color-setface syntax_expr fg=purple
+# ble-color-setface syntax_function_name fg=green,bold
+# ble-color-setface syntax_glob bold,italic
+# ble-color-setface syntax_history_expansion fg=black,bg=purple
+# ble-color-setface syntax_param_expansion fg=purple
+# ble-color-setface syntax_quotation fg=yellow,bold
+# ble-color-setface syntax_quoted fg=yellow
+# ble-color-setface syntax_tilde fg=navy,bold
+# ble-color-setface syntax_varname fg=purple,italic
+# ble-color-setface varname_array bold,copy:syntax_varname
+# ble-color-setface varname_empty copy:syntax_varname
+# ble-color-setface varname_export copy:syntax_varname
+# ble-color-setface varname_expr copy:syntax_varname
+# ble-color-setface varname_hash copy:syntax_varname
+# ble-color-setface varname_number copy:syntax_varname
+# ble-color-setface varname_readonly copy:syntax_varname
+# ble-color-setface varname_transform copy:syntax_varname
+# ble-color-setface varname_unset copy:syntax_varname
+# ble-color-setface vbell reverse
+# ble-color-setface vbell_erase bg=252
+# ble-color-setface vbell_flash fg=green,reverse
+
+ble-color-setface auto_complete fg=gray
+ble-color-setface region                   bg=gray,fg=black
+ble-color-setface region_target            standout,fg=yellow
+ble-color-setface region_match             standout,fg=yellow
+ble-color-setface disabled                 fg=silver
+ble-color-setface overwrite_mode           reverse
+ble-color-setface syntax_default           none
+ble-color-setface syntax_command           bold,fg=green
+ble-color-setface syntax_quoted            fg=yellow
+ble-color-setface syntax_quotation         bold,fg=yellow
+ble-color-setface syntax_expr              fg=purple
+ble-color-setface syntax_error             fg=black,bg=red
+ble-color-setface syntax_varname           italic,bold,fg=purple
+ble-color-setface syntax_delimiter         bold
+ble-color-setface syntax_param_expansion   fg=purple
+ble-color-setface syntax_history_expansion bg=purple,fg=black
+ble-color-setface syntax_function_name     bold,fg=green
+ble-color-setface syntax_comment           fg=gray
+ble-color-setface syntax_glob              bold,italic
+ble-color-setface syntax_brace             bold,italic
+ble-color-setface syntax_tilde             bold,fg=navy
+ble-color-setface syntax_document          none
+ble-color-setface syntax_document_begin    fg=orange
+ble-color-setface command_builtin_dot      copy:syntax_command
+ble-color-setface command_builtin          copy:syntax_command
+ble-color-setface command_alias            copy:syntax_command
+ble-color-setface command_function         copy:syntax_command
+ble-color-setface command_file             copy:syntax_command
+ble-color-setface command_keyword          copy:syntax_command
+ble-color-setface command_jobs             copy:syntax_command
+ble-color-setface command_directory        copy:filename_directory
+ble-color-setface varname_array            copy:syntax_varname
+ble-color-setface varname_empty            copy:syntax_varname
+ble-color-setface varname_export           copy:syntax_varname
+ble-color-setface varname_expr             copy:syntax_varname
+ble-color-setface varname_hash             copy:syntax_varname
+ble-color-setface varname_number           copy:syntax_varname
+ble-color-setface varname_readonly         copy:syntax_varname
+ble-color-setface varname_transform        copy:syntax_varname
+ble-color-setface varname_unset            italic,fg=purple
+ble-color-setface filename_warning         underline,fg=red
+ble-color-setface filename_ls_colors       underline
+
+## 自動補完
+ble/array#push _ble_complete_load_hook blerc/complete-load-hook
+function blerc/complete-load-hook {
+	#ble-color-setface auto_complete fg=gray
+
+	ble-bind -m 'auto_complete' -f 'C-x C-m' 'auto_complete/accept-line'
+	ble-bind -m 'auto_complete' -f 'C-x C-f' 'auto_complete/insert-word'
+
+	ble-sabbrev  o,='xdg-open'
+	ble-sabbrev ,c='| xsel -b'
+	ble-sabbrev c,='xsel -b -o'
+	ble-sabbrev ,dn=$'> \'/dev/null\' 2>&1'
+	ble-sabbrev  e,='editor'
+	ble-sabbrev  s,='sudo'
+	ble-sabbrev a,l='apt list'     a,l,i='apt list --installed' \
+	            a,w='apt show' \
+	            a,i='apt install'  a,i,r='apt install --no-install-recommends' \
+	            a,s='apt search'   a,s,n='apt search --names-only' \
+	           a,fl='apt-file list' a,fs='apt-file search' \
+	            a,d='apt depends'   a,rd='apt rdepends' \
+	            a,u='apt update'    a,ug='apt upgrade' a,du='apt dist-upgrade' \
+	            a,r='apt remove'    a,ar='apt autoremove' \
+	            a,p='apt purge' \
+	           a,pl='apt policy' \
+	            a,e='apt edit-sources'
+	ble-sabbrev  p,='pager'      ,p='| pager'
+	ble-sabbrev  g,='grep -e'    ,g='| grep -e' \
+	            g,,='grep, -e' ,g,,='| grep, -e' \
+	            gi,='igrep -e' ,gi='| igrep -e' \
+	            gf,='fgrep -e' ,gf='| fgrep -e'
+
+	ble-sabbrev @dl='~/.local/var/fd.o/dl/'
+	ble-sabbrev @us='/usr/share/' @uls='/usr/local/share/'
+	ble-sabbrev @dn='/dev/null'
+	ble-sabbrev @dtp="$(xdg-user-dir DESKTOP | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
+	ble-sabbrev @dl="$(xdg-user-dir DOWNLOAD | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
+	ble-sabbrev @tpl="$(xdg-user-dir TEMPLATES | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
+	ble-sabbrev @pubshr="$(xdg-user-dir PUBLICSHARE | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
+	ble-sabbrev @doc="$(xdg-user-dir DOCUMENTS | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
+	ble-sabbrev @muz="$(xdg-user-dir MUSIC | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
+	ble-sabbrev @pic="$(xdg-user-dir PICTURES | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
+	ble-sabbrev @vid="$(xdg-user-dir VIDEOS | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
+}
+
+## Vim
+if [[ $bleopt_default_keymap == auto && -o vi || $bleopt_default_keymap == vi ]]; then
+	ble/array#push _ble_keymap_vi_load_hook blerc/vim-load-hook
+	function blerc/vim-load-hook {
+		bind 'set keyseq-timeout 1'
+		bleopt keymap_vi_macro_depth=64
+		#bleopt keymap_vi_nmap_name:=$'\e[1m-- NORMAL --\e[0m'
+		bleopt keymap_vi_mode_string_nmap=$'\e[1m-- 通常 --\e[m'
+		bleopt keymap_vi_mode_name_{insert=挿入,replace=置換,vreplace=仮想置換}
+		bleopt keymap_vi_mode_name_{visual=視覚,select=選択}
+		bleopt keymap_vi_mode_name_{linewise=行,blockwise=矩形}
+
+		## Keymap
+		ble-bind -m 'vi_imap' -f 'C-i' 'complete'
+		ble-bind -m 'vi_imap' -f 'C-x C-m' 'vi-command/accept-line'
+		ble-bind -m 'vi_imap' -f 'C-p' 'history-search-backward'
+		ble-bind -m 'vi_imap' -f 'C-n' 'history-search-forward'
+		ble-bind -m 'vi_nmap' -f 'C-m' 'accept-line'
+		ble-bind -m 'vi_nmap' -f '{' 'history-prev'
+		ble-bind -m 'vi_nmap' -f '}' 'history-next'
+		ble-bind -m 'nsearch' -f 'C-m' 'nsearch/accept-line'
+
+		bleopt keymap_vi_nmap_cursor:=2
+		bleopt keymap_vi_imap_cursor:=5
+		bleopt keymap_vi_omap_cursor:=4
+		bleopt keymap_vi_xmap_cursor:=2
+		bleopt keymap_vi_cmap_cursor:=5
+		bleopt keymap_vi_smap_cursor:=2
+		if [[ -v '$TMUX' ]]; then
+			_ble_term_Ss=$'\ePtmux;\e\e[@1 q\e\\'
+		else
+			_ble_term_Ss=$'\e[@1 q'
+		fi
+	}
+fi

@@ -1,0 +1,16 @@
+{
+	"include": [
+		"default"
+	],
+	"define": {
+		"keymap": {
+			"@": "set-input-mode-hiragana",
+			"/": "start-preedit",
+			"L": "set-input-mode-latin",
+			"|": "set-input-mode-wide-latin",
+			"_": "set-input-mode-hankaku-katakana",
+			"+": "start-preedit-kana",
+			"C-j": "commit"
+		}
+	}
+}

@@ -1,0 +1,165 @@
+# POSIX
+#   ~/.profileでPOSIXLY_CORRECT等を設定している為。
+shopt -q -o posix && shopt -u -o posix
+
+#  ble.sh読み込み・設定
+if [[ $- == *i* && -f "${XDG_DATA_HOME:-~/.local/share}/blesh/ble.sh" ]]; then
+	source "${XDG_DATA_HOME:-~/.local/share}/blesh/ble.sh" --noattach &&
+	ble-import "${XDG_CONFIG_HOME:-~/.config}/blesh/blerc"
+fi
+
+# 履歴
+shopt -s cmdhist
+shopt -s lithist
+shopt -u histappend
+shopt -s histreedit
+shopt -s histverify
+HISTCONTROL=ignoreboth
+HISTFILE="${XDG_CACHE_HOME:-~/.cache}/bash/history.bash"
+HISTSIZE=''
+HISTFILESIZE=''
+
+# 見た目
+shopt -s checkwinsize
+
+# 綴り間違い訂正
+shopt -s cdspell
+shopt -s dirspell
+
+# 移動
+shopt -s autocd
+shopt -s cdable_vars
+
+# 互換性
+shopt -s xpg_echo
+shopt -u compat31
+shopt -u compat32
+shopt -u compat40
+shopt -u compat41
+shopt -u compat42
+shopt -u compat43
+
+# golb
+shopt -s dotglob
+shopt -s extglob
+shopt -s nocaseglob
+shopt -u nullglob
+shopt -s globstar
+shopt -s failglob
+shopt -s globasciiranges
+
+# 出力形式を分かり易く
+shopt -s gnu_errfmt
+
+# 上書き防止
+set -o noclobber
+
+# 補完
+shopt -s progcomp
+shopt -s no_empty_cmd_completion
+shopt -s hostcomplete
+
+# コマンド
+shopt -s checkhash
+
+# ジョブ管理
+shopt -s checkjobs
+shopt -s huponexit
+
+# 補完
+if [ -f /usr/share/bash-completion/bash_completion ]; then
+	source /usr/share/bash-completion/bash_completion
+elif [ -f /etc/bash_completion ]; then
+	source /etc/bash_completion
+fi
+
+# 入力促進
+shopt -s promptvars
+function _usrcmd.synchist
+{
+	history -a && history -c && history -r
+}
+#   〈場所〉-〈アプリケーション (Bash)〉形式 
+# ↓起動時に場合分けして設定（SSH判定）
+if [[ -v 'SSH_CONNECTION' ]]; then
+	function _usrcmd.settermttl
+	{
+		local pwd='~'
+		[[ "$PWD" != "$HOME" ]] && pwd="${PWD/#$HOME/\~}"
+		printf '\e](SSH) 0;%s - BASH\e\\' "$pwd"
+	}
+	PS_ssh='\[\e[2;37m\](ssh)\[\e[22;39m\] '
+else
+	function _usrcmd.settermttl
+	{
+		local pwd='~'
+		[[ "$PWD" != "$HOME" ]] && pwd="${PWD/#$HOME/\~}"
+		printf '\e]0;%s - BASH\e\\' "$pwd"
+	}
+	PS_ssh=''
+fi
+#  端末の色設定を判定
+if [[ "${TERM}" =~ 'xterm-color|.*-256color' ]] ||
+  tput setaf > /dev/null 2>&1; then
+	PS1="$PS_ssh"'\[\e[1;34m\]\w\[\e[22;39m\]\n\[\e[2;37m\]\$\[\e[22;39m\] '
+else
+	PS1="$PS_ssh"'\w\n\$ '
+fi
+
+#alias .3='cd ../../../'
+function pdf2txt { \pdftotext "${1:--}" -; }
+#complete -o dirnames -A file -X '*.pdf' pdf2txt \
+#                                   pdfdetach pdffonts pdfimages \
+#                                   pdfinfo pdfseparate pdfsig \
+#                                   pdftocairo pdftohtml pdftoppm \
+#                                   pdftops pdftotext pdfunite
+_xspecs['pdf2txt']='!*.@([pP][dD][fF])'
+complete -F _filedir_xspec pdf2txt
+_xspecs['mupdf']='!*.@([pP][dD][fF])'
+complete -F _filedir_xspec mupdf
+_xspecs['gftodvi']='!*.*@([gG][fF])'
+complete -F _filedir_xspec gftodvi
+_xspecs['mkvinfo']='!*.*@([mM][kK][vV])'
+complete -F _filedir_xspec mkvinfo
+
+function ud { eval -- 'cd $(printf ../%.0s {1..'${1:-1}'})'; }
+function cd
+{
+	[[ "$1" = '--' ]] && shift
+	if [[ "$1" != '-' ]]; then
+		if [[ -d "${1:-$HOME}" ]]; then
+			command -p pushd "${1:-$HOME}" > /dev/null
+		elif [[ -d "${1%/*}" ]]; then
+			printf '\e]1;36m注意\e]39;22m: %s\n' '被演算子はディレクトリではありません。'"${1%/*}"'に移動します。' >&2
+			command -p pushd "${1%/*}" > /dev/null
+		else
+			return 1
+		fi
+	else
+		if [[ -v "$2" ]]; then
+			pushd +"$2"
+		else
+			popd
+		fi
+	fi
+	l
+}
+# ↓これらは関数名にBash拡張を使っているのでこちらに
+function = { bc -l <<< "${@:-$(cat)}"; }
+function mdr, { mdr "$1" && cd "$1"; }
+
+# Tmux起動
+#[[ ! -v TMUX ]] && command -v tmux > '/dev/null' && tmux
+
+# 入力
+## ble.shが読み込まれていたらGNU readlineの設定は読み込まずにそのままble.shを起動
+if ((_ble_bash)); then
+	PROMPT_COMMAND='_usrcmd.settermttl'
+	ble-attach
+else
+	PROMPT_COMMAND="_usrcmd.synchist${VTE_VERSION:+;_usrcmd.settermttl}"
+	set -o vi
+	bind -m vi-insert "\C-p":history-search-backward
+	bind -m vi-insert "\C-n":history-search-forward
+	bind -m vi-insert "\C-l":clear-screen
+fi

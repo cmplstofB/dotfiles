@@ -1,0 +1,7 @@
+[user]
+	name = B̅
+	email = 20594300+cmplstofB@users.noreply.github.com
+
+[alias]
+	c1 = clone --single-branch --depth=1 # clone 1
+	lh = log --max-count=1 --format='%h' # log hash

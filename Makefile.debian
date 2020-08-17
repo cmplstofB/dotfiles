@@ -1,0 +1,145 @@
+.POSIX:
+
+install: l10n \
+         utils \
+         blesh \
+         ibus-skk \
+         vimdoc-ja \
+         x11-arc-theme x11-papirus-icon x11-breeze-cursor_theme
+
+
+basefiles:
+	ln -s ./.profile ~/.profile
+	. ~/.profile
+	mkdir ~/.config
+	mkdir -p ~/.local/share
+	mkdir ~/.cache
+
+git: basefiles
+	ln -s ./.config/git/ ~/.config/git/
+	mkdir -p ~/.local/srv/git/
+	mkdir ~/.local/srv/git/github.com/
+
+l10n: sudo basefiles
+	sudo apt install -y manpages-ja-dev
+
+utils: sudo basefiles
+	ln -s ./.config/dircolors ~/.config/dircolors
+
+bash: sudo basefiles
+	sudo apt install -y bash bash-completion
+	ln -s ./.config/bash/ ~/.config/bash/
+
+blesh: git bash basefiles
+	sudo apt install -y make gawk
+	mkdir -p ~/.local/srv/git/github.com/akinomyoga/
+	git clone --recursive 'git://github.com/akinomyoga/ble.sh.git' \
+	       ~/.local/srv/git/github.com/akinomyoga/ble.sh/
+	cd ~/.local/srv/git/github.com/akinomyoga/ble.sh/
+	make install
+	ln -s ./.config/blesh/ ~/.config/blesh/
+
+libskk: sudo basefiles
+	sudo apt install -y libskk
+	ln -s ./.config/libskk/ ~/.config/libskk/
+
+ibus-skk: libskk ibus
+	sudo apt install -y ibus-skk
+	# TODO: ibus-skkの設定を命令行から行なえるようにする。
+
+ibus: sudo
+	sudo apt install -y ibus
+	gsettings set org.freedesktop.ibus.general use-system-keyboard-layout 'true'
+	gsettings set org.freedesktop.ibus.general use-global-engine 'true'
+	gsettings set org.freedesktop.ibus.general use-xmodmap 'false'
+	gsettings set org.freedesktop.ibus.general.hotkey next-engine '[]'
+	gsettings set org.freedesktop.ibus.general.hotkey next-engine-in-menu '[]'
+	gsettings set org.freedesktop.ibus.general.hotkey trigger '['"'"'Control+space'"'"']'
+
+x11: basefiles
+	ln -s ./.config/X11/ ~/.config/X11/
+	ln -s ./.config/.xsessionrc ~/.xsessionrc
+
+less: basefiles
+	sh ./_dfutils/genlesskey.sh
+
+xdg: basefiles
+	mkdir -p ~/.local/var/fd.o/
+	mkdir ~/.local/var/fd.o/dtp
+	mkdir ~/.local/var/fd.o/dl
+	mkdir ~/.local/var/fd.o/tpl
+	mkdir ~/.local/var/fd.o/pubshr
+	mkdir ~/.local/var/fd.o/doc
+	mkdir ~/.local/var/fd.o/muz
+	mkdir ~/.local/var/fd.o/pic
+	mkdir ~/.local/var/fd.o/vid
+	ln -s ./.config/user-dirs.dirs ~/.config/user-dirs.dirs
+	mkdir -p ~/.local/var/fd.o/
+	xdg-user-dirs-update
+
+sudo:
+	su -c 'apt install -y sudo'
+	sudo sh ./_dfutils/editsudoers.sh "50_$$(id -u -n)"
+
+vim: basefiles sudo
+	sudo apt install -y vim-gtk3
+	ln -s ./.config/vim/ ~/.config/vim/
+	mkdir -p ~/.config/vim/pack/_/
+	mkdir ~/.config/vim/pack/_/start/
+	mkdir ~/.config/vim/pack/_/opt/
+
+vimdoc-ja: git vim
+	git c1 'git://github.com/vim-jp/vimdoc-ja.git' \
+	       ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/
+	ln -s ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/
+	      ~/.config/vim/pack/_/start/vimdoc-ja/
+
+
+xfce: sudo
+	sudo apt install -y xfce4
+	xfconf-query -c keyboards -p '/Default/Numlock' -s 'true'
+	xfconf-query -c keyboards -p '/Default/RestoreNumlock' -s 'true'
+	xfconf-query -c xsettings -p '/Gtk/DecorationLayout' -s 'menu:minimize,maximize,close'
+	xfconf-query -c xsettings -p '/Net/EnableEventSounds' -s 'false'
+	xfconf-query -c xfce4-panel -p '/panels' -a -s '1'
+	xfconf-query -c xfce4-panel -p '/panels/panel-1/length' -s '100'
+	xfconf-query -c xfce4-panel -p '/panels/panel-1/size' -s '30'
+	xfconf-query -c xfce4-panel -p '/panels/panel-1/plugin-ids' -s ''
+	xfconf-query -c xfce4-panel -p '/panels' -a \
+	             -s '1' -s '11' -s '2' -s '3' -s '4' -s '5'
+	xfconf-query -c xfce4-panel -p '/panels/panel-1/position' -s 'p=6;x=0;y=0'
+	xfconf-query -c xfce4-panel -p '/panels/panel-1/position-locked' -s 'true'
+	xfconf-query -c xfce4-panel -p '/plugins/plugin-1' -s 'whiskermenu'
+	xfconf-query -c xfce4-panel -p '/plugins/plugin-11' -s 'separator'
+	xfconf-query -c xfce4-panel -p '/plugins/plugin-11/expand' -s 'true'
+	xfconf-query -c xfce4-panel -p '/plugins/plugin-11/style' -s '0'
+	xfconf-query -c xfce4-panel -p '/plugins/plugin-2' -s 'pager'
+	xfconf-query -c xfce4-panel -p '/plugins/plugin-2/rows' -s '1'
+	xfconf-query -c xfce4-panel -p '/plugins/plugin-3' -s 'systray'
+	xfconf-query -c xfce4-panel -p '/plugins/plugin-3/names-hidden' -a \
+	             -s 'system-config-printer' -s 'steam' -s 'zoom'
+	xfconf-query -c xfce4-panel -p '/plugins/plugin-3/names-visible' -a \
+	             -s 'networkmanager アプレット' \
+	             -s 'ibus-ui-gtk3' \
+	             -s 'clipman' \
+	             -s 'xfce4-power-manager'
+	xfconf-query -c xfce4-panel -p '/plugins/plugin-3/show-frame' -s 'false'
+	xfconf-query -c xfce4-panel -p '/plugins/plugin-3/size-max' -s '22'
+	xfconf-query -c xfce4-panel -p '/plugins/plugin-4' -s 'pulseaudio'
+	xfconf-query -c xfce4-panel -p '/plugins/plugin-4/enable-keyboard-shortcuts' \
+	             -s 'true'
+	xfconf-query -c xfce4-panel -p '/plugins/plugin-5' -s 'clock'
+	xfconf-query -c xfce4-panel -p '/plugins/plugin-5/timezone' -s 'Asia/Tokyo'
+	xfconf-query -c xfce4-panel -p '/plugins/plugin-5/digital-format' -s '%H:%M %b%d日(%a)'
+	xfconf-query -c xfce4-panel -p '/plugins/plugin-5/tooltip-format' \
+	             -s '<b>%Y</b>-<b>%m</b>-<b>%d</b>T<b>%H</b>:<b>%M</b>:<b>%S</b>'
+
+x11-arc-theme: xfce
+	xfconf-query -c xsettings -p '/Net/ThemeName' -s 'Arc-Dark'
+
+x11-papirus-icon: xfce
+	xfconf-query -c xsettings -p '/Net/IconThemeName' -s 'Papirus-Dark'
+
+x11-breeze-cursor_theme: xfce
+	sudo apt install -y breeze-cursor-theme
+	xfconf-query -c xsettings -p '/Gtk/CursorThemeName' -s 'breeze_cursors'
