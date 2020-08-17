@@ -40,6 +40,7 @@ sudo:
 	su -c "sh ./_dfutils/editsudoers.sh $$(id -u -n)"
 
 ~/.config/git: .config/git/
+	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
 
 ~/.local/srv/git/: ~/.local/srv/
@@ -56,6 +57,7 @@ l10n: sudo
 
 ~/.config/dircolors: .config/dircolors \
                      ~/.config
+	-[ -h "$@" -a -f "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
 
 ~/.config/lesskey: _dfutils/genlesskey.sh \
@@ -69,6 +71,7 @@ utils: ~/.config/dircolors \
 
 ~/.config/bash: .config/bash/ \
                 ~/.config/
+	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
 
 bash: ~/.config/bash \
@@ -86,6 +89,7 @@ bash: ~/.config/bash \
 
 ~/.config/blesh: .config/blesh/ \
                  ~/.config/
+	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
 
 blesh: ~/.local/srv/git/github.com/akinomyoga/ble.sh/ \
@@ -96,6 +100,7 @@ blesh: ~/.local/srv/git/github.com/akinomyoga/ble.sh/ \
 	make install
 
 ~/.config/libskk: .config/libskk/
+	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
 
 libskk: ~/.config/libskk \
@@ -176,11 +181,12 @@ xdg: x11 \
 		mv ~/.config/user-dirs.dirs \
 		   ~/".local/var/bkp/mnl/user-dirs.dirs.bkp-$$(date +'%Y%m%dT%H%M%S')"; \
 	fi
-	ln -s "$$(pwd)/.config/user-dirs.dirs" ~/.config/user-dirs.dirs
+	ln -fs "$$(pwd)/.config/user-dirs.dirs" ~/.config/user-dirs.dirs
 	mkdir -p ~/.local/var/fd.o/
 	xdg-user-dirs-update
 
 ~/.config/vim: .config/vim/ ~/.config/
+	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
 
 ~/.config/vim/pack/_/start/: ~/.config/vim/pack/_/
@@ -193,13 +199,13 @@ vim: ~/.config/vim \
      ~/.config/vim/pack/_/start/ \
      ~/.config/vim/pack/_/opt/
 	sudo apt install -y vim-gtk3
-	ln -s "$$(pwd)/.config/vim/" ~/.config/vim
 
 ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/:
 	git c1 'git://github.com/vim-jp/vimdoc-ja.git' "$@"
 
 ~/.config/vim/pack/_/start/vimdoc-ja: \
     ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/
+	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$<" "$@"
 
 vimdoc-ja: ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
