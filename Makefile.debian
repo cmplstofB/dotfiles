@@ -16,9 +16,9 @@ basefiles: backups
 	fi
 	ln -s "$$(pwd)/.config/.profile" ~/.profile
 	. ~/.profile
-	mkdir ~/.config
+	mkdir -p ~/.config
 	mkdir -p ~/.local/share
-	mkdir ~/.cache
+	mkdir -p ~/.cache
 
 sudo:
 	command -v sudo || su -c 'apt install -y sudo'
