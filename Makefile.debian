@@ -148,46 +148,46 @@ vimdoc-ja: ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
 xfce: xdg
 	sudo apt install -y xfce4 \
 	  xfce4-battery-plugin xfce4-clipman xfce4-whiskermenu-plugin
-	xfconf-query -c keyboards -p '/Default/Numlock' -s 'true'
-	xfconf-query -c keyboards -p '/Default/RestoreNumlock' -s 'true'
-	xfconf-query -c xsettings -p '/Gtk/DecorationLayout' -s 'menu:minimize,maximize,close'
-	xfconf-query -c xsettings -p '/Net/EnableEventSounds' -s 'false'
-	xfconf-query -c xfce4-panel -p '/panels' -a -s '1'
-	xfconf-query -c xfce4-panel -p '/panels/panel-1/length' -s '100'
-	xfconf-query -c xfce4-panel -p '/panels/panel-1/size' -s '30'
-	xfconf-query -c xfce4-panel -p '/panels/panel-1/plugin-ids' -s ''
-	xfconf-query -c xfce4-panel -p '/panels' -a \
+	xfconf-query -n -c keyboards -p '/Default/Numlock' -s 'true'
+	xfconf-query -n -c keyboards -p '/Default/RestoreNumlock' -s 'true'
+	xfconf-query -n -c xsettings -p '/Gtk/DecorationLayout' -s 'menu:minimize,maximize,close'
+	xfconf-query -n -c xsettings -p '/Net/EnableEventSounds' -s 'false'
+	xfconf-query -n -c xfce4-panel -p '/panels' -a -s '1'
+	xfconf-query -n -c xfce4-panel -p '/panels/panel-1/length' -s '100'
+	xfconf-query -n -c xfce4-panel -p '/panels/panel-1/size' -s '30'
+	xfconf-query -n -c xfce4-panel -p '/panels/panel-1/plugin-ids' -s ''
+	xfconf-query -n -c xfce4-panel -p '/panels' -a \
 	             -s '1' -s '11' -s '2' -s '3' -s '4' -s '5'
-	xfconf-query -c xfce4-panel -p '/panels/panel-1/position' -s 'p=6;x=0;y=0'
-	xfconf-query -c xfce4-panel -p '/panels/panel-1/position-locked' -s 'true'
-	xfconf-query -c xfce4-panel -p '/plugins/plugin-1' -s 'whiskermenu'
-	xfconf-query -c xfce4-panel -p '/plugins/plugin-11' -s 'separator'
-	xfconf-query -c xfce4-panel -p '/plugins/plugin-11/expand' -s 'true'
-	xfconf-query -c xfce4-panel -p '/plugins/plugin-11/style' -s '0'
-	xfconf-query -c xfce4-panel -p '/plugins/plugin-2' -s 'pager'
-	xfconf-query -c xfce4-panel -p '/plugins/plugin-2/rows' -s '1'
-	xfconf-query -c xfce4-panel -p '/plugins/plugin-3' -s 'systray'
-	xfconf-query -c xfce4-panel -p '/plugins/plugin-3/names-hidden' -a \
+	xfconf-query -n -c xfce4-panel -p '/panels/panel-1/position' -s 'p=6;x=0;y=0'
+	xfconf-query -n -c xfce4-panel -p '/panels/panel-1/position-locked' -s 'true'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-1' -s 'whiskermenu'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-11' -s 'separator'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-11/expand' -s 'true'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-11/style' -s '0'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-2' -s 'pager'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-2/rows' -s '1'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-3' -s 'systray'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-3/names-hidden' -a \
 	             -s 'system-config-printer' -s 'steam' -s 'zoom'
-	xfconf-query -c xfce4-panel -p '/plugins/plugin-3/names-visible' -a \
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-3/names-visible' -a \
 	             -s 'networkmanager アプレット' \
 	             -s 'ibus-ui-gtk3' \
 	             -s 'clipman' \
 	             -s 'xfce4-power-manager'
-	xfconf-query -c xfce4-panel -p '/plugins/plugin-3/show-frame' -s 'false'
-	xfconf-query -c xfce4-panel -p '/plugins/plugin-3/size-max' -s '22'
-	xfconf-query -c xfce4-panel -p '/plugins/plugin-4' -s 'pulseaudio'
-	xfconf-query -c xfce4-panel -p '/plugins/plugin-4/enable-keyboard-shortcuts' \
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-3/show-frame' -s 'false'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-3/size-max' -s '22'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-4' -s 'pulseaudio'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-4/enable-keyboard-shortcuts' \
 	             -s 'true'
-	xfconf-query -c xfce4-panel -p '/plugins/plugin-5' -s 'clock'
-	xfconf-query -c xfce4-panel -p '/plugins/plugin-5/timezone' -s 'Asia/Tokyo'
-	xfconf-query -c xfce4-panel -p '/plugins/plugin-5/digital-format' -s '%H:%M %b%d日(%a)'
-	xfconf-query -c xfce4-panel -p '/plugins/plugin-5/tooltip-format' \
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-5' -s 'clock'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-5/timezone' -s 'Asia/Tokyo'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-5/digital-format' -s '%H:%M %b%d日(%a)'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-5/tooltip-format' \
 	             -s '<b>%Y</b>-<b>%m</b>-<b>%d</b>T<b>%H</b>:<b>%M</b>:<b>%S</b>'
 
 x11-arc-theme: sudo xfce
 	sudo apt install -y arc-theme
-	xfconf-query -c xsettings -p '/Net/ThemeName' -s 'Arc-Dark'
+	xfconf-query -n -c xsettings -p '/Net/ThemeName' -s 'Arc-Dark'
 
 /etc/apt/sources.list.d/papirus-ppa.list:
 	echo 'deb http://ppa.launchpad.net/papirus/papirus/ubuntu focal main' | \
@@ -199,8 +199,8 @@ x11-papirus-icon: /etc/apt/sources.list.d/papirus-ppa.list \
 	sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com E58A9D36647CAE7F
 	sudo apt update
 	sudo apt install -y papirus-icon-theme
-	xfconf-query -c xsettings -p '/Net/IconThemeName' -s 'Papirus-Dark'
+	xfconf-query -n -c xsettings -p '/Net/IconThemeName' -s 'Papirus-Dark'
 
 x11-breeze-cursor_theme: sudo xfce
 	sudo apt install -y breeze-cursor-theme
-	xfconf-query -c xsettings -p '/Gtk/CursorThemeName' -s 'breeze_cursors'
+	xfconf-query -n -c xsettings -p '/Gtk/CursorThemeName' -s 'breeze_cursors'
