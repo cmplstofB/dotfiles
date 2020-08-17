@@ -26,7 +26,7 @@ sudo:
 	su -c "sh ./_dfutils/editsudoers.sh $$(id -u -n)"
 
 git: basefiles
-	ln -s "$$(pwd)/.config/git/" ~/.config/git/
+	ln -s "$$(pwd)/.config/git/" ~/.config/git
 	mkdir -p ~/.local/srv/git/
 	mkdir ~/.local/srv/git/github.com/
 
@@ -42,7 +42,7 @@ bash: sudo basefiles
 		mkdir $$1/; mv ~/.bash* $$1/; \
 	fi
 	sudo apt install -y bash bash-completion
-	ln -s "$$(pwd)/.config/bash/" ~/.config/bash/
+	ln -s "$$(pwd)/.config/bash/" ~/.config/bash
 
 blesh: git bash basefiles
 	sudo apt install -y gawk
@@ -51,11 +51,11 @@ blesh: git bash basefiles
 	       ~/.local/srv/git/github.com/akinomyoga/ble.sh/
 	cd ~/.local/srv/git/github.com/akinomyoga/ble.sh/
 	make install
-	ln -s "$$(pwd)/.config/blesh/" ~/.config/blesh/
+	ln -s "$$(pwd)/.config/blesh/" ~/.config/blesh
 
 libskk: sudo basefiles
 	sudo apt install -y libskk
-	ln -s "$$(pwd)/.config/libskk/" ~/.config/libskk/
+	ln -s "$$(pwd)/.config/libskk/" ~/.config/libskk
 
 ibus-skk: libskk ibus
 	sudo apt install -y ibus-skk
@@ -71,7 +71,7 @@ ibus: sudo
 	gsettings set org.freedesktop.ibus.general.hotkey trigger '['"'"'Control+space'"'"']'
 
 x11: basefiles
-	ln -s "$$(pwd)/.config/X11/" ~/.config/X11/
+	ln -s "$$(pwd)/.config/X11/" ~/.config/X11
 	ln -s "$$(pwd)/.config/.xsessionrc" ~/.xsessionrc
 
 less: basefiles
@@ -93,7 +93,7 @@ xdg: basefiles
 
 vim: basefiles sudo
 	sudo apt install -y vim-gtk3
-	ln -s "$$(pwd)/.config/vim/" ~/.config/vim/
+	ln -s "$$(pwd)/.config/vim/" ~/.config/vim
 	mkdir -p ~/.config/vim/pack/_/
 	mkdir ~/.config/vim/pack/_/start/
 	mkdir ~/.config/vim/pack/_/opt/
@@ -102,7 +102,7 @@ vimdoc-ja: git vim
 	git c1 'git://github.com/vim-jp/vimdoc-ja.git' \
 	       ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/
 	ln -s ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/
-	      ~/.config/vim/pack/_/start/vimdoc-ja/
+	      ~/.config/vim/pack/_/start/vimdoc-ja
 
 
 xfce: sudo
