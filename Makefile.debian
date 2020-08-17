@@ -28,7 +28,7 @@ sudo:
 git: basefiles
 	ln -s "$$(pwd)/.config/git/" ~/.config/git
 	mkdir -p ~/.local/srv/git/
-	mkdir ~/.local/srv/git/github.com/
+	mkdir -p ~/.local/srv/git/github.com/
 
 l10n: sudo basefiles
 	sudo apt install -y manpages-ja-dev
