@@ -1,13 +1,14 @@
 #!/bin/sh
 
 : '@prefix : <http://purl.org/net/ns/doas#>. <> a :Script;
-:一行説明   "UTF-8バイト列からUnicode符号位置へ変換する。";
+:一行説明   "dotfilesの初期即譜。";
 :作成日     "2020-03-28";
-:公開版     ( [:版 "0.1.0"; :作成日 "2020-03-28"] );
+:公開版     ( [:版 "0.2.0"; :作成日 "2020-03-28"]
+              [:版 "0.1.0"; :作成日 "2020-03-28"] );
 :作成者     "cmplstofB";
 :権利       "ⓒ 2020 cmplstofB";
 :ライセンス <http://www.wtfpl.net/txt/copying/>;
-:依存関係   "POSIX.1-2017".'
+:依存関係   ( "POSIX.1-2017" "su" ).'
 
 set -o errexit
 set -o nounset
@@ -48,14 +49,6 @@ case $(uname) in
 			. '/etc/os-release'
 			case $ID in
 				'debian')
-					_pkgmgr() {
-						case $1 in
-							'install')
-								shift
-								apt install "$@"
-								;;
-						esac
-					}
 					_ostype='debian'
 					;;
 			esac
@@ -68,7 +61,6 @@ case $(uname) in
 		die '対応していないOSです。'
 		;;
 esac
-export _pkgmgr
 
 # su命令があるか確認，なければ異常終了。
 command -v su > '/dev/null' 2>&1 ||
@@ -77,7 +69,11 @@ die '‘su’命令を用意して下さい。'
 # git命令があるか確認，なければ引装。
 if ! command -v git > '/dev/null' 2>&1; then
 	echo 'Installing ‘git’...'
-	su -c '_pkgmgr install git'
+	case $_ostype in
+		'debian')
+			su -c 'apt install git'
+			;;
+	esac
 fi
 
 git clone https://github.com/cmplstofB/dotfiles.git
