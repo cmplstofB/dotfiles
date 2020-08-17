@@ -14,6 +14,10 @@ basefiles:
 	mkdir -p ~/.local/share
 	mkdir ~/.cache
 
+sudo:
+	su -c 'apt install -y sudo'
+	su -c "sh ./_dfutils/editsudoers.sh 50_$$(id -u -n)"
+
 git: basefiles
 	ln -s ./.config/git/ ~/.config/git/
 	mkdir -p ~/.local/srv/git/
@@ -75,10 +79,6 @@ xdg: basefiles
 	ln -s ./.config/user-dirs.dirs ~/.config/user-dirs.dirs
 	mkdir -p ~/.local/var/fd.o/
 	xdg-user-dirs-update
-
-sudo:
-	su -c 'apt install -y sudo'
-	sudo sh ./_dfutils/editsudoers.sh "50_$$(id -u -n)"
 
 vim: basefiles sudo
 	sudo apt install -y vim-gtk3
