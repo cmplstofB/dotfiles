@@ -20,7 +20,8 @@ basefiles: backups
 	mkdir ~/.cache
 
 sudo:
-	su -c 'apt install -y sudo'
+	command -v sudo || su -c 'apt install -y sudo'
+	test -e /etc/sudoers.d/50_$$(id -u -n) || \
 	su -c "sh ./_dfutils/editsudoers.sh 50_$$(id -u -n)"
 
 git: basefiles
