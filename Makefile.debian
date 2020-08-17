@@ -1,16 +1,19 @@
 .POSIX:
 
-install: l10n \
-         utils \
-         blesh \
-         ibus-skk \
-         vim vimdoc-ja \
-         x11-arc-theme x11-papirus-icon x11-breeze-cursor_theme
+install: all
 
-backups:
-	mkdir -p ~/.local/var/bkp/mnl/
+all: basefiles sudo utils git l10n \
+     bash blesh \
+     libskk ibus ibus-skk \
+     vim vimdoc-ja \
+     x11 xdg \
+     xfce \
+     x11-arc-theme x11-papirus-icon x11-breeze-cursor_theme
 
-basefiles: backups
+~/.local/var/bkp/mnl/:
+	mkdir -p "$@"
+
+basefiles: ~/.local/var/bkp/mnl/
 	if [ -r ~/.profile ]; then \
 		mv ~/.profile ~/.local/var/bkp/mnl/.profile.bkp-$$(date +'%Y%m%dT%H%M%S'); \
 	fi
@@ -25,22 +28,26 @@ sudo:
 	test -e /etc/sudoers.d/50_$$(id -u -n) || \
 	su -c "sh ./_dfutils/editsudoers.sh $$(id -u -n)"
 
-~/.config/git: .config/git/ basefiles
+~/.config/git: .config/git/
 	ln -s "$$(pwd)/$<" "$@"
 
-git: ~/.config/git basefiles
+git: ~/.config/git
 	mkdir -p ~/.local/srv/git/
 	mkdir -p ~/.local/srv/git/github.com/
 
-l10n: sudo basefiles
+l10n:
 	sudo apt install -y manpages-ja-dev
 
-~/.config/dircolors: .config/dircolors basefiles
+~/.config/dircolors: .config/dircolors
 	ln -s "$$(pwd)/$<" "$@"
 
-utils: ~/.config/dircolors basefiles
+~/.config/lesskey: _dfutils/genlesskey.sh
+	sh "$$(pwd)/$<" "$@"
 
-bash: sudo basefiles
+utils: ~/.config/dircolors \
+       ~/.config/lesskey
+
+bash:
 	if [ -r ~/.bash* ]; then \
 		set -- ~/.local/var/bkp/mnl/bashfiles.bkp-$$(date +'%Y%m%dT%H%M%S'); \
 		mkdir $$1/; mv ~/.bash* $$1/; \
@@ -48,13 +55,11 @@ bash: sudo basefiles
 	ln -s "$$(pwd)/.config/bash/" ~/.config/bash
 	sudo apt install -y bash bash-completion
 
-~/.local/srv/git/github.com/akinomyoga/ble.sh/: git
+~/.local/srv/git/github.com/akinomyoga/ble.sh/:
 	mkdir -p ~/.local/srv/git/github.com/akinomyoga/
-	git clone --recursive 'git://github.com/akinomyoga/ble.sh.git' \
-	    ~/.local/srv/git/github.com/akinomyoga/ble.sh/
+	git clone --recursive 'git://github.com/akinomyoga/ble.sh.git' "$@"
 
-blesh: ~/.local/srv/git/github.com/akinomyoga/ble.sh/ \
-       git bash basefiles
+blesh: ~/.local/srv/git/github.com/akinomyoga/ble.sh/
 	sudo apt install -y gawk
 	cd ~/.local/srv/git/github.com/akinomyoga/ble.sh/
 	make install
@@ -63,15 +68,10 @@ blesh: ~/.local/srv/git/github.com/akinomyoga/ble.sh/ \
 ~/.config/libskk: .config/libskk/
 	ln -s "$$(pwd)/$<" "$@"
 
-libskk: ~/.config/libskk \
-        sudo basefiles
+libskk: ~/.config/libskk
 	sudo apt install -y libskk
 
-ibus-skk: libskk ibus
-	sudo apt install -y ibus-skk
-	# TODO: ibus-skkの設定を命令行から行なえるようにする。
-
-ibus: sudo
+ibus:
 	sudo apt install -y ibus
 	gsettings set org.freedesktop.ibus.general use-system-keyboard-layout 'true'
 	gsettings set org.freedesktop.ibus.general use-global-engine 'true'
@@ -80,32 +80,31 @@ ibus: sudo
 	gsettings set org.freedesktop.ibus.general.hotkey next-engine-in-menu '[]'
 	gsettings set org.freedesktop.ibus.general.hotkey trigger '['"'"'Control+space'"'"']'
 
+ibus-skk:
+	sudo apt install -y ibus-skk
+	# TODO: ibus-skkの設定を命令行から行なえるようにする。
+
 ~/.config/X11: .config/X11/
 	ln -s "$$(pwd)/$<" "$@"
 
-~/.xsessionrc: basefiles
+~/.xsessionrc:
 	echo xkbcomp -I$${XDG_CONFIG_HOME:-$$HOME/.config}/X11/xkb \
 	     $${XDG_CONFIG_HOME:-$$HOME/.config}/X11/xkb/keymap/_.xkb \$DISPLAY \
 	> "$@"
 
 x11: ~/.config/X11 \
-     ~/.xsessionrc \
-     basefiles
+     ~/.xsessionrc
 
-less: _dfutils/genlesskey.sh \
-      basefiles
-	sh "$$(pwd)/$<"
-
-xdg: basefiles
+xdg:
 	mkdir -p ~/.local/var/fd.o/
-	mkdir ~/.local/var/fd.o/dtp
-	mkdir ~/.local/var/fd.o/dl
-	mkdir ~/.local/var/fd.o/tpl
-	mkdir ~/.local/var/fd.o/pubshr
-	mkdir ~/.local/var/fd.o/doc
-	mkdir ~/.local/var/fd.o/muz
-	mkdir ~/.local/var/fd.o/pic
-	mkdir ~/.local/var/fd.o/vid
+	mkdir -p ~/.local/var/fd.o/dtp
+	mkdir -p ~/.local/var/fd.o/dl
+	mkdir -p ~/.local/var/fd.o/tpl
+	mkdir -p ~/.local/var/fd.o/pubshr
+	mkdir -p ~/.local/var/fd.o/doc
+	mkdir -p ~/.local/var/fd.o/muz
+	mkdir -p ~/.local/var/fd.o/pic
+	mkdir -p ~/.local/var/fd.o/vid
 	if [ -r ~/.config/user-dirs.dirs ]; then \
 		mv ~/.config/user-dirs.dirs \
 		   ~/.local/var/bkp/mnl/user-dirs.dirs.bkp-$$(date +'%Y%m%dT%H%M%S'); \
@@ -114,31 +113,27 @@ xdg: basefiles
 	mkdir -p ~/.local/var/fd.o/
 	xdg-user-dirs-update
 
-~/.config/vim: .config/vim/ \
-               basefiles
+~/.config/vim: .config/vim/
 	ln -s "$$(pwd)/$<" "$@"
 
-vim: ~/.config/vim \
-     basefiles sudo
+vim: ~/.config/vim
 	sudo apt install -y vim-gtk3
 	ln -s "$$(pwd)/.config/vim/" ~/.config/vim
 	mkdir -p ~/.config/vim/pack/_/
 	mkdir -p ~/.config/vim/pack/_/start/ \
 	         ~/.config/vim/pack/_/opt/
 
-~/.local/srv/git/github.com/vim-jp/vimdoc-ja/: git
+~/.local/srv/git/github.com/vim-jp/vimdoc-ja/:
 	git c1 'git://github.com/vim-jp/vimdoc-ja.git' "$@"
 
 ~/.config/vim/pack/_/start/vimdoc-ja: \
-    ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
-    vim
+    ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/
 	ln -s "$<" "$@"
 
 vimdoc-ja: ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
-           ~/.config/vim/pack/_/start/vimdoc-ja \
-           git vim
+           ~/.config/vim/pack/_/start/vimdoc-ja
 
-xfce: sudo xdg
+xfce:
 	sudo apt install -y xfce4
 	xfconf-query -c keyboards -p '/Default/Numlock' -s 'true'
 	xfconf-query -c keyboards -p '/Default/RestoreNumlock' -s 'true'
@@ -177,22 +172,21 @@ xfce: sudo xdg
 	xfconf-query -c xfce4-panel -p '/plugins/plugin-5/tooltip-format' \
 	             -s '<b>%Y</b>-<b>%m</b>-<b>%d</b>T<b>%H</b>:<b>%M</b>:<b>%S</b>'
 
-x11-arc-theme: xfce
+x11-arc-theme:
 	sudo apt install -y arc-theme
 	xfconf-query -c xsettings -p '/Net/ThemeName' -s 'Arc-Dark'
 
-/etc/apt/sources.list.d/papirus-ppa.list: sudo
+/etc/apt/sources.list.d/papirus-ppa.list:
 	echo 'deb http://ppa.launchpad.net/papirus/papirus/ubuntu focal main' | \
 	sudo tee "$@" > '/dev/null'
 
-x11-papirus-icon: /etc/apt/sources.list.d/papirus-ppa.list \
-                  xfce
+x11-papirus-icon: /etc/apt/sources.list.d/papirus-ppa.list
 	sudo apt install -y dirmngr
 	sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com E58A9D36647CAE7F
 	sudo apt update
 	sudo apt install -y papirus-icon-theme
 	xfconf-query -c xsettings -p '/Net/IconThemeName' -s 'Papirus-Dark'
 
-x11-breeze-cursor_theme: xfce
+x11-breeze-cursor_theme:
 	sudo apt install -y breeze-cursor-theme
 	xfconf-query -c xsettings -p '/Gtk/CursorThemeName' -s 'breeze_cursors'

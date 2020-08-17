@@ -18,7 +18,7 @@ export PATH="$(command -p getconf PATH)${PATH:+:$PATH}"
 export POSIXLY_CORRECT='200809' UNIX_STD='2003' \
        COMMAND_MODE='unix2003' XPG_SUS_ENV='ON'
 
-lesskey --output="$LESSKEY" -- - <<.
+lesskey --output="$1" -- - <<.
 #env
 LESS = --quit-at-eof --quit-if-one-screen --ignore-case --long-prompt --RAW-CONTROL-CHARS --no-init
 LESSHISTFILE = ${XDG_CACHE_HOME:-$HOME/.cache}/lesshist
