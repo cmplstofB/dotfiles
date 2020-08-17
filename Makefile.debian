@@ -11,8 +11,9 @@ backups:
 	mkdir -p ~/.local/var/bkp/mnl/
 
 basefiles: backups
-	[ -r ~/.profile ] && \
-	mv ~/.profile ~/.local/var/bkp/mnl/.profile.bkp-$$(date +'%Y%m%dT%H%M%S')
+	if [ -r ~/.profile ]; then \
+		mv ~/.profile ~/.local/var/bkp/mnl/.profile.bkp-$$(date +'%Y%m%dT%H%M%S'); \
+	fi
 	ln -s ./.config/.profile ~/.profile
 	. ~/.profile
 	mkdir ~/.config
@@ -36,9 +37,10 @@ utils: sudo basefiles
 	ln -s ./.config/dircolors ~/.config/dircolors
 
 bash: sudo basefiles
-	[ -r ~/.bash* ] && { \
-	set -- ~/.local/var/bkp/mnl/bashfiles.bkp-$$(date +'%Y%m%dT%H%M%S'); \
-	mkdir $$1; mv ~/.bash* $$1; }
+	if [ -r ~/.bash* ]; then \
+		set -- ~/.local/var/bkp/mnl/bashfiles.bkp-$$(date +'%Y%m%dT%H%M%S'); \
+		mkdir $$1/; mv ~/.bash* $$1/; \
+	fi
 	sudo apt install -y bash bash-completion
 	ln -s ./.config/bash/ ~/.config/bash/
 
