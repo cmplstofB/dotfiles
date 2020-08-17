@@ -47,10 +47,13 @@ l10n:
 utils: ~/.config/dircolors \
        ~/.config/lesskey
 
-bash:
-	if [ -r ~/.bash* ]; then \
+~/.config/bash: .config/bash/
+	ln -s "$$(pwd)/$<" "$@"
+
+bash: ~/.config/bash
+	if [ -r ~/.bash?* ]; then \
 		set -- ~/.local/var/bkp/mnl/bashfiles.bkp-$$(date +'%Y%m%dT%H%M%S'); \
-		mkdir $$1/; mv ~/.bash* $$1/; \
+		mkdir $$1/; mv ~/.bash?* $$1/; \
 	fi
 	ln -s "$$(pwd)/.config/bash/" ~/.config/bash
 	sudo apt install -y bash bash-completion
