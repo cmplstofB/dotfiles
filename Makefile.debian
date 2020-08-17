@@ -25,22 +25,20 @@ sudo:
 	test -e /etc/sudoers.d/50_$$(id -u -n) || \
 	su -c "sh ./_dfutils/editsudoers.sh $$(id -u -n)"
 
-~/.config/git: basefiles .config/git/
+~/.config/git: .config/git/ basefiles
 	ln -s "$$(pwd)/$<" "$@"
 
-git: basefiles \
-     ~/.config/git
+git: ~/.config/git basefiles
 	mkdir -p ~/.local/srv/git/
 	mkdir -p ~/.local/srv/git/github.com/
 
 l10n: sudo basefiles
 	sudo apt install -y manpages-ja-dev
 
-~/.config/dircolors: basefiles .config/dircolors
+~/.config/dircolors: .config/dircolors basefiles
 	ln -s "$$(pwd)/$<" "$@"
 
-utils: basefiles \
-       ~/.config/dircolors
+utils: ~/.config/dircolors basefiles
 
 bash: sudo basefiles
 	if [ -r ~/.bash* ]; then \
@@ -55,8 +53,8 @@ bash: sudo basefiles
 	git clone --recursive 'git://github.com/akinomyoga/ble.sh.git' \
 	    ~/.local/srv/git/github.com/akinomyoga/ble.sh/
 
-blesh: git bash basefiles \
-       ~/.local/srv/git/github.com/akinomyoga/ble.sh/
+blesh: ~/.local/srv/git/github.com/akinomyoga/ble.sh/ \
+       git bash basefiles
 	sudo apt install -y gawk
 	cd ~/.local/srv/git/github.com/akinomyoga/ble.sh/
 	make install
@@ -65,8 +63,8 @@ blesh: git bash basefiles \
 ~/.config/libskk: .config/libskk/
 	ln -s "$$(pwd)/$<" "$@"
 
-libskk: sudo basefiles \
-        ~/.config/libskk
+libskk: ~/.config/libskk \
+        sudo basefiles
 	sudo apt install -y libskk
 
 ibus-skk: libskk ibus
@@ -90,12 +88,12 @@ ibus: sudo
 	     $${XDG_CONFIG_HOME:-$$HOME/.config}/X11/xkb/keymap/_.xkb \$DISPLAY \
 	> "$@"
 
-x11: basefiles \
-     ~/.config/X11 \
-     ~/.xsessionrc
+x11: ~/.config/X11 \
+     ~/.xsessionrc \
+     basefiles
 
-less: basefiles \
-      _dfutils/genlesskey.sh
+less: _dfutils/genlesskey.sh \
+      basefiles
 	sh "$$(pwd)/$<"
 
 xdg: basefiles
@@ -116,12 +114,12 @@ xdg: basefiles
 	mkdir -p ~/.local/var/fd.o/
 	xdg-user-dirs-update
 
-~/.config/vim: basefiles \
-               .config/vim/
+~/.config/vim: .config/vim/ \
+               basefiles
 	ln -s "$$(pwd)/$<" "$@"
 
-vim: basefiles sudo \
-     ~/.config/vim
+vim: ~/.config/vim \
+     basefiles sudo
 	sudo apt install -y vim-gtk3
 	ln -s "$$(pwd)/.config/vim/" ~/.config/vim
 	mkdir -p ~/.config/vim/pack/_/
@@ -131,13 +129,14 @@ vim: basefiles sudo \
 ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/: git
 	git c1 'git://github.com/vim-jp/vimdoc-ja.git' "$@"
 
-~/.config/vim/pack/_/start/vimdoc-ja: vim \
-    ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/
+~/.config/vim/pack/_/start/vimdoc-ja: \
+    ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
+    vim
 	ln -s "$<" "$@"
 
-vimdoc-ja: git vim \
-	       ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
-	       ~/.config/vim/pack/_/start/vimdoc-ja
+vimdoc-ja: ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
+           ~/.config/vim/pack/_/start/vimdoc-ja \
+           git vim
 
 xfce: sudo xdg
 	sudo apt install -y xfce4
@@ -186,8 +185,8 @@ x11-arc-theme: xfce
 	echo 'deb http://ppa.launchpad.net/papirus/papirus/ubuntu focal main' | \
 	sudo tee "$@" > '/dev/null'
 
-x11-papirus-icon: xfce \
-                  /etc/apt/sources.list.d/papirus-ppa.list
+x11-papirus-icon: /etc/apt/sources.list.d/papirus-ppa.list \
+                  xfce
 	sudo apt install -y dirmngr
 	sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com E58A9D36647CAE7F
 	sudo apt update
