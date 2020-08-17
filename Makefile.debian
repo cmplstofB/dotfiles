@@ -2,26 +2,38 @@
 
 install: all
 
-all: basefiles sudo utils git l10n \
+all: basefiles \
+     sudo utils git l10n \
      bash blesh \
      libskk ibus ibus-skk \
      vim vimdoc-ja \
-     x11 xdg \
      xfce \
      x11-arc-theme x11-papirus-icon x11-breeze-cursor_theme
 
 ~/.local/var/bkp/mnl/:
 	mkdir -p "$@"
 
-basefiles: ~/.local/var/bkp/mnl/
+~/.config/:
+	mkdir -p "$@"
+
+~/.local/:
+	mkdir -p "$@"
+
+~/.local/share: ~/.local/
+	mkdir -p "$@"
+
+~/.cache/:
+	mkdir -p "$@"
+
+basefiles: ~/.local/var/bkp/mnl/ \
+           ~/.config/ \
+           ~/.local/share/ \
+           ~/.cache/
 	if [ -r ~/.profile ]; then \
 		mv ~/.profile ~/.local/var/bkp/mnl/.profile.bkp-$$(date +'%Y%m%dT%H%M%S'); \
 	fi
 	ln -s "$$(pwd)/.config/.profile" ~/.profile
 	. ~/.profile
-	mkdir -p ~/.config
-	mkdir -p ~/.local/share
-	mkdir -p ~/.cache
 
 sudo:
 	command -v sudo || su -c 'apt install -y sudo'
@@ -31,29 +43,37 @@ sudo:
 ~/.config/git: .config/git/
 	ln -s "$$(pwd)/$<" "$@"
 
+~/.local/srv/git/: ~/.local/srv/
+	mkdir -p "$@"
+
+~/.local/srv/git/github.com/: ~/.local/srv/git/
+	mkdir -p "$@"
+
 git: ~/.config/git \
-     basefiles
-	mkdir -p ~/.local/srv/git/
-	mkdir -p ~/.local/srv/git/github.com/
+     ~/.local/srv/git/github.com/
 
 l10n: sudo
 	sudo apt install -y manpages-ja-dev
 
-~/.config/dircolors: .config/dircolors
+~/.config/dircolors: .config/dircolors \
+                   ~/.config
 	ln -s "$$(pwd)/$<" "$@"
 
-~/.config/lesskey: _dfutils/genlesskey.sh
+~/.config/lesskey: _dfutils/genlesskey.sh \
+                   ~/.config
 	sh "$$(pwd)/$<" "$@"
 
 utils: ~/.config/dircolors \
        ~/.config/lesskey \
-       basefiles
+       sudo
+	sudo apt install -y jq curl 7z
 
-~/.config/bash: .config/bash/
+~/.config/bash: .config/bash/ \
+                ~/.config/
 	ln -s "$$(pwd)/$<" "$@"
 
 bash: ~/.config/bash \
-      sudo basefiles
+      sudo
 	for _f in ~/.bash?*; do \
 		test -r "$$_f" && \
 		mv "$$_f" \
@@ -65,7 +85,8 @@ bash: ~/.config/bash \
 	mkdir -p ~/.local/srv/git/github.com/akinomyoga/
 	git clone --recursive 'git://github.com/akinomyoga/ble.sh.git' "$@"
 
-~/.config/blesh: .config/blesh/
+~/.config/blesh: .config/blesh/ \
+                 ~/.config/
 	ln -s "$$(pwd)/$<" "$@"
 
 blesh: ~/.local/srv/git/github.com/akinomyoga/ble.sh/ \
@@ -95,7 +116,8 @@ ibus-skk: sudo
 	sudo apt install -y ibus-skk
 	# TODO: ibus-skkの設定を命令行から行なえるようにする。
 
-~/.config/X11: .config/X11/
+~/.config/X11: .config/X11/ \
+               ~/.config/
 	ln -s "$$(pwd)/$<" "$@"
 
 ~/.xsessionrc:
@@ -106,33 +128,73 @@ ibus-skk: sudo
 x11: ~/.config/X11 \
      ~/.xsessionrc
 
-xdg: x11
-	mkdir -p ~/.local/var/fd.o/
-	mkdir -p ~/.local/var/fd.o/dtp
-	mkdir -p ~/.local/var/fd.o/dl
-	mkdir -p ~/.local/var/fd.o/tpl
-	mkdir -p ~/.local/var/fd.o/pubshr
-	mkdir -p ~/.local/var/fd.o/doc
-	mkdir -p ~/.local/var/fd.o/muz
-	mkdir -p ~/.local/var/fd.o/pic
-	mkdir -p ~/.local/var/fd.o/vid
+~/.local/var/: ~/.local/
+	mkdir -p "$@"
+
+~/.local/var/fd.o/: ~/.local/var/
+	mkdir -p "$@"
+
+~/.local/var/fd.o/dtp: ~/.local/var/fd.o/
+	mkdir -p "$@"
+
+~/.local/var/fd.o/dl: ~/.local/var/fd.o/
+	mkdir -p "$@"
+
+~/.local/var/fd.o/tpl: ~/.local/var/fd.o/
+	mkdir -p "$@"
+
+~/.local/var/fd.o/pubshr: ~/.local/var/fd.o/
+	mkdir -p "$@"
+
+~/.local/var/fd.o/doc: ~/.local/var/fd.o/
+	mkdir -p "$@"
+
+~/.local/var/fd.o/muz: ~/.local/var/fd.o/
+	mkdir -p "$@"
+
+~/.local/var/fd.o/pic: ~/.local/var/fd.o/
+	mkdir -p "$@"
+
+~/.local/var/fd.o/vid: ~/.local/var/fd.o/
+	mkdir -p "$@"
+
+xdg: x11 \
+     ~/.local/var/fd.o/dtp \
+     ~/.local/var/fd.o/dl \
+     ~/.local/var/fd.o/tpl \
+     ~/.local/var/fd.o/pubshr \
+     ~/.local/var/fd.o/doc \
+     ~/.local/var/fd.o/muz \
+     ~/.local/var/fd.o/pic \
+     ~/.local/var/fd.o/vid \
+     sudo
+	sudo apt install -y xdg-user-dirs
 	if [ -r ~/.config/user-dirs.dirs ]; then \
+		for _s in DESKTOP DOWNLOAD TEMPLATES PUBLICSHARE \
+		          DOCUMENTS MUSIC PICTURES VIDEOS; do \
+			rm "$$(xdg-user-dir $$_s)"; \
+		done; \
 		mv ~/.config/user-dirs.dirs \
-		   ~/.local/var/bkp/mnl/user-dirs.dirs.bkp-$$(date +'%Y%m%dT%H%M%S'); \
+		   ~/".local/var/bkp/mnl/user-dirs.dirs.bkp-$$(date +'%Y%m%dT%H%M%S')"; \
 	fi
 	ln -s "$$(pwd)/.config/user-dirs.dirs" ~/.config/user-dirs.dirs
 	mkdir -p ~/.local/var/fd.o/
 	xdg-user-dirs-update
 
-~/.config/vim: .config/vim/
+~/.config/vim: .config/vim/ ~/.config/
 	ln -s "$$(pwd)/$<" "$@"
 
-vim: ~/.config/vim
+~/.config/vim/pack/_/start/: ~/.config/vim/pack/_/
+	mkdir -p "$@"
+
+~/.config/vim/pack/_/opt/: ~/.config/vim/pack/_/
+	mkdir -p "$@"
+
+vim: ~/.config/vim \
+     ~/.config/vim/pack/_/start/ \
+     ~/.config/vim/pack/_/opt/
 	sudo apt install -y vim-gtk3
 	ln -s "$$(pwd)/.config/vim/" ~/.config/vim
-	mkdir -p ~/.config/vim/pack/_/
-	mkdir -p ~/.config/vim/pack/_/start/ \
-	         ~/.config/vim/pack/_/opt/
 
 ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/:
 	git c1 'git://github.com/vim-jp/vimdoc-ja.git' "$@"
@@ -145,28 +207,120 @@ vimdoc-ja: ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
            ~/.config/vim/pack/_/start/vimdoc-ja \
            vim
 
-xfce: xdg
+/tmp/sarasa-fonts/sarasa-fonts.7z: utils
+	mkdir -p "$$(dirname "$@")"
+	curl \
+	  -H 'Accept: application/octet-stream' \
+	  -L \
+	  $$(curl \
+	    -H 'Accept: application/vnd.github.v3+json' \
+	    'https://api.github.com/repos/be5invis/Sarasa-Gothic/releases/latest' | \
+	  jq -M \
+	    '.assets[]|select(.name|contains("ttc"))|.browser_download_url') \
+	-o "$@"
+
+noto-fonts: sudo
+	sudo apt install -y fonts-noto \
+	  fonts-noto-color-emoji \
+	  fonts-noto-cjk fonts-noto-cjk-extra
+
+/usr/local/share/fonts/truetype/sarasa/:
+	mkdir -p "$@"
+
+/usr/local/share/fonts/truetype/sarasa/sarasa-bold.ttc: \
+    /tmp/sarasa-fonts/sarasa-fonts.7z
+	sudo 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
+
+/usr/local/share/fonts/truetype/sarasa/sarasa-bolditalic.ttc: \
+    /tmp/sarasa-fonts/sarasa-fonts.7z
+	sudo 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
+
+/usr/local/share/fonts/truetype/sarasa/sarasa-extralight.ttc: \
+    /tmp/sarasa-fonts/sarasa-fonts.7z
+	sudo 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
+
+/usr/local/share/fonts/truetype/sarasa/sarasa-extralightitalic.ttc: \
+    /tmp/sarasa-fonts/sarasa-fonts.7z
+	sudo 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
+
+/usr/local/share/fonts/truetype/sarasa/sarasa-italic.ttc: \
+    /tmp/sarasa-fonts/sarasa-fonts.7z
+	sudo 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
+
+/usr/local/share/fonts/truetype/sarasa/sarasa-light.ttc: \
+    /tmp/sarasa-fonts/sarasa-fonts.7z
+	sudo 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
+
+/usr/local/share/fonts/truetype/sarasa/sarasa-lightitalic.ttc: \
+    /tmp/sarasa-fonts/sarasa-fonts.7z
+	sudo 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
+
+/usr/local/share/fonts/truetype/sarasa/sarasa-medium.ttc: \
+    /tmp/sarasa-fonts/sarasa-fonts.7z
+	sudo 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
+
+/usr/local/share/fonts/truetype/sarasa/sarasa-mediumitalic.ttc: \
+    /tmp/sarasa-fonts/sarasa-fonts.7z
+	sudo 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
+
+/usr/local/share/fonts/truetype/sarasa/sarasa-regular.ttc: \
+    /tmp/sarasa-fonts/sarasa-fonts.7z
+	sudo 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
+
+sarasa-fonts: /usr/local/share/fonts/truetype/sarasa/sarasa-bold.ttc \
+              /usr/local/share/fonts/truetype/sarasa/sarasa-bolditalic.ttc \
+              /usr/local/share/fonts/truetype/sarasa/sarasa-extralight.ttc \
+              /usr/local/share/fonts/truetype/sarasa/sarasa-extralightitalic.ttc \
+              /usr/local/share/fonts/truetype/sarasa/sarasa-italic.ttc \
+              /usr/local/share/fonts/truetype/sarasa/sarasa-light.ttc \
+              /usr/local/share/fonts/truetype/sarasa/sarasa-lightitalic.ttc \
+              /usr/local/share/fonts/truetype/sarasa/sarasa-medium.ttc \
+              /usr/local/share/fonts/truetype/sarasa/sarasa-mediumitalic.ttc \
+              /usr/local/share/fonts/truetype/sarasa/sarasa-regular.ttc \
+              /usr/local/share/fonts/truetype/sarasa/ \
+              utils sudo
+
+fonts: noto-fonts \
+       sarasa-fonts
+
+xfce: xdg \
+      fonts
 	sudo apt install -y xfce4 \
 	  xfce4-battery-plugin xfce4-clipman xfce4-whiskermenu-plugin
-	xfconf-query -n -c keyboards -p '/Default/Numlock' -s 'true'
-	xfconf-query -n -c keyboards -p '/Default/RestoreNumlock' -s 'true'
-	xfconf-query -n -c xsettings -p '/Gtk/DecorationLayout' -s 'menu:minimize,maximize,close'
-	xfconf-query -n -c xsettings -p '/Net/EnableEventSounds' -s 'false'
-	xfconf-query -n -c xfce4-panel -p '/panels' -a -s '1'
-	xfconf-query -n -c xfce4-panel -p '/panels/panel-1/length' -s '100'
-	xfconf-query -n -c xfce4-panel -p '/panels/panel-1/size' -s '30'
-	xfconf-query -n -c xfce4-panel -p '/panels/panel-1/plugin-ids' -s ''
-	xfconf-query -n -c xfce4-panel -p '/panels' -a \
-	             -s '1' -s '11' -s '2' -s '3' -s '4' -s '5'
-	xfconf-query -n -c xfce4-panel -p '/panels/panel-1/position' -s 'p=6;x=0;y=0'
-	xfconf-query -n -c xfce4-panel -p '/panels/panel-1/position-locked' -s 'true'
-	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-1' -s 'whiskermenu'
-	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-11' -s 'separator'
-	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-11/expand' -s 'true'
-	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-11/style' -s '0'
-	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-2' -s 'pager'
-	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-2/rows' -s '1'
-	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-3' -s 'systray'
+	xfconf-query -n -c keyboards -p '/Default/Numlock' \
+	             -t bool -s 'true'
+	xfconf-query -n -c keyboards -p '/Default/RestoreNumlock' \
+	             -t bool -s 'true'
+	xfconf-query -n -c xsettings -p '/Gtk/DecorationLayout' \
+	             -t string -s 'menu:minimize,maximize,close'
+	xfconf-query -n -c xsettings -p '/Net/EnableEventSounds' \
+	             -t bool -s 'false'
+	xfconf-query -n -c xfce4-panel -p '/panels' \
+	             -a -s '1'
+	xfconf-query -n -c xfce4-panel -p '/panels/panel-1/length' \
+	             -t int -s '100'
+	xfconf-query -n -c xfce4-panel -p '/panels/panel-1/size' \
+	             -t int -s '30'
+	xfconf-query -n -c xfce4-panel -p '/panels/panel-1/position' \
+	             -t string -s 'p=6;x=0;y=0'
+	xfconf-query -n -c xfce4-panel -p '/panels/panel-1/position-locked' \
+	             -t bool -s 'true'
+	xfconf-query -n -c xfce4-panel -p '/panels/panel-1/plugin-ids' \
+	             -a -s '1' -s '11' -s '2' -s '3' -s '4' -s '5'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-1' \
+	             -t string -s 'whiskermenu'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-11' \
+	             -t string -s 'separator'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-11/expand' \
+	             -t bool -s 'true'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-11/style' \
+	             -t int -s '0'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-2' \
+	             -t string -s 'pager'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-2/rows' \
+	             -t int -s '1'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-3' \
+	             -t string -s 'systray'
 	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-3/names-hidden' -a \
 	             -s 'system-config-printer' -s 'steam' -s 'zoom'
 	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-3/names-visible' -a \
@@ -174,20 +328,49 @@ xfce: xdg
 	             -s 'ibus-ui-gtk3' \
 	             -s 'clipman' \
 	             -s 'xfce4-power-manager'
-	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-3/show-frame' -s 'false'
-	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-3/size-max' -s '22'
-	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-4' -s 'pulseaudio'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-3/show-frame' \
+	             -t bool -s 'false'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-3/size-max' \
+	             -t int -s '22'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-4' \
+	             -t string -s 'pulseaudio'
 	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-4/enable-keyboard-shortcuts' \
-	             -s 'true'
-	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-5' -s 'clock'
-	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-5/timezone' -s 'Asia/Tokyo'
-	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-5/digital-format' -s '%H:%M %b%d日(%a)'
+	             -t bool -s 'true'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-5' \
+	             -t string -s 'clock'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-5/timezone' \
+	             -t string -s 'Asia/Tokyo'
+	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-5/digital-format' \
+	             -t string -s '%H:%M %b%d日(%a)'
 	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-5/tooltip-format' \
-	             -s '<b>%Y</b>-<b>%m</b>-<b>%d</b>T<b>%H</b>:<b>%M</b>:<b>%S</b>'
+	             -t string -s '<b>%Y</b>-<b>%m</b>-<b>%d</b>T<b>%H</b>:<b>%M</b>:<b>%S</b>'
+	xfconf-query -n -c xfwm4 -p '/general/button_layout' \
+		-t string -s 'O|HMC'
+	xfconf-query -n -c xfwm4 -p '/general/easy_click' \
+		-t string -s 'Super'
+	xfconf-query -n -c xfwm4 -p '/general/frame_opacity' \
+		-t int -s '100'
+	xfconf-query -n -c xfwm4 -p '/general/inactive_opacity' \
+		-t int -s '95'
+	xfconf-query -n -c xfwm4 -p '/general/move_opacity' \
+		-t int -s '85'
+	xfconf-query -n -c xfwm4 -p '/general/popup_opacity' \
+		-t int -s '95'
+	xfconf-query -n -c xfwm4 -p '/general/resize_opacity' \
+		-t int -s '85'
+	xfconf-query -n -c xfwm4 -p '/general/show_dock_shadow' \
+		-t bool -s 'false'
+	xfconf-query -n -c xfwm4 -p '/general/show_popup_shadow' \
+		-t bool -s 'false'
+	xfconf-query -n -c xfwm4 -p '/general/raise_with_any_button' \
+		-t bool -s 'false'
 
 x11-arc-theme: sudo xfce
 	sudo apt install -y arc-theme
-	xfconf-query -n -c xsettings -p '/Net/ThemeName' -s 'Arc-Dark'
+	xfconf-query -n -c xsettings -p '/Net/ThemeName' \
+		-t string -s 'Arc-Dark'
+	xfconf-query -n -c xfwm4 -p '/general/theme' \
+		-t string -s 'Arc-Dark'
 
 /etc/apt/sources.list.d/papirus-ppa.list:
 	echo 'deb http://ppa.launchpad.net/papirus/papirus/ubuntu focal main' | \
