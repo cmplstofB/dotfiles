@@ -1,2 +1,0 @@
-#sudo evtest --grab /dev/input/event0 > /dev/null 2>&1 &
-xkbcomp -I/home/rentaro/.config/X11/xkb /home/rentaro/.config/X11/xkb/keymap/_.xkb $DISPLAY
