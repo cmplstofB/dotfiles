@@ -31,11 +31,12 @@ sudo:
 ~/.config/git: .config/git/
 	ln -s "$$(pwd)/$<" "$@"
 
-git: ~/.config/git
+git: ~/.config/git \
+     basefiles
 	mkdir -p ~/.local/srv/git/
 	mkdir -p ~/.local/srv/git/github.com/
 
-l10n:
+l10n: sudo
 	sudo apt install -y manpages-ja-dev
 
 ~/.config/dircolors: .config/dircolors
@@ -45,12 +46,14 @@ l10n:
 	sh "$$(pwd)/$<" "$@"
 
 utils: ~/.config/dircolors \
-       ~/.config/lesskey
+       ~/.config/lesskey \
+       basefiles
 
 ~/.config/bash: .config/bash/
 	ln -s "$$(pwd)/$<" "$@"
 
-bash: ~/.config/bash
+bash: ~/.config/bash \
+      sudo basefiles
 	for _f in ~/.bash?*; do \
 		test -r "$$_f" && \
 		mv "$$_f" \
@@ -62,19 +65,24 @@ bash: ~/.config/bash
 	mkdir -p ~/.local/srv/git/github.com/akinomyoga/
 	git clone --recursive 'git://github.com/akinomyoga/ble.sh.git' "$@"
 
-blesh: ~/.local/srv/git/github.com/akinomyoga/ble.sh/
+~/.config/blesh: .config/blesh/
+	ln -s "$$(pwd)/$<" "$@"
+
+blesh: ~/.local/srv/git/github.com/akinomyoga/ble.sh/ \
+       ~/.config/blesh
+       sudo basefiles git
 	sudo apt install -y gawk
-	cd ~/.local/srv/git/github.com/akinomyoga/ble.sh/
+	cd "$<"
 	make install
-	ln -s "$$(pwd)/.config/blesh/" ~/.config/blesh
 
 ~/.config/libskk: .config/libskk/
 	ln -s "$$(pwd)/$<" "$@"
 
-libskk: ~/.config/libskk
+libskk: ~/.config/libskk \
+        sudo
 	sudo apt install -y libskk
 
-ibus:
+ibus: sudo
 	sudo apt install -y ibus
 	gsettings set org.freedesktop.ibus.general use-system-keyboard-layout 'true'
 	gsettings set org.freedesktop.ibus.general use-global-engine 'true'
@@ -83,7 +91,7 @@ ibus:
 	gsettings set org.freedesktop.ibus.general.hotkey next-engine-in-menu '[]'
 	gsettings set org.freedesktop.ibus.general.hotkey trigger '['"'"'Control+space'"'"']'
 
-ibus-skk:
+ibus-skk: sudo
 	sudo apt install -y ibus-skk
 	# TODO: ibus-skkの設定を命令行から行なえるようにする。
 
@@ -98,7 +106,7 @@ ibus-skk:
 x11: ~/.config/X11 \
      ~/.xsessionrc
 
-xdg:
+xdg: x11
 	mkdir -p ~/.local/var/fd.o/
 	mkdir -p ~/.local/var/fd.o/dtp
 	mkdir -p ~/.local/var/fd.o/dl
@@ -134,9 +142,10 @@ vim: ~/.config/vim
 	ln -s "$<" "$@"
 
 vimdoc-ja: ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
-           ~/.config/vim/pack/_/start/vimdoc-ja
+           ~/.config/vim/pack/_/start/vimdoc-ja \
+           vim
 
-xfce:
+xfce: x11
 	sudo apt install -y xfce4 \
 	  xfce4-battery-plugin xfce4-clipman xfce4-whiskermenu-plugin
 	xfconf-query -c keyboards -p '/Default/Numlock' -s 'true'
@@ -176,7 +185,7 @@ xfce:
 	xfconf-query -c xfce4-panel -p '/plugins/plugin-5/tooltip-format' \
 	             -s '<b>%Y</b>-<b>%m</b>-<b>%d</b>T<b>%H</b>:<b>%M</b>:<b>%S</b>'
 
-x11-arc-theme:
+x11-arc-theme: sudo xfce
 	sudo apt install -y arc-theme
 	xfconf-query -c xsettings -p '/Net/ThemeName' -s 'Arc-Dark'
 
@@ -184,13 +193,14 @@ x11-arc-theme:
 	echo 'deb http://ppa.launchpad.net/papirus/papirus/ubuntu focal main' | \
 	sudo tee "$@" > '/dev/null'
 
-x11-papirus-icon: /etc/apt/sources.list.d/papirus-ppa.list
+x11-papirus-icon: /etc/apt/sources.list.d/papirus-ppa.list \
+                  sudo xfce
 	sudo apt install -y dirmngr
 	sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com E58A9D36647CAE7F
 	sudo apt update
 	sudo apt install -y papirus-icon-theme
 	xfconf-query -c xsettings -p '/Net/IconThemeName' -s 'Papirus-Dark'
 
-x11-breeze-cursor_theme:
+x11-breeze-cursor_theme: sudo xfce
 	sudo apt install -y breeze-cursor-theme
 	xfconf-query -c xsettings -p '/Gtk/CursorThemeName' -s 'breeze_cursors'
