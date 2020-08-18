@@ -18,16 +18,16 @@ all: sudo utils git l10n \
 ~/.local/:
 	mkdir -p "$@"
 
-~/.local/share: ~/.local/
+~/.local/share:
 	mkdir -p "$@"
 
 ~/.cache/:
 	mkdir -p "$@"
 
 ~/.profile: ~/.local/var/bkp/mnl/ \
-           ~/.config/ \
-           ~/.local/share/ \
-           ~/.cache/
+            ~/.config/ \
+            ~/.local/share/ \
+            ~/.cache/
 	if [ -r ~/.profile ]; then \
 		mv ~/.profile ~/.local/var/bkp/mnl/.profile.bkp-$$(date +'%Y%m%dT%H%M%S'); \
 	fi
@@ -174,10 +174,10 @@ xdg: x11 \
      sudo
 	sudo apt install -y xdg-user-dirs
 	if [ -r ~/.config/user-dirs.dirs ]; then \
-		for _s in DESKTOP DOWNLOAD TEMPLATES PUBLICSHARE \
-		          DOCUMENTS MUSIC PICTURES VIDEOS; do \
-			rm -r "$$(xdg-user-dir $$_s)"; \
-		done; \
+		#for _s in DESKTOP DOWNLOAD TEMPLATES PUBLICSHARE \
+		#          DOCUMENTS MUSIC PICTURES VIDEOS; do \
+		#	rm -r "$$(xdg-user-dir $$_s)"; \
+		#done;
 		mv ~/.config/user-dirs.dirs \
 		   ~/".local/var/bkp/mnl/user-dirs.dirs.bkp-$$(date +'%Y%m%dT%H%M%S')"; \
 	fi
@@ -220,7 +220,7 @@ vimdoc-ja: ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
 	  $$(curl \
 	    -H 'Accept: application/vnd.github.v3+json' \
 	    'https://api.github.com/repos/be5invis/Sarasa-Gothic/releases/latest' | \
-	  jq -M \
+	  jq -rM \
 	    '.assets[]|select(.name|contains("ttc"))|.browser_download_url') \
 	-o "$@"
 
