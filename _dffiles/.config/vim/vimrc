@@ -1,6 +1,6 @@
 set encoding=UTF-8
 scriptencoding UTF-8
-" もしもシステムがcompatibleを設定していたらnocompatibleに。
+" もしも機構がcompatibleを設定していたらnocompatibleに。
 if &compatible
 	set nocompatible
 endif
@@ -16,7 +16,7 @@ augroup END
 let s:myvimdir = expand($XDG_CONFIG_HOME) . "/vim"
 execute "set runtimepath^=" . s:myvimdir
 execute "set runtimepath+=" . s:myvimdir . "/after"
-execute "set packpath^=" . s:myvimdir
+execute "set packpath^=" . expand($XDG_DATA_HOME) . "/vim"
 
 
 
