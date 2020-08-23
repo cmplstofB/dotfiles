@@ -346,6 +346,7 @@ if 0
 		let g:netrw_http_xcmd .= " --quiet"
 	endif
 endif
+let g:netrw_home = expand($XDG_CACHE_HOME) . "/vim"
 
 
 
@@ -412,6 +413,7 @@ let g:user_emmet_settings["xml"]["snippets"] = {"xml:rdf":
 			\ 	"\t<rdf:Description>\n" .
 			\ "</rdf:RDF>"}
 
+let g:asciidoctor_fenced_languages = ['c']
 
 
 filetype plugin indent on
