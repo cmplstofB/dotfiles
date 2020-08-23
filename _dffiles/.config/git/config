@@ -1,3 +1,6 @@
+[core]
+	quotepath = false # 印字不可能文字を表示
+
 [user]
 	name = B̅
 	email = 20594300+cmplstofB@users.noreply.github.com
