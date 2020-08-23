@@ -144,17 +144,17 @@ function blerc/complete-load-hook {
 	            gi,='igrep -e' ,gi='| igrep -e' \
 	            gf,='fgrep -e' ,gf='| fgrep -e'
 
-	ble-sabbrev @dl='~/.local/var/fd.o/dl/'
-	ble-sabbrev @us='/usr/share/' @uls='/usr/local/share/'
-	ble-sabbrev @dn='/dev/null'
-	ble-sabbrev @dtp="$(xdg-user-dir DESKTOP | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
-	ble-sabbrev @dl="$(xdg-user-dir DOWNLOAD | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
-	ble-sabbrev @tpl="$(xdg-user-dir TEMPLATES | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
-	ble-sabbrev @pubshr="$(xdg-user-dir PUBLICSHARE | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
-	ble-sabbrev @doc="$(xdg-user-dir DOCUMENTS | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
-	ble-sabbrev @muz="$(xdg-user-dir MUSIC | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
-	ble-sabbrev @pic="$(xdg-user-dir PICTURES | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
-	ble-sabbrev @vid="$(xdg-user-dir VIDEOS | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
+	#ble-sabbrev @dl='~/.local/var/fd.o/dl/'
+	#ble-sabbrev @us='/usr/share/' @uls='/usr/local/share/'
+	#ble-sabbrev @dn='/dev/null'
+	#ble-sabbrev @dtp="$(xdg-user-dir DESKTOP | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
+	#ble-sabbrev @dl="$(xdg-user-dir DOWNLOAD | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
+	#ble-sabbrev @tpl="$(xdg-user-dir TEMPLATES | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
+	#ble-sabbrev @pubshr="$(xdg-user-dir PUBLICSHARE | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
+	#ble-sabbrev @doc="$(xdg-user-dir DOCUMENTS | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
+	#ble-sabbrev @muz="$(xdg-user-dir MUSIC | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
+	#ble-sabbrev @pic="$(xdg-user-dir PICTURES | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
+	#ble-sabbrev @vid="$(xdg-user-dir VIDEOS | sed -e 's/^'"${HOME//\//\\\/}"'/~/' || echo $HOME)"
 }
 
 ## Vim
