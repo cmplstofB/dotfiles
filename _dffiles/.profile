@@ -17,6 +17,7 @@ export POSIXLY_CORRECT='200809' UNIX_STD='2003' \
 ## 基礎的
 export PAGER='pager'
 export EDITOR='editor'
+export CDPATH="$HOME:$(xdg-user-dir DESKTOP)"
 
 ## 手引きの設定
 export MANPATH="${XDG_DATA_HOME}/man:/opt/maple2019/man/:"
