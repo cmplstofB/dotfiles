@@ -189,27 +189,23 @@ xdg: x11 \
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
 
-~/.config/vim/pack/_/start/: ~/.config/vim/pack/_/
-	mkdir -p "$@"
-
-~/.config/vim/pack/_/opt/: ~/.config/vim/pack/_/
+~/.local/share/vim/pack/_/start/:
 	mkdir -p "$@"
 
 vim: ~/.config/vim \
-     ~/.config/vim/pack/_/start/ \
-     ~/.config/vim/pack/_/opt/
+     ~/.local/share/vim/pack/_/start/
 	sudo apt install -y vim-gtk3
 
 ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/:
 	git c1 'git://github.com/vim-jp/vimdoc-ja.git' "$@"
 
-~/.config/vim/pack/_/start/vimdoc-ja: \
+~/.local/share/vim/pack/_/start/vimdoc-ja: \
     ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$<" "$@"
 
 vimdoc-ja: ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
-           ~/.config/vim/pack/_/start/vimdoc-ja \
+           ~/.local/share/vim/pack/_/start/vimdoc-ja \
            vim
 
 /tmp/sarasa-fonts/sarasa-fonts.7z: utils
