@@ -122,28 +122,28 @@ complete -F _filedir_xspec gftodvi
 _xspecs['mkvinfo']='!*.*@([mM][kK][vV])'
 complete -F _filedir_xspec mkvinfo
 
-function ud { eval -- 'cd $(printf ../%.0s {1..'${1:-1}'})'; }
-function cd
-{
-	[[ "$1" = '--' ]] && shift
-	if [[ "$1" != '-' ]]; then
-		if [[ -d "${1:-$HOME}" ]]; then
-			command -p pushd "${1:-$HOME}" > /dev/null
-		elif [[ -d "${1%/*}" ]]; then
-			printf '\e]1;36m注意\e]39;22m: %s\n' '被演算子はディレクトリではありません。'"${1%/*}"'に移動します。' >&2
-			command -p pushd "${1%/*}" > /dev/null
-		else
-			return 1
-		fi
-	else
-		if [[ -v "$2" ]]; then
-			pushd +"$2"
-		else
-			popd
-		fi
-	fi
-	l
-}
+#function ud { eval -- 'cd $(printf ../%.0s {1..'${1:-1}'})'; }
+#function cd
+#{
+#	[[ "$1" = '--' ]] && shift
+#	if [[ "$1" != '-' ]]; then
+#		if [[ -d "${1:-$HOME}" ]]; then
+#			command -p pushd "${1:-$HOME}" > /dev/null
+#		elif [[ -d "${1%/*}" ]]; then
+#			printf '\e]1;36m注意\e]39;22m: %s\n' '被演算子はディレクトリではありません。'"${1%/*}"'に移動します。' >&2
+#			command -p pushd "${1%/*}" > /dev/null
+#		else
+#			return 1
+#		fi
+#	else
+#		if [[ -v "$2" ]]; then
+#			pushd +"$2"
+#		else
+#			popd
+#		fi
+#	fi
+#	l
+#}
 # ↓これらは関数名にBash拡張を使っているのでこちらに
 function = { bc -l <<< "${@:-$(cat)}"; }
 function mdr, { mdr "$1" && cd "$1"; }
