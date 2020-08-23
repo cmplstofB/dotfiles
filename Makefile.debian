@@ -39,7 +39,7 @@ sudo:
 	test -e /etc/sudoers.d/50_$$(id -u -n) || \
 	su -c "sh ./_dfutils/editsudoers.sh $$(id -u -n)"
 
-~/.config/git: .config/git/
+~/.config/git: _dffiles/.config/git/
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
 
@@ -55,7 +55,7 @@ git: ~/.config/git \
 l10n: sudo
 	sudo apt install -y manpages-ja-dev
 
-~/.config/dircolors: .config/dircolors \
+~/.config/dircolors: _dffiles/.config/dircolors \
                      ~/.config
 	-[ -h "$@" -a -f "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
@@ -69,7 +69,7 @@ utils: ~/.config/dircolors \
        sudo
 	sudo apt install -y jq curl p7zip
 
-~/.config/bash: .config/bash/ \
+~/.config/bash: _dffiles/.config/bash/ \
                 ~/.config/
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
@@ -87,7 +87,7 @@ bash: ~/.config/bash \
 	mkdir -p ~/.local/srv/git/github.com/akinomyoga/
 	git clone --recursive 'git://github.com/akinomyoga/ble.sh.git' "$@"
 
-~/.config/blesh: .config/blesh/ \
+~/.config/blesh: _dffiles/.config/blesh/ \
                  ~/.config/
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
@@ -99,7 +99,7 @@ blesh: ~/.local/srv/git/github.com/akinomyoga/ble.sh/ \
 	cd "$<"
 	make install
 
-~/.config/libskk: .config/libskk/
+~/.config/libskk: _dffiles/.config/libskk/
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
 
@@ -120,7 +120,7 @@ ibus-skk: sudo
 	sudo apt install -y ibus-skk
 	# TODO: ibus-skkの設定を命令行から行なえるようにする。
 
-~/.config/X11: .config/X11/ \
+~/.config/X11: _dffiles/.config/X11/ \
                ~/.config/
 	ln -s "$$(pwd)/$<" "$@"
 
@@ -185,7 +185,7 @@ xdg: x11 \
 	mkdir -p ~/.local/var/fd.o/
 	xdg-user-dirs-update
 
-~/.config/vim: .config/vim/ ~/.config/
+~/.config/vim: _dffiles/.config/vim/ ~/.config/
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
 
