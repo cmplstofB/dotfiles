@@ -369,6 +369,51 @@ xfce: xdg \
 		-t bool -s 'false'
 	xfconf-query -n -c xfwm4 -p '/general/raise_with_any_button' \
 		-t bool -s 'false'
+	xfconf-query -n -c xfce4-keyboard-shortcuts \
+		-p '/commands/custom/<Primary>Escape' \
+		-t string -s 'xfce4-popup-whiskermenu'
+	xfconf-query -n -c xfce4-keyboard-shortcuts \
+		-p '/commands/custom/<Super>c' \
+		-t string -s 'xfce4-popup-clipman'
+	xfconf-query -n -c xfce4-keyboard-shortcuts \
+		-p '/commands/custom/<Super>e' \
+		-t string -s 'exo-open --launch FileManager'
+	xfconf-query -n -c xfce4-keyboard-shortcuts \
+		-p '/commands/custom/<Super>m' \
+		-t string -s 'exo-open --launch MailReader'
+	xfconf-query -n -c xfce4-keyboard-shortcuts \
+		-p '/commands/custom/<Super>p' \
+		-t string -s 'xfce4-display-settings --minimal'
+	xfconf-query -n -c xfce4-keyboard-shortcuts \
+		-p '/commands/custom/<Super>r' \
+		-t string -s 'xfce4-appfinder --collapsed'
+	xfconf-query -n -c xfce4-keyboard-shortcuts \
+		-p '/commands/custom/<Super>t' \
+		-t string -s 'exo-open --launch TerminalEmulator'
+	xfconf-query -n -c xfce4-keyboard-shortcuts \
+		-p '/commands/custom/<Super>w' \
+		-t string -s 'exo-open --launch WebBrowser'
+	xfconf-query -n -c xfce4-keyboard-shortcuts \
+		-p '/commands/custom/XF86Display' \
+		-t string -s 'xfce4-display-settings --minimal'
+	xfconf-query -n -c xfce4-keyboard-shortcuts \
+		-p '/commands/custom/XF86Mail' \
+		-t string -s 'exo-open --launch MailReader'
+	xfconf-query -n -c xfce4-keyboard-shortcuts \
+		-p '/commands/custom/XF86WWW' \
+		-t string -s 'exo-open --launch WebBrowser'
+	xfconf-query -n -c xfce4-keyboard-shortcuts \
+		-p '/commands/custom/XF86WWW' \
+		-t string -s 'exo-open --launch WebBrowser'
+	xfconf-query -n -c xfce4-keyboard-shortcuts \
+		-p '/xfwm4/custom/<Alt><Shift>Tab' \
+		-t string -s 'cycle_reverse_windows_key'
+	xfconf-query -n -c xfce4-keyboard-shortcuts \
+		-p '/xfwm4/custom/<Alt>Tab' \
+		-t string -s 'cycle_windows_key'
+	xfconf-query -n -c xfce4-keyboard-shortcuts \
+		-p '/xfwm4/custom/<Alt>space' \
+		-t string -s 'popup_menu_key'
 
 x11-arc-theme: sudo xfce
 	sudo apt install -y arc-theme
