@@ -4,10 +4,10 @@
 	],
 	"define": {
 		"keymap": {
-			"@": "set-input-mode-hiragana",
+			"q": "set-input-mode-hiragana",
 			"/": "start-preedit",
-			"L": "set-input-mode-latin",
-			"|": "set-input-mode-wide-latin",
+			"l": "set-input-mode-latin",
+			"L": "set-input-mode-wide-latin",
 			"+": "start-preedit-kana",
 			"C-j": "commit"
 		}

@@ -4,11 +4,11 @@
 	],
 	"define": {
 		"keymap": {
-			"@": "set-input-mode-katakana",
+			"q": "set-input-mode-katakana",
 			"/": "start-preedit",
-			"L": "set-input-mode-latin",
-			"|": "set-input-mode-wide-latin",
-			"_": "set-input-mode-hankaku-katakana",
+			"l": "set-input-mode-latin",
+			"L": "set-input-mode-wide-latin",
+			"Q": "set-input-mode-hankaku-katakana",
 			"+": "start-preedit-kana",
 			"C-j": "commit"
 		}
