@@ -196,8 +196,19 @@ vim: ~/.config/vim \
      ~/.local/share/vim/pack/_/start/
 	sudo apt install -y vim-gtk3
 
+~/.config/fff: _dffiles/.config/fff
+	-[ -h "$@" -a -d "$@" ] && unlink "$@"
+	ln -s "$$(pwd)/$<" "$@"
+
+~/.local/srv/git/github.com/dylanaraps/fff/:
+	git c1 'git://github.com/dylanaraps/fff' "$@"
+	cd "$<" && make PREFIX=~/.local/ install
+
+fff: ~/.config/fff \
+     ~/.local/srv/git/github.com/dylanaraps/fff/
+
 ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/:
-	git c1 'git://github.com/vim-jp/vimdoc-ja.git' "$@"
+	git c1 'git://github.com/vim-jp/vimdoc-ja' "$@"
 
 ~/.local/share/vim/pack/_/start/vimdoc-ja: \
     ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/
