@@ -25,7 +25,7 @@ execute "set packpath^=" . expand($XDG_DATA_HOME) . "/vim"
 "   （恐らく立ってるバイトの範囲で符号化形式の種別を判定してる筈なので）
 "   のだが，精査しきっていない。
 "   この状態だと，恐らくcp932とかには一生到達しない……。
-set fileencodings=ucs-bom,iso-2022-jp,utf-8,euc-jisx0213,euc-jp,cp20932,sjis,cp932,default,latin1
+set fileencodings=ucs-bom,utf-8,iso-2022-jp,euc-jisx0213,euc-jp,cp20932,sjis,cp932,default,latin1
 " 改行形式
 set fileformat=unix
 " 履歴
