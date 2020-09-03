@@ -5,6 +5,13 @@ autocmd BufNewFile,BufRead */{etc,share}/X11/xkb/*/*
 autocmd BufNewFile,BufRead *.xresources\=
 			\ setlocal filetype=xdefaults
 
+" xsessionrc
+autocmd BufNewFile,BufRead ~/.xsessionrc
+			\ setlocal filetype=sh
+
+autocmd BufNewFile,BufRead ~/.uim
+			\ setlocal filetype=scheme
+
 " Minecraft
 autocmd BufNewFile,BufRead */src/main/resources/mcmod.info
 			\ setlocal filetype=json
