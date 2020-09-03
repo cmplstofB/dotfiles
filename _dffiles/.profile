@@ -162,6 +162,10 @@ export MAILRC="$XDG_CONFIG_HOME/mailrc"
 ## OpenSSL（かな？）
 export RANDFILE="$XDG_CACHE_HOME/rnd"
 
+### Fucking Fast File-Manager
+test -r "$XDG_CONFIG_HOME/fff/config.sh" &&
+. "$XDG_CONFIG_HOME/fff/config.sh"
+
 case "$(command -p ps -o 'comm=' -p $$)" in
 	*'bash'*) # GNU Bash
 		MYBASHRC="$XDG_CONFIG_HOME/bash/bashrc"
