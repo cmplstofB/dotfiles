@@ -108,6 +108,10 @@ autocmd BufNewFile,BufRead *.dbk
 autocmd BufNewFile,BufRead *.moin
 			\ setlocal filetype=moin
 
+" latexmk
+autocmd BufNewFile,BufRead .\\\{0,1\}latexmkrc*
+			\ setlocal filetype=perl
+
 " BibLaTeX Localization File
 autocmd BufNewFile,BufRead *.lbx
 			\ if getline(1) =~ '^\\ProvidesFile' |
