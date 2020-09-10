@@ -166,6 +166,9 @@ export RANDFILE="$XDG_CACHE_HOME/rnd"
 test -r "$XDG_CONFIG_HOME/fff/config.sh" &&
 . "$XDG_CONFIG_HOME/fff/config.sh"
 
+## Docker
+export DOCKER_CONFIG="$XDG_CONFIG_HOME/docker"
+
 case "$(command -p ps -o 'comm=' -p $$)" in
 	*'bash'*) # GNU Bash
 		MYBASHRC="$XDG_CONFIG_HOME/bash/bashrc"
