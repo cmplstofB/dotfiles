@@ -122,27 +122,27 @@ function blerc/complete-load-hook {
 	ble-bind -m 'auto_complete' -f 'C-x C-f' 'auto_complete/insert-word'
 
 	ble-sabbrev  o,='xdg-open'
-	ble-sabbrev ,c='| xsel -b'
-	ble-sabbrev c,='xsel -b -o'
-	ble-sabbrev ,dn=$'> \'/dev/null\' 2>&1'
 	ble-sabbrev  e,='editor'
-	ble-sabbrev  s,='sudo'
-	ble-sabbrev a,l='apt list'     a,l,i='apt list --installed' \
+	ble-sabbrev  d,='sudo'
+	ble-sabbrev  c,='xsel -b -o'       ,c='| xsel -b'
+	ble-sabbrev  p,='pager'            ,p='| pager'
+	ble-sabbrev a,l='apt list'      a,l,i='apt list --installed' \
+	            a,i='apt install'   a,i,r='apt install --no-install-recommends' \
+	            a,s='apt search'    a,s,n='apt search --names-only' \
+	           a,fl='apt-file list'  a,fs='apt-file search' \
+	            a,d='apt depends'    a,rd='apt rdepends' \
+	            a,u='apt update'     a,ug='apt upgrade' \
+	            a,r='apt remove'     a,ar='apt autoremove' \
+	           a,du='apt dist-upgrade' \
 	            a,w='apt show' \
-	            a,i='apt install'  a,i,r='apt install --no-install-recommends' \
-	            a,s='apt search'   a,s,n='apt search --names-only' \
-	           a,fl='apt-file list' a,fs='apt-file search' \
-	            a,d='apt depends'   a,rd='apt rdepends' \
-	            a,u='apt update'    a,ug='apt upgrade' a,du='apt dist-upgrade' \
-	            a,r='apt remove'    a,ar='apt autoremove' \
 	            a,p='apt purge' \
 	           a,pl='apt policy' \
 	            a,e='apt edit-sources'
-	ble-sabbrev  p,='pager'      ,p='| pager'
-	ble-sabbrev  g,='grep -e'    ,g='| grep -e' \
-	            g,,='grep, -e' ,g,,='| grep, -e' \
-	            gi,='igrep -e' ,gi='| igrep -e' \
-	            gf,='fgrep -e' ,gf='| fgrep -e'
+	ble-sabbrev  g,='grep -e'          ,g='| grep -e' \
+	            g,,='grep, -e'       ,g,,='| grep, -e' \
+	            gi,='igrep -e'        ,gi='| igrep -e' \
+	            gf,='fgrep -e'        ,gf='| fgrep -e'
+	#ble-sabbrev ,dn=$'> \'/dev/null\' 2>&1'
 
 	#ble-sabbrev @dl='~/.local/var/fd.o/dl/'
 	#ble-sabbrev @us='/usr/share/' @uls='/usr/local/share/'
