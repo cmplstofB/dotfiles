@@ -122,6 +122,10 @@ complete -F _filedir_xspec gftodvi
 _xspecs['mkvinfo']='!*.*@([mM][kK][vV])'
 complete -F _filedir_xspec mkvinfo
 
+## gh命令
+hash gh 2> '/dev/null' &&
+eval "$(gh completion -s bash)"
+
 #function ud { eval -- 'cd $(printf ../%.0s {1..'${1:-1}'})'; }
 #function cd
 #{
