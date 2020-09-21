@@ -1,10 +1,20 @@
 [core]
-	quotepath = false # 印字不可能文字を表示
+	# 印字不可能文字を表示
+	quotepath = false
 
 [user]
 	name = B̅
 	email = 20594300+cmplstofB@users.noreply.github.com
 
 [alias]
-	c1 = clone --single-branch --depth=1 # clone 1
-	lh = log --max-count=1 --format='%h' # log hash
+	# clone 1
+	c1 = clone --single-branch --depth=1
+	# log hash
+	lh = log --max-count=1 --format='%h'
+
+[merge]
+	# <https://qiita.com/nog/items/c79469afbf3e632f10a1>
+	ff = false
+
+[pull]
+	ff = only
