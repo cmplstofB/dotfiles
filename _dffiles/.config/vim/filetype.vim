@@ -119,6 +119,9 @@ autocmd BufNewFile,BufRead *.lbx
 			\ 	setfiletype tex |
 			\ endif
 
+" XKB
+autocmd BufNewFile,BufRead */X11/xkb/* setfiletype xkb
+
 " RDF file
 autocmd BufNewFile,BufRead *.rdf
 			\ if getline(1) =~ '<?xml' |
