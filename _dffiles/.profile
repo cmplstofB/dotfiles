@@ -54,6 +54,9 @@ export VIMINIT='let $MYVIMRC = expand("$XDG_CONFIG_HOME") . "/vim/vimrc" | sourc
 ## Python
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc.py"
 alias py='\python3'
+# pipを直に起動するのは非推奨とのこと
+# <https://github.com/pypa/pip/issues/5599>
+alias pip='\python3 -m pip'
 
 ### Opam
 [ -r ${OPAMROOT:-~/.opam}/opam-init/init.sh ] &&
