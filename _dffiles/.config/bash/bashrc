@@ -126,6 +126,10 @@ complete -F _filedir_xspec mkvinfo
 hash gh 2> '/dev/null' &&
 eval "$(gh completion -s bash)"
 
+## pip命令
+hash pip 2> '/dev/null' &&
+eval "$(pip completion --bash)"
+
 #function ud { eval -- 'cd $(printf ../%.0s {1..'${1:-1}'})'; }
 #function cd
 #{
