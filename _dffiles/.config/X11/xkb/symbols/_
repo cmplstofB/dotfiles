@@ -1,6 +1,7 @@
 default partial alphanumeric_keys
 xkb_symbols "_" {
-	include "_(yensign_plusminus)"
+	include "_(backspace)"
+	include "_(delete)"
 	include "_(bslash_bar)"
 	include "_(zero_underscore)"
 	include "_(muhenkan_lctrl)"
@@ -17,10 +18,17 @@ xkb_symbols "_" {
 };
 
 partial alphanumeric_keys
-xkb_symbols "yensign_plusminus" {
-	name[Group1]= "Set \[bslash/bar\] key to \[yensign/plusminus\]";
+xkb_symbols "backspace" {
+	name[Group1]= "Set \[bslash/bar\] key to \[BS\]";
 
-	key <AE13> { [ yen, plusminus ] };
+	key <AE13> { [ BackSpace, BackSpace ] };
+};
+
+partial alphanumeric_keys
+xkb_symbols "delete" {
+	name[Group1]= "Set \[Zenkaku_Hankaku\] key to \[DEL\]";
+
+	key <HZTG> { [ Delete, Delete ] };
 };
 
 partial alphanumeric_keys
