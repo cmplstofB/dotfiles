@@ -1,0 +1,100 @@
+@charset "UTF-8";
+
+:root {
+	--campbell-black: rgb(12, 12, 12); /* 黒 */
+	--campbell-red: rgb(197, 15, 31); /* 赤 */
+	--campbell-green: rgb(19, 161, 14); /* 緑 */
+	--campbell-yellow: rgb(193, 156, 0); /* 黄 */
+	--campbell-blue: rgb(59, 120, 255); /* 青 */
+	--campbell-magenta: rgb(180, 0, 158); /* 紅 */
+	--campbell-cyan: rgb(97, 214, 214); /* 藍 */
+	--campbell-white: rgb(204, 204, 204); /* 白 */
+
+	--campbell-blight_black: rgb(118, 118, 118); /* 黒 */
+	--campbell-blight_red: rgb(231, 72, 86); /* 赤 */
+	--campbell-blight_green: rgb(22, 198, 12); /* 緑 */
+	--campbell-blight_yellow: rgb(249, 241, 165); /* 黄 */
+	--campbell-blight_blue: rgb(59, 120, 255); /* 青 */
+	--campbell-blight_magenta: rgb(180, 0, 158); /* 紅 */
+	--campbell-blight_cyan: rgb(97, 214, 214); /* 藍 */
+	--campbell-blight_white: rgb(242, 242, 242); /* 白 */
+}
+
+/* VimVixenのボタン色 */
+.vimvixen-hint {
+	background: #383C4A !important;
+	border-radius: 5px !important;
+	border: 1px solid #2b2e39 !important;
+	color: #D3DAE3 !important;
+	font: bold 0.8rem/1.1 monospace !important;
+	padding: 0.2pt !important;
+}
+
+body[style*="background-image:"] ,
+body[background] {
+	background-image: none !important;
+}
+
+/* 画像型式の数式を協調 */
+:not(.mw-parser-output) img.dispmath , img.inlinemath ,
+:not(.mw-parser-output) img[alt^="\\begin{displaymath}"][alt$="\\end{displaymath}"] ,
+:not(.mw-parser-output) img[alt^="$"][alt$="$"] {
+	filter: invert(85%) hue-rotate(0.5turn) !important;
+}
+img[alt^="$"][alt$="$"][align="bottom" i] {
+	vertical-align: middle !important;
+}
+
+div .crayon-pre ,
+code {
+	font: 0.9em/1.2 "更紗等幅ゴシック J", monospace !important;
+}
+
+/* Firefox本体 */
+@-moz-document url("about:home") {
+	body {
+		--newtab-background-color: red;
+	}
+}
+
+@-moz-document url-prefix("view-source:") {
+	:root {
+		font-size: 16px !important;
+	}
+
+
+	html {
+		background: var(--campbell-black) !important;
+		color: var(--campbell-blight_white) !important;
+	}
+
+	[id^="line"]::before {
+		font-size: 0.8rem !important;
+		color: var(--campbell-white) !important;
+	}
+	[id^="line"]::before:target {
+		font-weight: bold !important;
+	}
+
+	.start-tag, .end-tag {
+		color: var(--campbell-green) !important;
+	}
+	.comment {
+		color: var(--campbell-blight_black) !important;
+	}
+	.doctype, .cdata, .pi {
+		color: var(--campbell-cyan) !important;
+	}
+	.attribute-name {
+		color: var(--campbell-yellow) !important;
+	}
+	.attribute-value {
+		color: var(--campbell-blight_yellow) !important;
+	}
+	.entity {
+		color: var(--campbell-magenta) !important;
+	}
+	.error {
+		color: var(--campbell-blight_red) !important;
+	}
+}
