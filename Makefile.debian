@@ -104,8 +104,7 @@ blesh: ~/.local/srv/git/github.com/akinomyoga/ble.sh/ \
        ~/.cache/blesh/ \
        sudo ~/.profile git
 	sudo apt install -y gawk
-	cd "$<"
-	make install
+	(cd "$<" && make install)
 
 ~/.config/libskk: _dffiles/.config/libskk/
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
