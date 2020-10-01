@@ -200,12 +200,16 @@ xdg: x11 \
 ~/.local/share/vim/pack/_/start/:
 	mkdir -p "$@"
 
-~/.cache/vim/: ~/.cache/
+~/.cache/vim/swap/: ~/.cache/
+	mkdir -p "$@"
+
+~/.cache/vim/bkp/: ~/.cache/
 	mkdir -p "$@"
 
 vim: ~/.config/vim \
      ~/.local/share/vim/pack/_/start/ \
-     ~/.cache/vim/
+     ~/.cache/vim/swap/ \
+     ~/.cache/vim/bkp/
 	sudo apt install -y vim-gtk3
 
 ~/.config/fff: _dffiles/.config/fff
