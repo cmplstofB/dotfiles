@@ -74,7 +74,7 @@ utils: ~/.config/dircolors \
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
 
-~/.cache/bash/:
+~/.cache/bash/: ~/.cache/
 	mkdir -p "$@"
 
 bash: ~/.config/bash \
@@ -96,8 +96,12 @@ bash: ~/.config/bash \
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
 
+~/.cache/blesh/: ~/.cache/
+	mkdir -p "$@"
+
 blesh: ~/.local/srv/git/github.com/akinomyoga/ble.sh/ \
        ~/.config/blesh \
+       ~/.cache/blesh/ \
        sudo ~/.profile git
 	sudo apt install -y gawk
 	cd "$<"
@@ -196,12 +200,12 @@ xdg: x11 \
 ~/.local/share/vim/pack/_/start/:
 	mkdir -p "$@"
 
-~/.cache/vim/:
+~/.cache/vim/: ~/.cache/
 	mkdir -p "$@"
 
 vim: ~/.config/vim \
      ~/.local/share/vim/pack/_/start/ \
-     ~/.chace/vim/
+     ~/.cache/vim/
 	sudo apt install -y vim-gtk3
 
 ~/.config/fff: _dffiles/.config/fff
