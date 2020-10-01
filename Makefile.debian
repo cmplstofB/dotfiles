@@ -31,7 +31,7 @@ all: sudo utils git l10n \
 	if [ -r ~/.profile ]; then \
 		mv ~/.profile ~/.local/var/bkp/mnl/.profile.bkp-$$(date +'%Y%m%dT%H%M%S'); \
 	fi
-	ln -s "$$(pwd)/.config/.profile" ~/.profile
+	ln -s "$$(pwd)/_dffiles/.profile" ~/.profile
 	. ~/.profile
 
 sudo:
