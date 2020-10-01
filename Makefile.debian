@@ -36,7 +36,7 @@ all: sudo utils git l10n \
 
 sudo:
 	command -v sudo || su -c 'apt install -y sudo'
-	test -e /etc/sudoers.d/50_$$(id -u -n) || \
+	test -e /etc/sudoers.d/50-$$(id -u -n).conf || \
 	su -c "sh ./_dfutils/editsudoers.sh $$(id -u -n)"
 
 ~/.config/git: _dffiles/.config/git/
