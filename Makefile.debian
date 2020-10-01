@@ -74,7 +74,11 @@ utils: ~/.config/dircolors \
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
 
+~/.cache/bash/:
+	mkdir -p "$@"
+
 bash: ~/.config/bash \
+      ~/.cache/bash/ \
       sudo
 	for _f in ~/.bash?*; do \
 		test -r "$$_f" && \
@@ -192,8 +196,12 @@ xdg: x11 \
 ~/.local/share/vim/pack/_/start/:
 	mkdir -p "$@"
 
+~/.cache/vim/:
+	mkdir -p "$@"
+
 vim: ~/.config/vim \
-     ~/.local/share/vim/pack/_/start/
+     ~/.local/share/vim/pack/_/start/ \
+     ~/.chace/vim/
 	sudo apt install -y vim-gtk3
 
 ~/.config/fff: _dffiles/.config/fff
@@ -207,7 +215,7 @@ vim: ~/.config/vim \
 fff: ~/.config/fff \
      ~/.local/srv/git/github.com/dylanaraps/fff/
 
-~/.local/srv/git/github.com/vim-jp/vimdoc-ja/:
+~/.local/srv/git/github.com/vim-jp/vimdoc-ja/: git
 	git c1 'git://github.com/vim-jp/vimdoc-ja' "$@"
 
 ~/.local/share/vim/pack/_/start/vimdoc-ja: \
