@@ -106,6 +106,48 @@ blesh: ~/.local/srv/git/github.com/akinomyoga/ble.sh/ \
 	sudo apt install -y gawk
 	(cd "$<" && make install)
 
+~/.config/vim: _dffiles/.config/vim/ ~/.config/
+	-[ -h "$@" -a -d "$@" ] && unlink "$@"
+	ln -s "$$(pwd)/$<" "$@"
+
+~/.local/share/vim/pack/_/start/:
+	mkdir -p "$@"
+
+~/.cache/vim/swap/: ~/.cache/
+	mkdir -p "$@"
+
+~/.cache/vim/bkp/: ~/.cache/
+	mkdir -p "$@"
+
+vim: ~/.config/vim \
+     ~/.local/share/vim/pack/_/start/ \
+     ~/.cache/vim/swap/ \
+     ~/.cache/vim/bkp/
+	sudo apt install -y vim-gtk3
+
+~/.local/srv/git/github.com/vim-jp/vimdoc-ja/: git
+	git c1 'git://github.com/vim-jp/vimdoc-ja' "$@"
+
+~/.local/share/vim/pack/_/start/vimdoc-ja: \
+    ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/
+	-[ -h "$@" -a -d "$@" ] && unlink "$@"
+	ln -s "$<" "$@"
+
+vimdoc-ja: ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
+           ~/.local/share/vim/pack/_/start/vimdoc-ja \
+           vim
+
+~/.config/fff: _dffiles/.config/fff
+	-[ -h "$@" -a -d "$@" ] && unlink "$@"
+	ln -s "$$(pwd)/$<" "$@"
+
+~/.local/srv/git/github.com/dylanaraps/fff/:
+	git c1 'git://github.com/dylanaraps/fff' "$@"
+	cd "$<" && make PREFIX=~/.local/ install
+
+fff: ~/.config/fff \
+     ~/.local/srv/git/github.com/dylanaraps/fff/
+
 ~/.config/libskk: _dffiles/.config/libskk/
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
@@ -191,48 +233,6 @@ xdg: x11 \
 	ln -fs "$$(pwd)/.config/user-dirs.dirs" ~/.config/user-dirs.dirs
 	mkdir -p ~/.local/var/fd.o/
 	xdg-user-dirs-update
-
-~/.config/vim: _dffiles/.config/vim/ ~/.config/
-	-[ -h "$@" -a -d "$@" ] && unlink "$@"
-	ln -s "$$(pwd)/$<" "$@"
-
-~/.local/share/vim/pack/_/start/:
-	mkdir -p "$@"
-
-~/.cache/vim/swap/: ~/.cache/
-	mkdir -p "$@"
-
-~/.cache/vim/bkp/: ~/.cache/
-	mkdir -p "$@"
-
-vim: ~/.config/vim \
-     ~/.local/share/vim/pack/_/start/ \
-     ~/.cache/vim/swap/ \
-     ~/.cache/vim/bkp/
-	sudo apt install -y vim-gtk3
-
-~/.config/fff: _dffiles/.config/fff
-	-[ -h "$@" -a -d "$@" ] && unlink "$@"
-	ln -s "$$(pwd)/$<" "$@"
-
-~/.local/srv/git/github.com/dylanaraps/fff/:
-	git c1 'git://github.com/dylanaraps/fff' "$@"
-	cd "$<" && make PREFIX=~/.local/ install
-
-fff: ~/.config/fff \
-     ~/.local/srv/git/github.com/dylanaraps/fff/
-
-~/.local/srv/git/github.com/vim-jp/vimdoc-ja/: git
-	git c1 'git://github.com/vim-jp/vimdoc-ja' "$@"
-
-~/.local/share/vim/pack/_/start/vimdoc-ja: \
-    ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/
-	-[ -h "$@" -a -d "$@" ] && unlink "$@"
-	ln -s "$<" "$@"
-
-vimdoc-ja: ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
-           ~/.local/share/vim/pack/_/start/vimdoc-ja \
-           vim
 
 /tmp/sarasa-fonts/sarasa-fonts.7z: utils
 	mkdir -p "$$(dirname "$@")"
