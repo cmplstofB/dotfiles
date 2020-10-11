@@ -15,10 +15,9 @@ except ImportError:
 
 try:
     readline.read_history_file(HISTFILE)
+    readline.set_history_length(10000)
 except FileNotFoundError:
     open(HISTFILE, 'wb').close()
-
-readline.set_history_length(10000)
 
 sys.ps1 = "\033[2;37m>>>\033[22;39m "
 sys.ps2 = "\033[2;37m...\033[22;39m "
