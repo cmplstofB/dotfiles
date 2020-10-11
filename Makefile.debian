@@ -106,6 +106,14 @@ blesh: ~/.local/srv/git/github.com/akinomyoga/ble.sh/ \
 	sudo apt install -y gawk
 	(cd "$<" && make install)
 
+~/.config/python: _dffiles/.config/python/ \
+                  ~/.config/
+	-[ -h "$@" -a -d "$@" ] && unlink "$@"
+	ln -s "$$(pwd)/$<" "$@"
+
+python: ~/.config/python
+	sudo apt install -y python3
+
 ~/.config/vim: _dffiles/.config/vim/ ~/.config/
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
