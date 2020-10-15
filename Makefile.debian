@@ -2,12 +2,21 @@
 
 install: all
 
-all: sudo utils git l10n \
-     bash blesh \
-     libskk ibus ibus-skk \
-     vim vimdoc-ja \
-     xfce \
-     x11-arc-theme x11-papirus-icon x11-breeze-cursor_theme
+GUINAME = xfce
+
+all: cli \
+     gui-$(GUINAME)
+
+cli: sudo git utils l10n \
+     bash blesh python vim fff
+
+gui-base: x11 fonts \
+    gui-arc-theme \
+    gui-papirus-icon \
+    gui-breeze-cursor_theme
+
+gui-xfce: gui-base \
+          xfce
 
 ~/.local/var/bkp/mnl/:
 	mkdir -p "$@"
@@ -118,6 +127,17 @@ python: ~/.config/python
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
 
+~/.local/srv/git/github.com/vim-jp/vimdoc-ja/: git
+	git c1 'git://github.com/vim-jp/vimdoc-ja' "$@"
+
+~/.local/share/vim/pack/_/start/vimdoc-ja: \
+    ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/
+	-[ -h "$@" -a -d "$@" ] && unlink "$@"
+	ln -s "$<" "$@"
+
+vimdoc-ja: ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
+           ~/.local/share/vim/pack/_/start/vimdoc-ja
+
 ~/.local/share/vim/pack/_/start/:
 	mkdir -p "$@"
 
@@ -133,18 +153,6 @@ vim: ~/.config/vim \
      ~/.cache/vim/bkp/
 	sudo apt install -y vim-gtk3
 
-~/.local/srv/git/github.com/vim-jp/vimdoc-ja/: git
-	git c1 'git://github.com/vim-jp/vimdoc-ja' "$@"
-
-~/.local/share/vim/pack/_/start/vimdoc-ja: \
-    ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/
-	-[ -h "$@" -a -d "$@" ] && unlink "$@"
-	ln -s "$<" "$@"
-
-vimdoc-ja: ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
-           ~/.local/share/vim/pack/_/start/vimdoc-ja \
-           vim
-
 ~/.config/fff: _dffiles/.config/fff
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
@@ -159,6 +167,28 @@ fff: ~/.config/fff \
 ~/.config/libskk: _dffiles/.config/libskk/
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
+
+xdg: ~/.local/var/fd.o/dtp \
+     ~/.local/var/fd.o/dl \
+     ~/.local/var/fd.o/tpl \
+     ~/.local/var/fd.o/pubshr \
+     ~/.local/var/fd.o/doc \
+     ~/.local/var/fd.o/muz \
+     ~/.local/var/fd.o/pic \
+     ~/.local/var/fd.o/vid \
+     sudo
+	sudo apt install -y xdg-user-dirs
+	if [ -r ~/.config/user-dirs.dirs ]; then \
+		#for _s in DESKTOP DOWNLOAD TEMPLATES PUBLICSHARE \
+		#          DOCUMENTS MUSIC PICTURES VIDEOS; do \
+		#	rm -r "$$(xdg-user-dir $$_s)"; \
+		#done;
+		mv ~/.config/user-dirs.dirs \
+		   ~/".local/var/bkp/mnl/user-dirs.dirs.bkp-$$(date +'%Y%m%dT%H%M%S')"; \
+	fi
+	ln -fs "$$(pwd)/.config/user-dirs.dirs" ~/.config/user-dirs.dirs
+	mkdir -p ~/.local/var/fd.o/
+	xdg-user-dirs-update
 
 libskk: ~/.config/libskk \
         sudo
@@ -218,29 +248,6 @@ x11: ~/.config/X11 \
 
 ~/.local/var/fd.o/vid: ~/.local/var/fd.o/
 	mkdir -p "$@"
-
-xdg: x11 \
-     ~/.local/var/fd.o/dtp \
-     ~/.local/var/fd.o/dl \
-     ~/.local/var/fd.o/tpl \
-     ~/.local/var/fd.o/pubshr \
-     ~/.local/var/fd.o/doc \
-     ~/.local/var/fd.o/muz \
-     ~/.local/var/fd.o/pic \
-     ~/.local/var/fd.o/vid \
-     sudo
-	sudo apt install -y xdg-user-dirs
-	if [ -r ~/.config/user-dirs.dirs ]; then \
-		#for _s in DESKTOP DOWNLOAD TEMPLATES PUBLICSHARE \
-		#          DOCUMENTS MUSIC PICTURES VIDEOS; do \
-		#	rm -r "$$(xdg-user-dir $$_s)"; \
-		#done;
-		mv ~/.config/user-dirs.dirs \
-		   ~/".local/var/bkp/mnl/user-dirs.dirs.bkp-$$(date +'%Y%m%dT%H%M%S')"; \
-	fi
-	ln -fs "$$(pwd)/.config/user-dirs.dirs" ~/.config/user-dirs.dirs
-	mkdir -p ~/.local/var/fd.o/
-	xdg-user-dirs-update
 
 /tmp/sarasa-fonts/sarasa-fonts.7z: utils
 	mkdir -p "$$(dirname "$@")"
@@ -318,8 +325,26 @@ sarasa-fonts: /usr/local/share/fonts/truetype/sarasa/sarasa-bold.ttc \
 fonts: noto-fonts \
        sarasa-fonts
 
+gui-arc-theme: sudo
+	sudo apt install -y arc-theme
+
+/etc/apt/sources.list.d/papirus-ppa.list:
+	echo 'deb http://ppa.launchpad.net/papirus/papirus/ubuntu focal main' | \
+	sudo tee "$@" > '/dev/null'
+
+gui-papirus-icon: /etc/apt/sources.list.d/papirus-ppa.list \
+                  sudo
+	sudo apt install -y dirmngr
+	sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com E58A9D36647CAE7F
+	sudo apt update
+	sudo apt install -y papirus-icon-theme
+
+gui-breeze-cursor_theme: sudo
+	sudo apt install -y breeze-cursor-theme
+
 xfce: xdg \
-      fonts
+      fonts \
+      gui-arc-theme gui-papirus-icon gui-breeze-cursor_theme
 	sudo apt install -y xfce4 \
 	  xfce4-battery-plugin xfce4-clipman xfce4-whiskermenu-plugin
 	xfconf-query -n -c keyboards -p '/Default/Numlock' \
@@ -380,90 +405,75 @@ xfce: xdg \
 	xfconf-query -n -c xfce4-panel -p '/plugins/plugin-5/tooltip-format' \
 	             -t string -s '<b>%Y</b>-<b>%m</b>-<b>%d</b>T<b>%H</b>:<b>%M</b>:<b>%S</b>'
 	xfconf-query -n -c xfwm4 -p '/general/button_layout' \
-		-t string -s 'O|HMC'
+	             -t string -s 'O|HMC'
 	xfconf-query -n -c xfwm4 -p '/general/easy_click' \
-		-t string -s 'Super'
+	             -t string -s 'Super'
 	xfconf-query -n -c xfwm4 -p '/general/frame_opacity' \
-		-t int -s '100'
+	             -t int -s '100'
 	xfconf-query -n -c xfwm4 -p '/general/inactive_opacity' \
-		-t int -s '95'
+	             -t int -s '95'
 	xfconf-query -n -c xfwm4 -p '/general/move_opacity' \
-		-t int -s '85'
+	             -t int -s '85'
 	xfconf-query -n -c xfwm4 -p '/general/popup_opacity' \
-		-t int -s '95'
+	             -t int -s '95'
 	xfconf-query -n -c xfwm4 -p '/general/resize_opacity' \
-		-t int -s '85'
+	             -t int -s '85'
 	xfconf-query -n -c xfwm4 -p '/general/show_dock_shadow' \
-		-t bool -s 'false'
+	             -t bool -s 'false'
 	xfconf-query -n -c xfwm4 -p '/general/show_popup_shadow' \
-		-t bool -s 'false'
+	             -t bool -s 'false'
 	xfconf-query -n -c xfwm4 -p '/general/raise_with_any_button' \
-		-t bool -s 'false'
+	             -t bool -s 'false'
 	xfconf-query -n -c xfce4-keyboard-shortcuts \
-		-p '/commands/custom/<Primary>Escape' \
-		-t string -s 'xfce4-popup-whiskermenu'
+	             -p '/commands/custom/<Primary>Escape' \
+	             -t string -s 'xfce4-popup-whiskermenu'
 	xfconf-query -n -c xfce4-keyboard-shortcuts \
-		-p '/commands/custom/<Super>c' \
-		-t string -s 'xfce4-popup-clipman'
+	             -p '/commands/custom/<Super>c' \
+	             -t string -s 'xfce4-popup-clipman'
 	xfconf-query -n -c xfce4-keyboard-shortcuts \
-		-p '/commands/custom/<Super>e' \
-		-t string -s 'exo-open --launch FileManager'
+	             -p '/commands/custom/<Super>e' \
+	             -t string -s 'exo-open --launch FileManager'
 	xfconf-query -n -c xfce4-keyboard-shortcuts \
-		-p '/commands/custom/<Super>m' \
-		-t string -s 'exo-open --launch MailReader'
+	             -p '/commands/custom/<Super>m' \
+	             -t string -s 'exo-open --launch MailReader'
 	xfconf-query -n -c xfce4-keyboard-shortcuts \
-		-p '/commands/custom/<Super>p' \
-		-t string -s 'xfce4-display-settings --minimal'
+	             -p '/commands/custom/<Super>p' \
+	             -t string -s 'xfce4-display-settings --minimal'
 	xfconf-query -n -c xfce4-keyboard-shortcuts \
-		-p '/commands/custom/<Super>r' \
-		-t string -s 'xfce4-appfinder --collapsed'
+	             -p '/commands/custom/<Super>r' \
+	             -t string -s 'xfce4-appfinder --collapsed'
 	xfconf-query -n -c xfce4-keyboard-shortcuts \
-		-p '/commands/custom/<Super>t' \
-		-t string -s 'exo-open --launch TerminalEmulator'
+	             -p '/commands/custom/<Super>t' \
+	             -t string -s 'exo-open --launch TerminalEmulator'
 	xfconf-query -n -c xfce4-keyboard-shortcuts \
-		-p '/commands/custom/<Super>w' \
-		-t string -s 'exo-open --launch WebBrowser'
+	             -p '/commands/custom/<Super>w' \
+	             -t string -s 'exo-open --launch WebBrowser'
 	xfconf-query -n -c xfce4-keyboard-shortcuts \
-		-p '/commands/custom/XF86Display' \
-		-t string -s 'xfce4-display-settings --minimal'
+	             -p '/commands/custom/XF86Display' \
+	             -t string -s 'xfce4-display-settings --minimal'
 	xfconf-query -n -c xfce4-keyboard-shortcuts \
-		-p '/commands/custom/XF86Mail' \
-		-t string -s 'exo-open --launch MailReader'
+	             -p '/commands/custom/XF86Mail' \
+	             -t string -s 'exo-open --launch MailReader'
 	xfconf-query -n -c xfce4-keyboard-shortcuts \
-		-p '/commands/custom/XF86WWW' \
-		-t string -s 'exo-open --launch WebBrowser'
+	             -p '/commands/custom/XF86WWW' \
+	             -t string -s 'exo-open --launch WebBrowser'
 	xfconf-query -n -c xfce4-keyboard-shortcuts \
-		-p '/commands/custom/XF86WWW' \
-		-t string -s 'exo-open --launch WebBrowser'
+	             -p '/commands/custom/XF86WWW' \
+	             -t string -s 'exo-open --launch WebBrowser'
 	xfconf-query -n -c xfce4-keyboard-shortcuts \
-		-p '/xfwm4/custom/<Alt><Shift>Tab' \
-		-t string -s 'cycle_reverse_windows_key'
+	             -p '/xfwm4/custom/<Alt><Shift>Tab' \
+	             -t string -s 'cycle_reverse_windows_key'
 	xfconf-query -n -c xfce4-keyboard-shortcuts \
-		-p '/xfwm4/custom/<Alt>Tab' \
-		-t string -s 'cycle_windows_key'
+	             -p '/xfwm4/custom/<Alt>Tab' \
+	             -t string -s 'cycle_windows_key'
 	xfconf-query -n -c xfce4-keyboard-shortcuts \
-		-p '/xfwm4/custom/<Alt>space' \
-		-t string -s 'popup_menu_key'
-
-x11-arc-theme: sudo xfce
-	sudo apt install -y arc-theme
+	             -p '/xfwm4/custom/<Alt>space' \
+	             -t string -s 'popup_menu_key'
 	xfconf-query -n -c xsettings -p '/Net/ThemeName' \
-		-t string -s 'Arc-Dark'
+	             -t string -s 'Arc-Dark'
 	xfconf-query -n -c xfwm4 -p '/general/theme' \
-		-t string -s 'Arc-Dark'
-
-/etc/apt/sources.list.d/papirus-ppa.list:
-	echo 'deb http://ppa.launchpad.net/papirus/papirus/ubuntu focal main' | \
-	sudo tee "$@" > '/dev/null'
-
-x11-papirus-icon: /etc/apt/sources.list.d/papirus-ppa.list \
-                  sudo xfce
-	sudo apt install -y dirmngr
-	sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com E58A9D36647CAE7F
-	sudo apt update
-	sudo apt install -y papirus-icon-theme
-	xfconf-query -n -c xsettings -p '/Net/IconThemeName' -s 'Papirus-Dark'
-
-x11-breeze-cursor_theme: sudo xfce
-	sudo apt install -y breeze-cursor-theme
-	xfconf-query -n -c xsettings -p '/Gtk/CursorThemeName' -s 'breeze_cursors'
+	             -t string -s 'Arc-Dark'
+	xfconf-query -n -c xsettings -p '/Net/IconThemeName' \
+	             -t string -s 'Papirus-Dark'
+	xfconf-query -n -c xsettings -p '/Gtk/CursorThemeName' \
+	             -t string -s 'breeze_cursors'
