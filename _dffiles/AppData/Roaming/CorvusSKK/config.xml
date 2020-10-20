@@ -784,6 +784,8 @@
       <row ro="}" hi="』" ka="』" an="』" so="0" />
       <row ro="b[" hi="【" ka="【" an="【" so="0" />
       <row ro="b]" hi="】" ka="】" an="】" so="0" />
+      <row ro="t[" hi="〔" ka="〔" an="〔" so="0" />
+      <row ro="t]" hi="〕" ka="〕" an="〕" so="0" />
       <row ro="g&quot;" hi="゛" ka="゛" an="ﾞ" so="0" />
       <row ro="g'" hi="゜" ka="゜" an="ﾟ" so="0" />
       <row ro="vh" hi="←" ka="←" an="←" so="0" />
