@@ -43,10 +43,17 @@ gui-xfce: gui-base \
 	ln -s "$$(pwd)/_dffiles/.profile" ~/.profile
 	. ~/.profile
 
-sudo:
+/etc/sudoers.d/:
 	command -v sudo || su -c 'apt install -y sudo'
-	test -e /etc/sudoers.d/50-$$(id -u -n).conf || \
-	su -c "sh ./_dfutils/editsudoers.sh $$(id -u -n)"
+	su -c "mkdir -p \"$@\""
+
+/etc/sudoers.d/50-users.conf: /etc/sudoers.d/
+	printf '%s\tALL=(ALL) NOPASSWD: ALL' "$$(id -u -n)" | \
+	su -c "tee \"$@\""
+
+sudo: /etc/sudoers.d/50-users.conf
+	#test -e /etc/sudoers.d/50-$$(id -u -n).conf || \
+	#su -c "sh ./_dfutils/editsudoers.sh $$(id -u -n)"
 
 ~/.config/git: _dffiles/.config/git/
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
