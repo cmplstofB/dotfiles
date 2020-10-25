@@ -134,11 +134,15 @@ python: ~/.config/python
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
 
+~/.local/share/vim/pack/_/start/:
+	mkdir -p "$@"
+
 ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/: git
 	git c1 'git://github.com/vim-jp/vimdoc-ja' "$@"
 
 ~/.local/share/vim/pack/_/start/vimdoc-ja: \
-    ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/
+    ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
+    ~/.local/share/vim/pack/_/start/
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$<" "$@"
 
