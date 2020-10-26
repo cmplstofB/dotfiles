@@ -48,7 +48,7 @@ gui-xfce: gui-base \
 	su -c "mkdir -p \"$@\""
 
 /etc/sudoers.d/50-users.conf: /etc/sudoers.d/
-	printf '%s\tALL=(ALL) NOPASSWD: ALL' "$$(id -u -n)" | \
+	printf '%s\tALL=(ALL) NOPASSWD: ALL' "$$(id -u -n)\n" | \
 	su -c "tee \"$@\""
 
 sudo: /etc/sudoers.d/50-users.conf
@@ -95,7 +95,7 @@ utils: ~/.config/dircolors \
 
 bash: ~/.config/bash \
       ~/.cache/bash/ \
-      sudo
+      ~/.profile sudo
 	for _f in ~/.bash?*; do \
 		test -r "$$_f" && \
 		mv "$$_f" \
@@ -162,7 +162,7 @@ vim: ~/.config/vim \
      ~/.local/share/vim/pack/_/start/ \
      ~/.cache/vim/swap/ \
      ~/.cache/vim/bkp/
-	sudo apt install -y vim-gtk3
+	sudo apt install -y vim-nox
 
 ~/.config/fff: _dffiles/.config/fff
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
