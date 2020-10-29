@@ -97,9 +97,11 @@ ifelse(PKGMNGSYS, dpkg, ``apt install -y manpages-ja-dev'')
 
 ~/.local/bin/pager: _dffiles/.local/bin/pager ~/.local/bin/
 	ln -s "$$(pwd)/$<" "$@"
+	chmod +x "$@"
 
 ~/.local/bin/editor: _dffiles/.local/bin/editor ~/.local/bin/
 	ln -s "$$(pwd)/$<" "$@"
+	chmod +x "$@"
 
 utils: ~/.config/dircolors \
        ~/.config/lesskey \
@@ -107,7 +109,8 @@ utils: ~/.config/dircolors \
        ~/.local/bin/editor \
        RUNCMDANOUSR
 	RUNCMDANOUSR dnl
-ifelse(PKGMNGSYS, dpkg, apt install -y jq curl p7zip)
+ifelse(PKGMNGSYS, dpkg, apt install -y jq curl p7zip)`'dnl
+ifelse(PKGMNGSYS, portage, emerge -a app-misc/jq net-misc/curl app-arch/p7zip)
 
 ~/.config/bash: _dffiles/.config/bash/ \
                 ~/.config/
