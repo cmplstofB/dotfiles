@@ -92,8 +92,19 @@ ifelse(PKGMNGSYS, dpkg, ``apt install -y manpages-ja-dev'')
                    ~/.config
 	sh "$$(pwd)/$<" "$@"
 
+~/.local/bin/:
+	mkdir -p "$@"
+
+~/.local/bin/pager: _dffiles/.local/bin/pager ~/.local/bin/
+	ln -s "$$(pwd)/$<" "$@"
+
+~/.local/bin/editor: _dffiles/.local/bin/editor ~/.local/bin/
+	ln -s "$$(pwd)/$<" "$@"
+
 utils: ~/.config/dircolors \
        ~/.config/lesskey \
+       ~/.local/bin/pager \
+       ~/.local/bin/editor \
        RUNCMDANOUSR
 	RUNCMDANOUSR dnl
 ifelse(PKGMNGSYS, dpkg, apt install -y jq curl p7zip)

@@ -15,9 +15,7 @@ export POSIXLY_CORRECT='200809' UNIX_STD='2003' \
        COMMAND_MODE='unix2003' XPG_SUS_ENV='ON'
 
 ## 基礎的
-command -v pager > '/dev/null' || alias pager='less'
 export PAGER='pager'
-command -v editor > '/dev/null' || alias editor='vim'
 export EDITOR='editor'
 export CDPATH="$HOME" # $(xdg-user-dir DESKTOP)
 
