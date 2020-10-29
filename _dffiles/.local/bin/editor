@@ -1,0 +1,6 @@
+#!/bin/sh
+if alternatives --display editor > '/dev/null' 2> '/dev/null'; then
+	exec editor "$@"
+else
+	exec vim "$@"
+fi
