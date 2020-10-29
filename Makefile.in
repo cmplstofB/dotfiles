@@ -8,7 +8,7 @@ all: cli \
      gui-$(GUINAME)
 
 cli: RUNCMDANOUSR git utils l10n \
-     bash blesh python vim fff
+     ssh bash blesh python vim fff
 
 gui-base: x11 fonts \
     gui-arc-theme \
@@ -149,6 +149,15 @@ python: ~/.config/python
 ifelse(PKGMNGSYS, dpkg, ``apt install -y python3'')dnl
 ifelse(PKGMNGSYS, portage, ``emerge -a dev-lang/python'')
 
+~/.ssh/:
+	mkdir -p '$@'
+
+~/.ssh/config: _dffiles/.ssh/config \
+               ~/.ssh
+	ln -s "$$(pwd)/$<" "$@"
+
+ssh: ~/.ssh/config
+
 ~/.local/share/vim/pack/_/start/:
 	mkdir -p "$@"
 
@@ -191,7 +200,8 @@ ifelse(PKGMNGSYS, portage, ``emerge -a app-editors/vim'')
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$<" "$@"
 
-vimdoc-ja: ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
+vimdoc-ja: vim \
+           ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
            ~/.local/share/vim/pack/_/start/vimdoc-ja
 
 ~/.config/fff: _dffiles/.config/fff
