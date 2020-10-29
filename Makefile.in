@@ -7,7 +7,7 @@ GUINAME = xfce
 all: cli \
      gui-$(GUINAME)
 
-cli: sudo git utils l10n \
+cli: RUNCMDANOUSR git utils l10n \
      bash blesh python vim fff
 
 gui-base: x11 fonts \
@@ -27,7 +27,7 @@ gui-xfce: gui-base \
 ~/.local/:
 	mkdir -p "$@"
 
-~/.local/share:
+~/.local/share/:
 	mkdir -p "$@"
 
 ~/.cache/:
@@ -43,17 +43,28 @@ gui-xfce: gui-base \
 	ln -s "$$(pwd)/_dffiles/.profile" ~/.profile
 	. ~/.profile
 
+ifelse(RUNCMDANOUSR, sudo,
 /etc/sudoers.d/:
-	command -v sudo || su -c 'apt install -y sudo'
+	command -v sudo || su -c 'dnl
+ifelse(PKGMNGSYS, dpkg, ``apt install -y sudo''')dnl
+ifelse(PKGMNGSYS, portage, ``emerge -a app-admin/sudo''')
 	su -c "mkdir -p \"$@\""
 
 /etc/sudoers.d/50-users.conf: /etc/sudoers.d/
 	printf '%s\tALL=(ALL) NOPASSWD: ALL' "$$(id -u -n)\n" | \
 	su -c "tee \"$@\""
 
-sudo: /etc/sudoers.d/50-users.conf
-	#test -e /etc/sudoers.d/50-$$(id -u -n).conf || \
-	#su -c "sh ./_dfutils/editsudoers.sh $$(id -u -n)"
+sudo: /etc/sudo.d/50-users.conf
+)
+ifelse(RUNCMDANOUSR, doas,
+/etc/doas.conf:
+	command -v doas || su -c 'dnl
+ifelse(PKGMNGSYS, portage, ``emerge -a app-admin/doas''')
+	echo 'permit nopass :wheel' | \
+	su -c "tee \"$@\""
+
+doas: /etc/doas.conf
+)
 
 ~/.config/git: _dffiles/.config/git/
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
@@ -68,8 +79,9 @@ sudo: /etc/sudoers.d/50-users.conf
 git: ~/.config/git \
      ~/.local/srv/git/github.com/
 
-l10n: sudo
-	sudo apt install -y manpages-ja-dev
+l10n: RUNCMDANOUSR
+	RUNCMDANOUSR dnl
+ifelse(PKGMNGSYS, dpkg, ``apt install -y manpages-ja-dev'')
 
 ~/.config/dircolors: _dffiles/.config/dircolors \
                      ~/.config
@@ -82,8 +94,9 @@ l10n: sudo
 
 utils: ~/.config/dircolors \
        ~/.config/lesskey \
-       sudo
-	sudo apt install -y jq curl p7zip
+       RUNCMDANOUSR
+	RUNCMDANOUSR dnl
+ifelse(PKGMNGSYS, dpkg, apt install -y jq curl p7zip)
 
 ~/.config/bash: _dffiles/.config/bash/ \
                 ~/.config/
@@ -95,13 +108,15 @@ utils: ~/.config/dircolors \
 
 bash: ~/.config/bash \
       ~/.cache/bash/ \
-      ~/.profile sudo
+      ~/.profile RUNCMDANOUSR
 	for _f in ~/.bash?*; do \
 		test -r "$$_f" && \
 		mv "$$_f" \
 		   ~/".local/var/bkp/mnl/$${_f##*/}.bkp-$$(date +'%Y%m%dT%H%M%S')"; \
 	done
-	sudo apt install -y bash bash-completion
+	RUNCMDANOUSR dnl
+ifelse(PKGMNGSYS, dpkg, ``apt install -y bash bash-completion'')dnl
+ifelse(PKGMNGSYS, portage, ``emerge -a app-shells/bash-completion'')
 
 ~/.local/srv/git/github.com/akinomyoga/ble.sh/:
 	mkdir -p ~/.local/srv/git/github.com/akinomyoga/
@@ -118,8 +133,10 @@ bash: ~/.config/bash \
 blesh: ~/.local/srv/git/github.com/akinomyoga/ble.sh/ \
        ~/.config/blesh \
        ~/.cache/blesh/ \
-       sudo ~/.profile git
-	sudo apt install -y gawk
+       RUNCMDANOUSR ~/.profile git
+	RUNCMDANOUSR dnl
+ifelse(PKGMNGSYS, dpkg, ``apt install -y gawk'')dnl
+ifelse(PKGMNGSYS, portage, ``emerge -a sys-apps/gawk'')
 	(cd "$<" && make install)
 
 ~/.config/python: _dffiles/.config/python/ \
@@ -128,14 +145,42 @@ blesh: ~/.local/srv/git/github.com/akinomyoga/ble.sh/ \
 	ln -s "$$(pwd)/$<" "$@"
 
 python: ~/.config/python
-	sudo apt install -y python3
+	RUNCMDANOUSR dnl
+ifelse(PKGMNGSYS, dpkg, ``apt install -y python3'')dnl
+ifelse(PKGMNGSYS, portage, ``emerge -a dev-lang/python'')
+
+~/.local/share/vim/pack/_/start/:
+	mkdir -p "$@"
+
+~/.cache/vim/swap/: ~/.cache/
+	mkdir -p "$@"
+
+~/.cache/vim/bkp/: ~/.cache/
+	mkdir -p "$@"
+
+ifelse(PKGMNGSYS, portage, dnl
+/etc/portage/package.use/vim.use:
+	echo 'app-editors/vim python -X -lua -luajit -perl -ruby' | \
+	RUNCMDANOUSR tee '$@' > '/dev/null'
+)
+
+vim: ~/.config/vim \
+     ~/.local/share/vim/pack/_/start/ \
+     ~/.cache/vim/swap/ \
+     ~/.cache/vim/bkp/ dnl
+ifelse(PKGMNGSYS, portage, \
+     /etc/portage/package.use/vim.use)
+ifelse(PKGMNGSYS, portage, dnl
+	echo 'app-editors/vim python -X -lua -luajit -perl -ruby' | \
+	RUNCMDANOUSR tee '/etc/portage/package.use/vim.use' > '/dev/null'
+)dnl
+	RUNCMDANOUSR dnl
+ifelse(PKGMNGSYS, dpkg, ``apt install -y vim-nox'')dnl
+ifelse(PKGMNGSYS, portage, ``emerge -a app-editors/vim'')
 
 ~/.config/vim: _dffiles/.config/vim/ ~/.config/
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
 	ln -s "$$(pwd)/$<" "$@"
-
-~/.local/share/vim/pack/_/start/:
-	mkdir -p "$@"
 
 ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/: git
 	git c1 'git://github.com/vim-jp/vimdoc-ja' "$@"
@@ -148,21 +193,6 @@ python: ~/.config/python
 
 vimdoc-ja: ~/.local/srv/git/github.com/vim-jp/vimdoc-ja/ \
            ~/.local/share/vim/pack/_/start/vimdoc-ja
-
-~/.local/share/vim/pack/_/start/:
-	mkdir -p "$@"
-
-~/.cache/vim/swap/: ~/.cache/
-	mkdir -p "$@"
-
-~/.cache/vim/bkp/: ~/.cache/
-	mkdir -p "$@"
-
-vim: ~/.config/vim \
-     ~/.local/share/vim/pack/_/start/ \
-     ~/.cache/vim/swap/ \
-     ~/.cache/vim/bkp/
-	sudo apt install -y vim-nox
 
 ~/.config/fff: _dffiles/.config/fff
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
@@ -187,8 +217,10 @@ xdg: ~/.local/var/fd.o/dtp \
      ~/.local/var/fd.o/muz \
      ~/.local/var/fd.o/pic \
      ~/.local/var/fd.o/vid \
-     sudo
-	sudo apt install -y xdg-user-dirs
+     RUNCMDANOUSR
+	RUNCMDANOUSR dnl
+ifelse(PKGMNGSYS, dpkg, ``apt install -y xdg-user-dirs'')dnl
+ifelse(PKGMNGSYS, portage, ``apt install -y x11-misc/xdg-user-dirs'')
 	if [ -r ~/.config/user-dirs.dirs ]; then \
 		#for _s in DESKTOP DOWNLOAD TEMPLATES PUBLICSHARE \
 		#          DOCUMENTS MUSIC PICTURES VIDEOS; do \
@@ -202,11 +234,12 @@ xdg: ~/.local/var/fd.o/dtp \
 	xdg-user-dirs-update
 
 libskk: ~/.config/libskk \
-        sudo
-	sudo apt install -y libskk
+        RUNCMDANOUSR
+	RUNCMDANOUSR dnl
+ifelse(PKGMNGSYS, dpkg, ``apt install -y libskk'')
 
-ibus: sudo
-	sudo apt install -y ibus
+ibus: RUNCMDANOUSR
+	RUNCMDANOUSR apt install -y ibus
 	gsettings set org.freedesktop.ibus.general use-system-keyboard-layout 'true'
 	gsettings set org.freedesktop.ibus.general use-global-engine 'true'
 	gsettings set org.freedesktop.ibus.general use-xmodmap 'false'
@@ -214,8 +247,8 @@ ibus: sudo
 	gsettings set org.freedesktop.ibus.general.hotkey next-engine-in-menu '[]'
 	gsettings set org.freedesktop.ibus.general.hotkey trigger '['"'"'Control+space'"'"']'
 
-ibus-skk: sudo
-	sudo apt install -y ibus-skk
+ibus-skk: RUNCMDANOUSR
+	RUNCMDANOUSR apt install -y ibus-skk
 	# TODO: ibus-skkの設定を命令行から行なえるようにする。
 
 ~/.config/X11: _dffiles/.config/X11/ \
@@ -272,8 +305,8 @@ x11: ~/.config/X11 \
 	    '.assets[]|select(.name|contains("ttc"))|.browser_download_url') \
 	-o "$@"
 
-noto-fonts: sudo
-	sudo apt install -y fonts-noto \
+noto-fonts: RUNCMDANOUSR
+	RUNCMDANOUSR apt install -y fonts-noto \
 	  fonts-noto-color-emoji \
 	  fonts-noto-cjk fonts-noto-cjk-extra
 
@@ -282,43 +315,43 @@ noto-fonts: sudo
 
 /usr/local/share/fonts/truetype/sarasa/sarasa-bold.ttc: \
     /tmp/sarasa-fonts/sarasa-fonts.7z
-	sudo 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
+	RUNCMDANOUSR 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
 
 /usr/local/share/fonts/truetype/sarasa/sarasa-bolditalic.ttc: \
     /tmp/sarasa-fonts/sarasa-fonts.7z
-	sudo 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
+	RUNCMDANOUSR 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
 
 /usr/local/share/fonts/truetype/sarasa/sarasa-extralight.ttc: \
     /tmp/sarasa-fonts/sarasa-fonts.7z
-	sudo 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
+	RUNCMDANOUSR 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
 
 /usr/local/share/fonts/truetype/sarasa/sarasa-extralightitalic.ttc: \
     /tmp/sarasa-fonts/sarasa-fonts.7z
-	sudo 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
+	RUNCMDANOUSR 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
 
 /usr/local/share/fonts/truetype/sarasa/sarasa-italic.ttc: \
     /tmp/sarasa-fonts/sarasa-fonts.7z
-	sudo 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
+	RUNCMDANOUSR 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
 
 /usr/local/share/fonts/truetype/sarasa/sarasa-light.ttc: \
     /tmp/sarasa-fonts/sarasa-fonts.7z
-	sudo 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
+	RUNCMDANOUSR 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
 
 /usr/local/share/fonts/truetype/sarasa/sarasa-lightitalic.ttc: \
     /tmp/sarasa-fonts/sarasa-fonts.7z
-	sudo 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
+	RUNCMDANOUSR 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
 
 /usr/local/share/fonts/truetype/sarasa/sarasa-medium.ttc: \
     /tmp/sarasa-fonts/sarasa-fonts.7z
-	sudo 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
+	RUNCMDANOUSR 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
 
 /usr/local/share/fonts/truetype/sarasa/sarasa-mediumitalic.ttc: \
     /tmp/sarasa-fonts/sarasa-fonts.7z
-	sudo 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
+	RUNCMDANOUSR 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
 
 /usr/local/share/fonts/truetype/sarasa/sarasa-regular.ttc: \
     /tmp/sarasa-fonts/sarasa-fonts.7z
-	sudo 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
+	RUNCMDANOUSR 7z x "$<" -i"$$(basename "$@")" -o"$$(dirname "$@")"
 
 sarasa-fonts: /usr/local/share/fonts/truetype/sarasa/sarasa-bold.ttc \
               /usr/local/share/fonts/truetype/sarasa/sarasa-bolditalic.ttc \
@@ -331,32 +364,32 @@ sarasa-fonts: /usr/local/share/fonts/truetype/sarasa/sarasa-bold.ttc \
               /usr/local/share/fonts/truetype/sarasa/sarasa-mediumitalic.ttc \
               /usr/local/share/fonts/truetype/sarasa/sarasa-regular.ttc \
               /usr/local/share/fonts/truetype/sarasa/ \
-              utils sudo
+              utils RUNCMDANOUSR
 
 fonts: noto-fonts \
        sarasa-fonts
 
-gui-arc-theme: sudo
-	sudo apt install -y arc-theme
+gui-arc-theme: RUNCMDANOUSR
+	RUNCMDANOUSR apt install -y arc-theme
 
 /etc/apt/sources.list.d/papirus-ppa.list:
 	echo 'deb http://ppa.launchpad.net/papirus/papirus/ubuntu focal main' | \
-	sudo tee "$@" > '/dev/null'
+	RUNCMDANOUSR tee "$@" > '/dev/null'
 
 gui-papirus-icon: /etc/apt/sources.list.d/papirus-ppa.list \
-                  sudo
-	sudo apt install -y dirmngr
-	sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com E58A9D36647CAE7F
-	sudo apt update
-	sudo apt install -y papirus-icon-theme
+                  RUNCMDANOUSR
+	RUNCMDANOUSR apt install -y dirmngr
+	RUNCMDANOUSR apt-key adv --recv-keys --keyserver keyserver.ubuntu.com E58A9D36647CAE7F
+	RUNCMDANOUSR apt update
+	RUNCMDANOUSR apt install -y papirus-icon-theme
 
-gui-breeze-cursor_theme: sudo
-	sudo apt install -y breeze-cursor-theme
+gui-breeze-cursor_theme: RUNCMDANOUSR
+	RUNCMDANOUSR apt install -y breeze-cursor-theme
 
 xfce: xdg \
       fonts \
       gui-arc-theme gui-papirus-icon gui-breeze-cursor_theme
-	sudo apt install -y xfce4 \
+	RUNCMDANOUSR apt install -y xfce4 \
 	  xfce4-battery-plugin xfce4-clipman xfce4-whiskermenu-plugin
 	xfconf-query -n -c keyboards -p '/Default/Numlock' \
 	             -t bool -s 'true'
