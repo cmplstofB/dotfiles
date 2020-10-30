@@ -1,6 +1,0 @@
-#!/bin/sh
-if alternatives --display pager > '/dev/null' 2> '/dev/null' ; then
-	exec pager "$@"
-else
-	exec less "$@"
-fi

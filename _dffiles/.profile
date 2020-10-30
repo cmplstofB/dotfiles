@@ -4,7 +4,7 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 
 ## $PATH
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH="/usr/local/libexec:/usr/local/sbin:/usr/local/bin:/usr/libexec:/usr/sbin:/usr/bin:/sbin:/bin:/opt/bin"
 #  home /bin
 test -d "${XDG_DATA_HOME%/share}/bin" && export PATH="${XDG_DATA_HOME%%/share}/bin:$PATH"
 #  node.js
