@@ -106,11 +106,22 @@ ifelse(PKGMNGSYS, dpkg, ``apt install -y manpages-ja-dev'')
 utils: ~/.config/dircolors \
        ~/.config/lesskey \
        ~/.local/bin/pager \
-       ~/.local/bin/editor \
-       RUNCMDANOUSR
+       ~/.local/bin/editor
+
+curl: RUNCMDANOUSR
 	RUNCMDANOUSR dnl
-ifelse(PKGMNGSYS, dpkg, apt install -y jq curl p7zip)`'dnl
-ifelse(PKGMNGSYS, portage, emerge -a app-misc/jq net-misc/curl app-arch/p7zip)
+ifelse(PKGMNGSYS, dpkg, apt install -y curl)`'dnl
+ifelse(PKGMNGSYS, portage, emerge -a net-misc/curl)
+
+jq: RUNCMDANOUSR
+	RUNCMDANOUSR dnl
+ifelse(PKGMNGSYS, dpkg, apt install -y jq)`'dnl
+ifelse(PKGMNGSYS, portage, emerge -a app-misc/jq)
+
+7z: RUNCMDANOUSR
+	RUNCMDANOUSR dnl
+ifelse(PKGMNGSYS, dpkg, apt install -y jq p7zip)`'dnl
+ifelse(PKGMNGSYS, portage, emerge -a app-arch/p7zip)
 
 ~/.config/bash: _dffiles/.config/bash/ \
                 ~/.config/
@@ -317,7 +328,7 @@ x11: ~/.config/X11 \
 ~/.local/var/fd.o/vid: ~/.local/var/fd.o/
 	mkdir -p "$@"
 
-/tmp/sarasa-fonts/sarasa-fonts.7z: utils
+/tmp/sarasa-fonts/sarasa-fonts.7z: 7z curl jq
 	mkdir -p "$$(dirname "$@")"
 	curl \
 	  -H 'Accept: application/octet-stream' \
@@ -388,7 +399,7 @@ sarasa-fonts: /usr/local/share/fonts/truetype/sarasa/sarasa-bold.ttc \
               /usr/local/share/fonts/truetype/sarasa/sarasa-mediumitalic.ttc \
               /usr/local/share/fonts/truetype/sarasa/sarasa-regular.ttc \
               /usr/local/share/fonts/truetype/sarasa/ \
-              utils RUNCMDANOUSR
+              RUNCMDANOUSR
 
 fonts: noto-fonts \
        sarasa-fonts
