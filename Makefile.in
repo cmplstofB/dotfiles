@@ -46,8 +46,8 @@ gui-xfce: gui-base \
 ifelse(RUNCMDANOUSR, sudo,
 /etc/sudoers.d/:
 	command -v sudo || su -c 'dnl
-ifelse(PKGMNGSYS, dpkg, ``apt install -y sudo''')dnl
-ifelse(PKGMNGSYS, portage, ``emerge -a app-admin/sudo''')
+ifelse(PKGMNGSYS, dpkg, apt install -y sudo')`'dnl
+ifelse(PKGMNGSYS, portage, emerge -a app-admin/sudo')
 	su -c "mkdir -p \"$@\""
 
 /etc/sudoers.d/50-users.conf: /etc/sudoers.d/
@@ -59,7 +59,7 @@ sudo: /etc/sudo.d/50-users.conf
 ifelse(RUNCMDANOUSR, doas,
 /etc/doas.conf:
 	command -v doas || su -c 'dnl
-ifelse(PKGMNGSYS, portage, ``emerge -a app-admin/doas''')
+ifelse(PKGMNGSYS, portage, emerge -a app-admin/doas)
 	echo 'permit nopass :wheel' | \
 	su -c "tee \"$@\""
 
@@ -129,8 +129,8 @@ bash: ~/.config/bash \
 		   ~/".local/var/bkp/mnl/$${_f##*/}.bkp-$$(date +'%Y%m%dT%H%M%S')"; \
 	done
 	RUNCMDANOUSR dnl
-ifelse(PKGMNGSYS, dpkg, ``apt install -y bash bash-completion'')dnl
-ifelse(PKGMNGSYS, portage, ``emerge -a app-shells/bash-completion'')
+ifelse(PKGMNGSYS, dpkg, apt install -y bash bash-completion)`'dnl
+ifelse(PKGMNGSYS, portage, emerge -a app-shells/bash-completion)
 
 ~/.local/srv/git/github.com/akinomyoga/ble.sh/:
 	mkdir -p ~/.local/srv/git/github.com/akinomyoga/
@@ -149,8 +149,8 @@ blesh: ~/.local/srv/git/github.com/akinomyoga/ble.sh/ \
        ~/.cache/blesh/ \
        RUNCMDANOUSR ~/.profile git
 	RUNCMDANOUSR dnl
-ifelse(PKGMNGSYS, dpkg, ``apt install -y gawk'')dnl
-ifelse(PKGMNGSYS, portage, ``emerge -a sys-apps/gawk'')
+ifelse(PKGMNGSYS, dpkg, apt install -y gawk)`'dnl
+ifelse(PKGMNGSYS, portage, emerge -a sys-apps/gawk)
 	(cd "$<" && make install)
 
 ~/.config/python: _dffiles/.config/python/ \
@@ -160,8 +160,8 @@ ifelse(PKGMNGSYS, portage, ``emerge -a sys-apps/gawk'')
 
 python: ~/.config/python
 	RUNCMDANOUSR dnl
-ifelse(PKGMNGSYS, dpkg, ``apt install -y python3'')dnl
-ifelse(PKGMNGSYS, portage, ``emerge -a dev-lang/python'')
+ifelse(PKGMNGSYS, dpkg, apt install -y python3)`'dnl
+ifelse(PKGMNGSYS, portage, emerge -a dev-lang/python)
 
 ~/.ssh/:
 	mkdir -p '$@'
@@ -198,8 +198,8 @@ ifelse(PKGMNGSYS, portage, dnl
 	RUNCMDANOUSR tee '/etc/portage/package.use/vim.use' > '/dev/null'
 )dnl
 	RUNCMDANOUSR dnl
-ifelse(PKGMNGSYS, dpkg, ``apt install -y vim-nox'')dnl
-ifelse(PKGMNGSYS, portage, ``emerge -a app-editors/vim'')
+ifelse(PKGMNGSYS, dpkg, apt install -y vim-nox)`'dnl
+ifelse(PKGMNGSYS, portage, emerge -a app-editors/vim)
 
 ~/.config/vim: _dffiles/.config/vim/ ~/.config/
 	-[ -h "$@" -a -d "$@" ] && unlink "$@"
@@ -243,8 +243,8 @@ xdg: ~/.local/var/fd.o/dtp \
      ~/.local/var/fd.o/vid \
      RUNCMDANOUSR
 	RUNCMDANOUSR dnl
-ifelse(PKGMNGSYS, dpkg, ``apt install -y xdg-user-dirs'')dnl
-ifelse(PKGMNGSYS, portage, ``apt install -y x11-misc/xdg-user-dirs'')
+ifelse(PKGMNGSYS, dpkg, apt install -y xdg-user-dirs)`'dnl
+ifelse(PKGMNGSYS, portage, apt install -y x11-misc/xdg-user-dirs)
 	if [ -r ~/.config/user-dirs.dirs ]; then \
 		#for _s in DESKTOP DOWNLOAD TEMPLATES PUBLICSHARE \
 		#          DOCUMENTS MUSIC PICTURES VIDEOS; do \
@@ -260,7 +260,7 @@ ifelse(PKGMNGSYS, portage, ``apt install -y x11-misc/xdg-user-dirs'')
 libskk: ~/.config/libskk \
         RUNCMDANOUSR
 	RUNCMDANOUSR dnl
-ifelse(PKGMNGSYS, dpkg, ``apt install -y libskk'')
+ifelse(PKGMNGSYS, dpkg, apt install -y libskk)
 
 ibus: RUNCMDANOUSR
 	RUNCMDANOUSR apt install -y ibus
