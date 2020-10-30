@@ -15,8 +15,8 @@ export POSIXLY_CORRECT='200809' UNIX_STD='2003' \
        COMMAND_MODE='unix2003' XPG_SUS_ENV='ON'
 
 ## 基礎的
-export PAGER='pager'
-export EDITOR='editor'
+export PAGER='less'
+export EDITOR='vim'
 export CDPATH="$HOME" # $(xdg-user-dir DESKTOP)
 
 ## 手引きの設定
