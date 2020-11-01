@@ -123,7 +123,11 @@ function blerc/complete-load-hook {
 
 	ble-sabbrev  o,='xdg-open'
 	ble-sabbrev  e,='editor'
-	ble-sabbrev  d,='sudo'
+	if command -v doas > '/dev/null'; then
+		ble-sabbrev  d,='doas'
+	else
+		ble-sabbrev  d,='sudo'
+	fi
 	ble-sabbrev  c,='xsel -b -o'       ,c='| xsel -b'
 	ble-sabbrev  p,='pager'            ,p='| pager'
 	ble-sabbrev a,l='apt list'      a,l,i='apt list --installed' \
