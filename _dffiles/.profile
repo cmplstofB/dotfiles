@@ -9,6 +9,8 @@ export PATH="/usr/local/libexec:/usr/local/sbin:/usr/local/bin:/usr/libexec:/usr
 test -d "${XDG_DATA_HOME%/share}/bin" && export PATH="${XDG_DATA_HOME%%/share}/bin:$PATH"
 #  node.js
 test -d "${XDG_DATA_HOME%/share}/opt/nodejs/bin" && export PATH="${XDG_DATA_HOME%%/share}/opt/nodejs/bin:$PATH"
+#  go
+command -v go > '/dev/null' && export PATH="$(go env GOPATH)/bin:$PATH"
 
 ## POSIX
 export POSIXLY_CORRECT='200809' UNIX_STD='2003' \
