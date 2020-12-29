@@ -28,6 +28,10 @@ execute "set packpath^=" . expand($XDG_DATA_HOME) . "/vim"
 set fileencodings=ucs-bom,utf-8,iso-2022-jp,euc-jisx0213,euc-jp,cp20932,sjis,cp932,default,latin1
 " 改行形式
 set fileformat=unix
+" 譜類末尾の改行状態を保存
+"   なんで既定で有効じゃないの？
+"   これのせいでCorvusSKKの設定譜類を弄ったら壊れちゃったんですけど。
+set nofixendofline
 " 履歴
 "   保存できる履歴の量は10000件が限界のようだ。ほんとうはもう少し多いほうがいいのだが
 set history=10000
