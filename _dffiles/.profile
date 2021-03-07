@@ -70,6 +70,7 @@ alias pip='\python3 -m pip'
 #   GNU拡張を使いまくっているが，
 #   GNU Bashがあるような環境ではGNUユーティリティが予め用意されているか，
 #   仮にないとしても簡単に用意できるので特にPOSIXへの準拠は意識していない。
+alias bc='bc -lwsq'
 alias l='env COLUMNS=${COLUMNS:-$(tput cols)} \
          \ls --color=always --classify --format=across --show-control-chars \
          --group-directories-first --quoting-style=literal --almost-all' \
