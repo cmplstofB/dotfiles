@@ -54,7 +54,7 @@ ifelse(PKGMNGSYS, portage, emerge -a app-admin/sudo')
 	printf '%s\tALL=(ALL) NOPASSWD: ALL' "$$(id -u -n)\n" | \
 	su -c "tee \"$@\""
 
-sudo: /etc/sudo.d/50-users.conf
+sudo: /etc/sudoers.d/50-users.conf
 )
 ifelse(RUNCMDANOUSR, doas,
 /etc/doas.conf:
