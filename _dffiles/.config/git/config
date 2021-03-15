@@ -12,6 +12,10 @@
 	# log hash
 	lh = log --max-count=1 --format='%h'
 
+[log]
+	# 日付の書式
+	date = format:[1m%Y[22m[2m-[22m[1m%m[22m[2m-[22m[1m%d[22m[2mT[22m[1m%H[22m[2m:[22m[1m%M[22m[2m:[22m[1m%S[22m
+
 [merge]
 	# <https://qiita.com/nog/items/c79469afbf3e632f10a1>
 	ff = false
