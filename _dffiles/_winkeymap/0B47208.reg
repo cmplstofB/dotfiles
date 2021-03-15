@@ -4,4 +4,4 @@ Windows Registry Editor Version 5.00
 // https://github.com/microsoft/Windows-driver-samples/blob/master/input/layout/fe_kbds/jpn/106/kbd106.c#L365
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout]
-"Scancode Map"=hex:00,00,00,00,00,00,00,00,07,00,00,00,01,00,3a,00,1d,00,7b,00,1d,e0,79,00,38,e0,70,00,5c,e0,38,e0,53,e0,29,00,00,00,00,00
+"Scancode Map"=hex:00,00,00,00,00,00,00,00,10,00,00,00,01,00,3a,00,1d,00,7b,00,1d,e0,79,00,38,e0,70,00,5c,e0,38,e0,53,e0,1d,e0,52,e0,37,e0,0e,00,1d,00,45,e0,53,e0,00,00,00,00
