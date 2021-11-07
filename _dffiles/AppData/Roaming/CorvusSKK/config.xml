@@ -31,21 +31,21 @@
 		<key name="compincback"  value="0" />
 	</section>
 	<section name="font">
-		<key name="name"   value="BIZ UDゴシック" />
+		<key name="name"   value="Yu Gothic UI" />
 		<key name="size"   value="12" />
 		<key name="weight" value="400" />
 		<key name="italic" value="0" />
 	</section>
 	<section name="display">
 		<key name="maxwidth"  value="320" />
-		<key name="colorbg"   value="0xFFFFFF" />
+		<key name="colorbg"   value="0x202020" />
 		<key name="colorfr"   value="0x000000" />
-		<key name="colorse"   value="0xFF0000" />
-		<key name="colorco"   value="0x808080" />
-		<key name="colorca"   value="0x000000" />
-		<key name="colorsc"   value="0x808080" />
-		<key name="coloran"   value="0x808080" />
-		<key name="colorno"   value="0x000000" />
+		<key name="colorse"   value="0xD47800" />
+		<key name="colorco"   value="0x969696" />
+		<key name="colorca"   value="0xFFFFFF" />
+		<key name="colorsc"   value="0x969696" />
+		<key name="coloran"   value="0xCDCDCD" />
+		<key name="colorno"   value="0xCDCDCD" />
 		<key name="drawapi"   value="1" />
 		<key name="colorfont" value="1" />
 		<key name="untilcandlist" value="5" />
@@ -60,12 +60,12 @@
 		<key name="showmodeinltm" value="3000" />
 		<key name="colormc" value="0xFFFFFF" />
 		<key name="colormf" value="0x000000" />
-		<key name="colorhr" value="0x0000C0" />
-		<key name="colorkt" value="0x00C000" />
-		<key name="colorka" value="0xC00080" />
-		<key name="colorjl" value="0xC00000" />
-		<key name="colorac" value="0xC08000" />
-		<key name="colordr" value="0x808080" />
+		<key name="colorhr" value="0x303BFF" />
+		<key name="colorkt" value="0x59C734" />
+		<key name="colorka" value="0xDE52AF" />
+		<key name="colorjl" value="0xD65658" />
+		<key name="colorac" value="0xFF7A00" />
+		<key name="colordr" value="0x938E8E" />
 	</section>
 	<section name="displayattr">
 		<key name="inputmark"  value="0,0,0x000000,0,0xFFFFFF,2,0,0,0x000000,0" />
