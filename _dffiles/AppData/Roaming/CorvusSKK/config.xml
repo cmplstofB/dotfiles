@@ -693,9 +693,13 @@
 			<row ro="tgi" hi="てぃ" ka="ティ" an="ﾃｨ" so="0" />
 			<row ro="tgk" hi="てぃん" ka="ティン" an="ﾃｨﾝ" so="0" />
 			<row ro="tgu" hi="とぅ" ka="トゥ" an="ﾄｩ" so="0" />
-			<row ro="dgi" hi="でぃ" ka="ディ" an="ﾃﾞｨ" so="0" />
-			<row ro="dgu" hi="どぅ" ka="ドゥ" an="ﾄﾞｩ" so="0" />
-			<row ro="wgo" hi="うぉ" ka="ウォ" an="ｳｫ" so="0" />
+			<row ro="dci" hi="でぃ" ka="ディ" an="ﾃﾞｨ" so="0" />
+			<row ro="dck" hi="でぃん" ka="ディン" an="ﾃﾞｨﾝ" so="0" />
+			<row ro="dcu" hi="どぅ" ka="ドゥ" an="ﾄﾞｩ" so="0" />
+			<row ro="wso" hi="うぉ" ka="ウォ" an="ｳｫ" so="0" />
+			<row ro="wsl" hi="うぉん" ka="ウォン" an="ｳｫﾝ" so="0" />
+			<row ro="wsi" hi="ゐ" ka="ヰ" an="" so="0" />
+			<row ro="wse" hi="ゑ" ka="ヱ" an="" so="0" />
 			<row ro="xxa" hi="ぁ" ka="ァ" an="ｧ" so="0" />
 			<row ro="xxi" hi="ぃ" ka="ィ" an="ｨ" so="0" />
 			<row ro="xxu" hi="ぅ" ka="ゥ" an="ｩ" so="0" />
