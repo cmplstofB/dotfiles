@@ -183,12 +183,12 @@ if [[ $bleopt_default_keymap == auto && -o vi || $bleopt_default_keymap == vi ]]
 		ble-bind -m 'vi_nmap' -f '}' 'history-next'
 		ble-bind -m 'nsearch' -f 'C-m' 'nsearch/accept-line'
 
-		bleopt keymap_vi_nmap_cursor:=2
-		bleopt keymap_vi_imap_cursor:=5
-		bleopt keymap_vi_omap_cursor:=4
-		bleopt keymap_vi_xmap_cursor:=2
-		bleopt keymap_vi_cmap_cursor:=5
-		bleopt keymap_vi_smap_cursor:=2
+		ble-bind -m vi_nmap --cursor 2
+		ble-bind -m vi_imap --cursor 5
+		ble-bind -m vi_omap --cursor 4
+		ble-bind -m vi_xmap --cursor 2
+		ble-bind -m vi_cmap --cursor 5
+		ble-bind -m vi_smap --cursor 2
 		if [[ -v '$TMUX' ]]; then
 			_ble_term_Ss=$'\ePtmux;\e\e[@1 q\e\\'
 		else
