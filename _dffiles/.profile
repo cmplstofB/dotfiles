@@ -49,6 +49,7 @@ eval "$(dircolors "$XDG_CONFIG_HOME/dircolors")"
 
 ## less(1)
 export LESSKEY="$XDG_CONFIG_HOME/lesskey"
+export LESSKEYIN="$XDG_CONFIG_HOME/lesskeyin"
 
 ## Vim
 export VIMINIT='let $MYVIMRC = expand("$XDG_CONFIG_HOME") . "/vim/vimrc" | source $MYVIMRC'
