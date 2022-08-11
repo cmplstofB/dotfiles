@@ -1,0 +1,3 @@
+LESS = --quit-at-eof --quit-if-one-screen --ignore-case --long-prompt --RAW-CONTROL-CHARS --no-init
+LESSHISTFILE = ${XDG_CACHE_HOME:-$HOME/.cache}/lesshist
+LESSHISTSIZE = 5000
