@@ -4,7 +4,7 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 
 ## $PATH
-export PATH="/usr/local/libexec:/usr/local/sbin:/usr/local/bin:/usr/libexec:/usr/sbin:/usr/bin:/sbin:/bin:/opt/bin"
+#export PATH="/usr/local/libexec:/usr/local/sbin:/usr/local/bin:/usr/libexec:/usr/sbin:/usr/bin:/sbin:/bin:/opt/bin"
 #  home /bin
 test -d "${XDG_DATA_HOME%/share}/bin" && export PATH="${XDG_DATA_HOME%%/share}/bin:$PATH"
 #  node.js
@@ -49,6 +49,7 @@ eval "$(dircolors "$XDG_CONFIG_HOME/dircolors")"
 
 ## less(1)
 export LESSKEY="$XDG_CONFIG_HOME/lesskey"
+export LESSKEYIN="$XDG_CONFIG_HOME/lesskeyin"
 
 ## Vim
 export VIMINIT='let $MYVIMRC = expand("$XDG_CONFIG_HOME") . "/vim/vimrc" | source $MYVIMRC'
@@ -116,6 +117,12 @@ alias 2hex='\od -v -A nx -t x1' \
 
 ## JSON
 alias dj='\jq --color-output --raw-output '"'"'.'"'"
+# ref: https://stedolan.github.io/jq/manual#Colors
+# `null`/`false`/`true`::0;35
+# 数値::1;33
+# 文字列::yellow→0;33
+# 配列/客体::1;37
+export JQ_COLORS='0;35:0;35:0;35:1;33:0;33:1;37:1;37'
 
 ## wget(1)
 #alias wget='\wget --hsts-file="$XDG_CACHE_HOME/wget-hsts" --header "Accept-Language: $(iso639lang),en"'
@@ -159,6 +166,10 @@ test -f '/opt/intel/bin/compilervars.sh' && {
 export MAPLELMG_LICENSE_FILE=/opt/maple2019/license/license.dat
 export LM_LICENSE_FILE=/opt/maple2019/license/license.dat
 
+## GNU Octave
+export OCTAVE_HISTFILE="$XDG_CACHE_HOME/octave_hist"
+export OCTAVE_HISTSIZE=10000
+
 ## LibVirt
 export LIBVIRT_DEFAULT_URI='qemu:///system'
 
@@ -171,6 +182,11 @@ export RANDFILE="$XDG_CACHE_HOME/rnd"
 ### Fucking Fast File-Manager
 test -r "$XDG_CONFIG_HOME/fff/config.sh" &&
 . "$XDG_CONFIG_HOME/fff/config.sh"
+
+### Isabelle
+export ISABELLE_HOME_USER="$XDG_DATA_HOME/../opt/isabelle"
+export PATH="$PATH:/opt/Isabelle2021-1/bin/"
+export ISABELLE_JAVA_PLATFORM="x86_64-windows"
 
 ## Docker
 export DOCKER_CONFIG="$XDG_CONFIG_HOME/docker"
