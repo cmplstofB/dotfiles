@@ -2,7 +2,7 @@
 !  pc101           Generic 101-key PC
 
 ! option
-_:yensign        Keyboard with Yen sign
-_:plusminus      Keyboard with Plus Minus
+!_:yensign        Keyboard with Yen sign
+!_:plusminus      Keyboard with Plus Minus
 _:muhenkan_lctrl Make Muenkan an additional Left Control
 _:henkan_rctrl   Make Henkan an additional Right Control
