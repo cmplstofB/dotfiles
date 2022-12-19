@@ -173,15 +173,16 @@ if [[ $bleopt_default_keymap == auto && -o vi || $bleopt_default_keymap == vi ]]
 		bleopt keymap_vi_mode_name_{visual=視覚,select=選択}
 		bleopt keymap_vi_mode_name_{linewise=行,blockwise=矩形}
 
-		## Keymap
-		ble-bind -m 'vi_imap' -f 'C-i' 'complete'
-		ble-bind -m 'vi_imap' -f 'C-x C-m' 'accept-line'
-		ble-bind -m 'vi_imap' -f 'C-p' 'history-search-backward'
-		ble-bind -m 'vi_imap' -f 'C-n' 'history-search-forward'
-		ble-bind -m 'vi_nmap' -f 'C-m' 'accept-line'
-		ble-bind -m 'vi_nmap' -f '{' 'history-prev'
-		ble-bind -m 'vi_nmap' -f '}' 'history-next'
-		ble-bind -m 'nsearch' -f 'C-m' 'nsearch/accept-line'
+		## 鍵束縛
+		ble-bind -m vi_imap -f 'C-i' 'complete'
+		ble-bind -m vi_imap -f 'C-x C-m' 'accept-line'
+		ble-bind -m vi_imap -f 'C-x C-r' 'dabbrev-expand'
+		ble-bind -m vi_imap -f 'C-p' 'history-search-backward'
+		ble-bind -m vi_imap -f 'C-n' 'history-search-forward'
+		ble-bind -m vi_nmap -f 'C-m' 'accept-line'
+		ble-bind -m vi_nmap -f '{' 'history-prev'
+		ble-bind -m vi_nmap -f '}' 'history-next'
+		ble-bind -m nsearch -f 'C-m' 'nsearch/accept-line'
 
 		ble-bind -m vi_nmap --cursor 2
 		ble-bind -m vi_imap --cursor 5
