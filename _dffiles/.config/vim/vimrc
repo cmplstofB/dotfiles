@@ -142,20 +142,13 @@ let mapleader = "\<Space>"
 " `C`, `D` に挙動を合わせる
 nnoremap Y y$
 " 行の移動で視覚的に違和感を感じないように
-nnoremap <silent> <expr> j v:count ? 'j' : 'gj'
-nnoremap <silent> <expr> k v:count ? 'j' : 'gk'
-xnoremap <silent> <expr> j v:count ? 'j' : 'gj'
-xnoremap <silent> <expr> k v:count ? 'j' : 'gk'
-onoremap <silent> <expr> j v:count ? 'j' : 'gj'
-onoremap <silent> <expr> k v:count ? 'j' : 'gk'
 nnoremap <silent> <expr> 0  &l:wrap ? 'g0' : '0'
 nnoremap <silent> <expr> $  &l:wrap ? 'g$' : '$'
-nnoremap <silent> gj j
-nnoremap <silent> gk k
-xnoremap <silent> gj j
-xnoremap <silent> gk k
-onoremap <silent> gj j
-onoremap <silent> gk k
+nmap gj gj<SID>g
+nmap gk gk<SID>g
+nnoremap <script> <SID>gj gj<SID>g
+nnoremap <script> <SID>gk gk<SID>g
+nmap <SID>g <Nop>
 " 文字列の置換で視覚的に違和感を感じないように
 nnoremap <silent> r gr
 nnoremap <silent> R gR
