@@ -1,5 +1,3 @@
-[wsl2]
-memory = 16GB
 swap = 32GB
 swapFile = D:\wsl-swap.vhdx
 vmIdleTimeout = 6000000
