@@ -242,10 +242,10 @@ cnoremap <C-k> <C-\>estrpart(getcmdline(), 0, getcmdpos() - 1)<Enter>
 cabbrev te, tabedit
 cabbrev vs, vsplit
 cabbrev sp, split
-cabbrev @/u/s/ /usr/share/
-cabbrev @/u/s/v/ /usr/share/vim/
-cabbrev @/u/s/a/ /usr/share/applications/
-cabbrev @/u/s/tl/ /usr/share/texlive/texmf-dist/
+cabbrev /u.s/ /usr/share/
+cabbrev /u.s.v/ /usr/share/vim/
+cabbrev /u.s.a/ /usr/share/applications/
+cabbrev /u.s.tl.d/ /usr/share/texlive/texmf-dist/
 " 二文字
 digraphs m< 10216
 digraphs m> 10217
