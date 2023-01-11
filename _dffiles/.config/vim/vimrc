@@ -246,7 +246,8 @@ cabbrev /u.s/ /usr/share/
 cabbrev /u.s.v/ /usr/share/vim/
 cabbrev /u.s.a/ /usr/share/applications/
 cabbrev /u.s.tl.d/ /usr/share/texlive/texmf-dist/
-" 二文字
+" {二重字 K#/2869}
+"   数学における山括弧
 digraphs m< 10216
 digraphs m> 10217
 " IM関係
