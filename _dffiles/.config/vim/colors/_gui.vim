@@ -18,7 +18,14 @@ call extend(v:colornames, {
            \ 'Campbell_BrightMagenta' : '#b4009e',
            \ 'Campbell_BrightYellow' : '#f9f1a5',
            \ 'Campbell_BrightWhite' : '#f2f2f2',
-}, 'keep')
+           \ }, 'keep')
 
 let &cpoptions = s:orig_cpo
 unlet s:orig_cpo
+
+highlight clear
+if exists("syntax_on")
+	syntax reset
+endif
+
+let g:colors_name = "_gui"
