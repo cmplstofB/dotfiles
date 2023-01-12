@@ -22,3 +22,12 @@ call extend(v:colornames, {
 
 let &cpoptions = s:orig_cpo
 unlet s:orig_cpo
+
+highlight clear
+if exists("syntax_on")
+	syntax reset
+endif
+
+let g:colors_name = "_gui"
+
+highlight Normal           gui=NONE          guifg=NONE         guifg=NONE       guisp=NONE
