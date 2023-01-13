@@ -2,10 +2,6 @@
 	# 印字不可能文字を表示
 	quotepath = false
 
-[user]
-	name = B̅
-	email = 20594300+cmplstofB@users.noreply.github.com
-
 [alias]
 	# clone 1
 	c1 = clone --single-branch --depth=1
