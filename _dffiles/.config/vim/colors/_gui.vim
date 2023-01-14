@@ -29,5 +29,3 @@ if exists("syntax_on")
 endif
 
 let g:colors_name = "_gui"
-
-highlight Normal           gui=NONE          guifg=NONE         guifg=NONE       guisp=NONE

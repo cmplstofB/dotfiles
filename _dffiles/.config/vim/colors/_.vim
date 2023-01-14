@@ -1,3 +1,25 @@
+let s:orig_cpo = &cpoptions
+setlocal cpoptions&vim
+
+call extend(v:colornames, {
+           \ 'Campbell_DarkBlack' : '#0c0c0c',
+           \ 'Campbell_DarkBlue' : '#0037da',
+           \ 'Campbell_DarkGreen' : '#13a10e',
+           \ 'Campbell_DarkCyan' : '#3a96dd',
+           \ 'Campbell_DarkRed' : '#c50f1f',
+           \ 'Campbell_DarkMagenta' : '#881798',
+           \ 'Campbell_DarkYellow' : '#c19c00',
+           \ 'Campbell_DarkWhite' : '#cccccc',
+           \ 'Campbell_BrightBlack' : '#767676',
+           \ 'Campbell_BrightBlue' : '#3b78ff',
+           \ 'Campbell_BrightGreen' : '#16c60c',
+           \ 'Campbell_BrightCyan' : '#61d6d6',
+           \ 'Campbell_BrightRed' : '#e74856',
+           \ 'Campbell_BrightMagenta' : '#b4009e',
+           \ 'Campbell_BrightYellow' : '#f9f1a5',
+           \ 'Campbell_BrightWhite' : '#f2f2f2',
+           \ }, 'keep')
+
 set background=dark
 
 highlight clear
@@ -30,6 +52,7 @@ highlight _Itaric          term=italic       cterm=italic       ctermfg=NONE    
 
 " 通常
 highlight Normal           term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
+"highlight Normal           gui=NONE          guifg=Campbell_DarkWhite       guibg=Campbell_DarkBlack
 highlight Cursor           term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
 highlight CursorIM         term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
 highlight CursorColumn     term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=DarkGray
@@ -107,3 +130,6 @@ highlight StatusLineTermNC term=reverse      cterm=reverse      ctermfg=DarkGray
 
 " 譜類末端
 "highlight link EndOfBuffer Ignore
+
+let &cpoptions = s:orig_cpo
+unlet s:orig_cpo

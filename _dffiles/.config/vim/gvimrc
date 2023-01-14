@@ -5,4 +5,3 @@ elseif has('gui_gtk')
 endif
 
 set guioptions=mgRp
-colorscheme _gui
