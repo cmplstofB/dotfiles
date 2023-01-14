@@ -61,6 +61,9 @@ alias py='\python3'
 # <https://github.com/pypa/pip/issues/5599>
 alias pip='\python3 -m pip'
 
+## Subversion
+alias svn='\svn --config-dir "$XDG_CONFIG_HOME"/svn'
+
 ### Opam
 [ -r ${OPAMROOT:-~/.opam}/opam-init/init.sh ] &&
 . ${OPAMROOT:-~/.opam}/opam-init/init.sh > /dev/null 2> /dev/null || :
