@@ -51,7 +51,7 @@ highlight _Bold            term=bold         cterm=bold         ctermfg=NONE    
 highlight _Itaric          term=italic       cterm=italic       ctermfg=NONE     ctermbg=NONE
 
 " 通常
-highlight Normal           term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
+highlight Normal           term=NONE         cterm=NONE         ctermfg=LightGray ctermbg=NONE
 "highlight Normal           gui=NONE          guifg=Campbell_DarkWhite       guibg=Campbell_DarkBlack
 highlight Cursor           term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
 highlight CursorIM         term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
