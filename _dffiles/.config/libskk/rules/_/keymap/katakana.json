@@ -7,7 +7,7 @@
 			"/": "start-preedit",
 			"@": "set-input-mode-hiragana",
 			"`": "set-input-mode-hankaku-katakana",
-			"C- ": "set-input-mode-latin",
+			"l": "set-input-mode-latin",
 			"+": "start-preedit-kana",
 			"C-j": "commit"
 		}
