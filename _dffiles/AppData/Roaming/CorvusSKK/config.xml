@@ -826,6 +826,8 @@
       <row ro="m]" hi="〟" ka="〟" an="〟" so="0" />
       <row ro="n[" hi="〈" ka="〈" an="〈" so="0" />
       <row ro="n]" hi="〉" ka="〉" an="〉" so="0" />
+      <row ro="n{" hi="《" ka="《" an="《" so="0" />
+      <row ro="n}" hi="》" ka="》" an="》" so="0" />
       <row ro="'[" hi="‘" ka="‘" an="‘" so="0" />
       <row ro="']" hi="’" ka="’" an="’" so="0" />
       <row ro="&quot;[" hi="“" ka="“" an="“" so="0" />
