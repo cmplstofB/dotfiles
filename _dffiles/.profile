@@ -52,7 +52,7 @@ export LESSKEY="$XDG_CONFIG_HOME/lesskey"
 export LESSKEYIN="$XDG_CONFIG_HOME/lesskeyin"
 
 ## Vim
-export VIMINIT='let $MYVIMRC = expand("$XDG_CONFIG_HOME") . "/vim/vimrc" | source $MYVIMRC'
+export VIMINIT='let $MYVIMRC = expand("$XDG_CONFIG_HOME") . "/vim/init.vim" | source $MYVIMRC'
 
 ## Python
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc.py"

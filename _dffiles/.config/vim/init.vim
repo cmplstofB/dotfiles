@@ -17,7 +17,7 @@ let s:myvimdir = expand($XDG_CONFIG_HOME) . "/vim"
 execute "set runtimepath^=" . s:myvimdir
 execute "set runtimepath+=" . s:myvimdir . "/after"
 execute "set packpath^=" . expand($XDG_DATA_HOME) . "/vim"
-let $MYGVIMRC = s:myvimdir . "/gvimrc"
+let $MYGVIMRC = s:myvimdir . "/ginit.vim"
 
 
 
