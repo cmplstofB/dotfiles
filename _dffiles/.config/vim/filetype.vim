@@ -147,3 +147,7 @@ autocmd BufRead,BufNewFile *.pkg
 	\ else |
 	\ 	setfiletype virata |
 	\ endif
+
+" Commented JSON
+autocmd BufNewFile,BufRead */AppData/Local/Packages/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe/LocalState/settings.json
+			\ setlocal filetype=jsonc
