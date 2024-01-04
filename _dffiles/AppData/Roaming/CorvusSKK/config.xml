@@ -19,8 +19,8 @@
     <key name="timeout" value="1000" />
   </section>
   <section name="userdict">
-    <key name="backupdir" value="%APPDATA%\CorvusSKK" />
-    <key name="backupgen" value="7" />
+    <key name="backupdir" value="%OneDriveCommercial%\ss2\bkp\CorvusSKK" />
+    <key name="backupgen" value="10" />
     <key name="privateonvkey" value="0x00" />
     <key name="privateonmkey" value="0" />
     <key name="privateoffvkey" value="0x00" />
