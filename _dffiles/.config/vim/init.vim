@@ -414,6 +414,41 @@ let g:user_emmet_settings["xml"]["snippets"] = {"xml:rdf":
 
 let g:asciidoctor_fenced_languages = ['c']
 
+if exists('g:started_by_firenvim')
+	let g:firenvim_config['globalSettings'] = {
+	  \   '<C-t>': 'default',
+	  \   '<C-n>': 'default',
+	  \   '<C-w>': 'default',
+	  \ }
+	let g:firenvim_config['localSettings']['https?://www\.google\.com/.*'] = {
+	  \   'takeover': 'never',
+	  \   'selector': 'textarea:not([name="q"])',
+	  \   'priority': 1,
+	  \ }
+	let g:firenvim_config['localSettings']['https?://.*\.github\.dev/.*'] = {
+	  \   'takeover': 'never',
+	  \   'selector': 'textarea:not(.xterm-helper-textarea) div.monaco-mouse-cursor-text',
+	  \   'priority': 1,
+	  \ }
+	let g:firenvim_config['localSettings']['https?://discord\.com/.*'] = {
+	  \   'takeover': 'never',
+	  \   'selector': '',
+	  \   'priority': 1,
+	  \ }
+	let g:firenvim_config['localSettings']['https?://copy\.sh/v86/.*'] = {
+	  \   'takeover': 'never',
+	  \   'selector': '',
+	  \   'priority': 1,
+	  \ }
+	let g:firenvim_config['localSettings']['https?://dlt\.kitetu\.com/.*'] = {
+	  \   'selector': 'div:not(.xpd) textarea.src',
+	  \   'priority': 1,
+	  \ }
+	packadd firenvim-0.2.15
+	set guifont=Sarasa\ Term\ Slab\ J:h18
+	set showtabline=1
+	autocmd TextChanged,TextChangedI * ++nested write
+endif
 
 filetype plugin indent on
 
