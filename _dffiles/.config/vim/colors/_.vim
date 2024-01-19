@@ -1,25 +1,6 @@
 let s:orig_cpo = &cpoptions
 setlocal cpoptions&vim
 
-call extend(v:colornames, {
-           \ 'Campbell_DarkBlack' : '#0c0c0c',
-           \ 'Campbell_DarkBlue' : '#0037da',
-           \ 'Campbell_DarkGreen' : '#13a10e',
-           \ 'Campbell_DarkCyan' : '#3a96dd',
-           \ 'Campbell_DarkRed' : '#c50f1f',
-           \ 'Campbell_DarkMagenta' : '#881798',
-           \ 'Campbell_DarkYellow' : '#c19c00',
-           \ 'Campbell_DarkWhite' : '#cccccc',
-           \ 'Campbell_BrightBlack' : '#767676',
-           \ 'Campbell_BrightBlue' : '#3b78ff',
-           \ 'Campbell_BrightGreen' : '#16c60c',
-           \ 'Campbell_BrightCyan' : '#61d6d6',
-           \ 'Campbell_BrightRed' : '#e74856',
-           \ 'Campbell_BrightMagenta' : '#b4009e',
-           \ 'Campbell_BrightYellow' : '#f9f1a5',
-           \ 'Campbell_BrightWhite' : '#f2f2f2',
-           \ }, 'keep')
-
 set background=dark
 
 highlight clear
@@ -27,32 +8,78 @@ if exists("syntax_on")
 	syntax reset
 endif
 
+let s:CB_Black       = '#0c0c0c'
+let s:CB_DarkBlue    = '#0037da'
+let s:CB_DarkGreen   = '#13a10e'
+let s:CB_DarkCyan    = '#3a96dd'
+let s:CB_DarkRed     = '#c50f1f'
+let s:CB_DarkMagenta = '#881798'
+let s:CB_DarkYellow  = '#c19c00'
+let s:CB_Gray        = '#cccccc'
+let s:CB_DarkGray    = '#767676'
+let s:CB_Blue        = '#3b78ff'
+let s:CB_Green       = '#16c60c'
+let s:CB_Cyan        = '#61d6d6'
+let s:CB_Red         = '#e74856'
+let s:CB_Magenta     = '#b4009e'
+let s:CB_Yellow      = '#f9f1a5'
+let s:CB_White       = '#f2f2f2'
+
+
+
 set t_Co=256
 " 合法ファイル名かつ何とも被らない
 let g:colors_name = "_"
 
-highlight Comment          term=NONE         cterm=NONE         ctermfg=Gray     ctermbg=NONE
+"highlight Comment          term=NONE         cterm=NONE         ctermfg=Gray     ctermbg=NONE
+exe 'hi! Comment' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
+                  \ ' ctermfg=Gray'     . ' ctermbg=NONE' .
+                  \ ' guifg='.s:CB_Gray . ' guibg='.s:CB_Black
 
-highlight Identifier       term=bold,italic  cterm=bold,italic  ctermfg=Magenta  ctermbg=NONE
+"highlight Identifier       term=bold,italic  cterm=bold,italic  ctermfg=Magenta  ctermbg=NONE
+exe 'hi! Identifier' . ' term=bold,italic' . ' cterm=bold,italic' . ' gui=bold,italic' .
+                     \ ' ctermfg=Magenta'     . ' ctermbg=NONE' .
+                     \ ' guifg='.s:CB_Magenta . ' guibg='.s:CB_Black
 
-highlight Constant         term=NONE         cterm=NONE         ctermfg=Yellow   ctermbg=NONE
+"highlight Constant         term=NONE         cterm=NONE         ctermfg=Yellow   ctermbg=NONE
+exe 'hi! Constant' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
+                   \ ' ctermfg=Yellow'     . ' ctermbg=NONE' .
+                   \ ' guifg='.s:CB_Yellow . ' guibg='.s:CB_Black
 
-highlight Statement        term=bold         cterm=bold         ctermfg=Green    ctermbg=NONE
+"highlight Statement        term=bold         cterm=bold         ctermfg=Green    ctermbg=NONE
+exe 'hi! Statement' . ' term=bold' . ' cterm=bold' . ' gui=bold' .
+                    \ ' ctermfg=Green'     . ' ctermbg=NONE' .
+                    \ ' guifg='.s:CB_Green . ' guibg='.s:CB_Black
 
-highlight PreProc          term=NONE         cterm=NONE         ctermfg=DarkGreen ctermbg=NONE
+"highlight PreProc          term=NONE         cterm=NONE         ctermfg=DarkGreen ctermbg=NONE
+exe 'hi! PreProc' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
+                  \ ' ctermfg=DarkGreen'     . ' ctermbg=NONE' .
+                  \ ' guifg='.s:CB_DarkGreen . ' guibg='.s:CB_Black
 
-highlight Type             term=bold         cterm=bold         ctermfg=Yellow   ctermbg=NONE
+"highlight Type             term=bold         cterm=bold         ctermfg=Yellow   ctermbg=NONE
+exe 'hi! Type' . ' term=bold' . ' cterm=bold' . ' gui=bold' .
+               \ ' ctermfg=Yellow'     . ' ctermbg=NONE' .
+               \ ' guifg='.s:CB_Yellow . ' guibg='.s:CB_Black
 
-highlight Special          term=NONE         cterm=NONE         ctermfg=Magenta  ctermbg=NONE
+"highlight Special          term=NONE         cterm=NONE         ctermfg=Magenta  ctermbg=NONE
+exe 'hi! Special' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
+                  \ ' ctermfg=Magenta'     . ' ctermbg=NONE' .
+                  \ ' guifg='.s:CB_Magenta . ' guibg='.s:CB_Black
 
-highlight Underlined       term=underline    cterm=underline    ctermfg=NONE     ctermbg=NONE
+" highlight Underlined       term=underline    cterm=underline    ctermfg=NONE     ctermbg=NONE
+exe 'hi! Underlined' . ' term=underline' . ' cterm=underline' . ' gui=underline' .
+                     \ ' ctermfg=NONE'      . ' ctermbg=NONE' .
+                     \ ' guifg='.s:CB_White . ' guibg='.s:CB_Black
 
 highlight _Bold            term=bold         cterm=bold         ctermfg=NONE     ctermbg=NONE
 highlight _Itaric          term=italic       cterm=italic       ctermfg=NONE     ctermbg=NONE
 
 " 通常
-highlight Normal           term=NONE         cterm=NONE         ctermfg=LightGray ctermbg=NONE
-"highlight Normal           gui=NONE          guifg=Campbell_DarkWhite       guibg=Campbell_DarkBlack
+"highlight Normal           term=NONE         cterm=NONE         ctermfg=LightGray ctermbg=NONE
+"                         \ gui=NONE          guifg=Campbell_DarkWhite       guibg=Campbell_DarkBlack
+exe 'hi! Normal' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
+                 \ ' ctermfg=LightGray' . ' ctermbg=NONE' .
+                 \ ' guifg='.s:CB_White . ' guibg='.s:CB_Black
 highlight Cursor           term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
 highlight CursorIM         term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
 highlight CursorColumn     term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=DarkGray
@@ -61,16 +88,28 @@ highlight CursorLine       term=NONE         cterm=NONE         ctermfg=NONE    
 highlight Visual           term=reverse      cterm=reverse      ctermfg=DarkGray ctermbg=NONE
 highlight VisualNOS        term=reverse      cterm=reverse      ctermfg=DarkGray ctermbg=NONE
 " 特殊
-"highlight link Conceal Normal
-highlight Conceal          term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
+" highlight Conceal          term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
+highlight! link Conceal Normal
 highlight ColorColumn      term=NONE         cterm=NONE         ctermfg=DarkGray ctermbg=NONE
 highlight EndOfBuffer      term=NONE         cterm=NONE         ctermfg=DarkGrey ctermbg=NONE
 highlight VertSplit        term=NONE         cterm=NONE         ctermfg=DarkGrey ctermbg=NONE
 highlight FoldColumn       term=NONE         cterm=NONE         ctermfg=DarkGrey ctermbg=NONE
-highlight LineNr           term=NONE         cterm=NONE         ctermfg=Gray     ctermbg=NONE
-highlight CursorLineNr     term=NONE         cterm=NONE         ctermfg=Gray     ctermbg=DarkGrey
-highlight NonText          term=NONE         cterm=NONE         ctermfg=DarkGrey ctermbg=NONE
-highlight SpecialKey       term=NONE         cterm=NONE         ctermfg=Gray     ctermbg=NONE
+"highlight LineNr           term=NONE         cterm=NONE         ctermfg=Gray     ctermbg=NONE
+exe 'hi! LineNr' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
+                 \ ' ctermfg=Gray'     . ' ctermbg=NONE' .
+                 \ ' guifg='.s:CB_Gray . ' guibg='.s:CB_Black
+"highlight CursorLineNr     term=NONE         cterm=NONE         ctermfg=Gray     ctermbg=DarkGrey
+exe 'hi! CursorLineNr' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
+                       \ ' ctermfg=Gray'     . ' ctermbg=DarkGrey' .
+                       \ ' guifg='.s:CB_Gray . ' guibg='.s:CB_DarkGray
+"highlight NonText          term=NONE         cterm=NONE         ctermfg=DarkGrey ctermbg=NONE
+exe 'hi! NonText' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
+                  \ ' ctermfg=DarkGray'     . ' ctermbg=NONE' .
+                  \ ' guifg='.s:CB_Gray . ' guibg='.s:CB_Black
+"highlight SpecialKey       term=NONE         cterm=NONE         ctermfg=Gray     ctermbg=NONE
+exe 'hi! SpecialKey' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
+                     \ ' ctermfg=Gray'     . ' ctermbg=NONE' .
+                     \ ' guifg='.s:CB_Gray . ' guibg='.s:CB_Black
 highlight Folded           term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=DarkGray
 highlight SignColumn       term=NONE         cterm=NONE         ctermfg=Yellow   ctermbg=NONE
 highlight IncSearch        term=reverse      cterm=reverse      ctermfg=NONE     ctermbg=Yellow
@@ -83,19 +122,37 @@ highlight WarningMsg       term=reverse      cterm=reverse      ctermfg=Red     
 highlight ModeMsg          term=bold         cterm=bold         ctermfg=NONE     ctermbg=NONE
 highlight MoreMsg          term=bold         cterm=bold         ctermfg=NONE     ctermbg=NONE
 highlight Question         term=bold         cterm=bold         ctermfg=NONE     ctermbg=NONE
-highlight Title            term=bold         cterm=bold         ctermfg=NONE     ctermbg=NONE
-highlight StatusLine       term=reverse,bold cterm=reverse,bold ctermfg=Gray     ctermbg=Black
+" highlight Title            term=bold         cterm=bold         ctermfg=NONE     ctermbg=NONE
+exe 'hi! Title' . ' term=bold' . ' cterm=bold' . ' gui=bold' .
+                \ ' ctermfg=NONE' . ' ctermbg=NONE' .
+                \ ' guifg='.s:CB_White . ' guibg='.s:CB_Black
+" highlight StatusLine       term=reverse,bold cterm=reverse,bold ctermfg=Gray     ctermbg=Black
+exe 'hi! StatusLine' . ' term=reverse,bold' . ' cterm=reverse,bold' . ' gui=reverse,bold' .
+                     \ ' ctermfg=Gray'     . ' ctermbg=Black' .
+                     \ ' guifg='.s:CB_Gray . ' guibg='.s:CB_Black
 highlight StatusLineNC     term=reverse      cterm=reverse      ctermfg=DarkGray ctermbg=Black
+exe 'hi! StatusLineNC' . ' term=reverse' . ' cterm=reverse' . ' gui=reverse' .
+                       \ ' ctermfg=DarkGray'     . ' ctermbg=Black' .
+                       \ ' guifg='.s:CB_DarkGray . ' guibg='.s:CB_Black
 highlight TabLine          term=reverse      cterm=reverse      ctermfg=DarkGray ctermbg=Black
 highlight TabLineFill      term=NONE         cterm=NONE         ctermfg=Black    ctermbg=Black
 highlight TabLineSel       term=reverse,bold cterm=reverse,bold ctermfg=Gray     ctermbg=Black
 " 補完
-highlight Directory        term=bold         cterm=bold         ctermfg=Blue     ctermbg=NONE
-highlight WildMenu         term=reverse      cterm=reverse      ctermfg=DarkGray ctermbg=White
-highlight Pmenu            term=NONE         cterm=NONE         ctermfg=Black    ctermbg=Gray
-highlight PmenuSel         term=reverse      cterm=reverse      ctermfg=DarkGray ctermbg=White
+" highlight Directory        term=bold         cterm=bold         ctermfg=Blue     ctermbg=NONE
+exe 'hi! Directory' . ' term=reverse' . ' cterm=reverse' . ' gui=NONE' .
+                    \ ' ctermfg=Blue'     . ' ctermbg=NONE' .
+                    \ ' guifg='.s:CB_Blue . ' guibg='.s:CB_Black
+" highlight WildMenu         term=reverse      cterm=reverse      ctermfg=DarkGray ctermbg=Black
+exe 'hi! WildMenu' . ' term=reverse' . ' cterm=reverse' . ' gui=NONE' .
+                   \ ' ctermfg=Black'     . ' ctermbg=DarkGray' .
+                   \ ' guifg='.s:CB_Black . ' guibg='.s:CB_DarkGray
+" highlight Pmenu            term=NONE         cterm=NONE         ctermfg=DarkGray ctermbg=Black
+exe 'hi! Pmenu' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
+                 \ ' ctermfg=LightGray' . ' ctermbg=NONE' .
+                 \ ' guifg='.s:CB_White . ' guibg='.s:CB_Black
+highlight PmenuSel         term=reverse      cterm=reverse      ctermfg=DarkGray ctermbg=Black
 highlight PmenuSbar        term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
-highlight PmenuThumb       term=reverse      cterm=reverse      ctermfg=Gray     ctermbg=NONE
+highlight PmenuThumb       term=reverse      cterm=reverse      ctermfg=DarkGray ctermbg=NONE
 highlight QuickFixLine     term=bold         cterm=bold         ctermfg=NONE     ctermbg=NONE
 " 差異
 highlight DiffAdd          term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=DarkGreen
