@@ -4,8 +4,10 @@ scriptencoding UTF-8
 if &compatible
 	set nocompatible
 endif
-unlet! skip_defaults_vim
-source $VIMRUNTIME/defaults.vim
+if !has('nvim')
+	unlet! skip_defaults_vim
+	source $VIMRUNTIME/defaults.vim
+endif
 " 一連の設定
 augroup MyVimrc
 	autocmd!
@@ -38,7 +40,11 @@ set nofixendofline
 set history=10000
 " 状態の記録
 set viminfo='10000,<10000,s10000,h
-execute "set viminfofile=" . expand($XDG_CACHE_HOME) . "/vim/viminfo"
+if !has('nvim')
+	execute "set viminfofile=" . expand($XDG_CACHE_HOME) . "/vim/viminfo"
+else
+	execute "set viminfofile=" . expand($XDG_CACHE_HOME) . "/vim/nviminfo"
+endif
 " 遣り直し
 set undofile
 set undolevels=10000
@@ -129,7 +135,9 @@ let &t_BD = "\<Esc>[?2004l"
 " TODO:模鼠による選択時には，autoselectを有効にしたい。
 set clipboard-=autoselect
 " 終了時に画面を消去しない
-set norestorescreen
+if !has('nvim')
+	set norestorescreen
+endif
 " 綴
 set spell
 set spelllang+=cjk
@@ -197,7 +205,9 @@ nnoremap <silent> <C-n> gt
 nnoremap <silent> <C-p> gT
 " 内部端末
 nnoremap <F4> :<C-u>silent!<Space>lcd<Space>%:p:h<Bar>terminal<Enter>
-set termwinkey=<C-g>
+if !has('nvim')
+	set termwinkey=<C-g>
+endif
 " Emacs風の手引き入力待機態呼出
 nnoremap <C-h> :<C-u>help<Space>
 set keywordprg=
@@ -357,7 +367,7 @@ set nosecure
 
 
 " 制危
-set cryptmethod=blowfish2
+"set cryptmethod=blowfish2
 
 
 
@@ -399,10 +409,10 @@ let g:user_emmet_settings["html"]["snippets"] = {"html:5":
 			\ "</body>\n" .
 			\ "</html>"}
 " XML
-let g:user_emmet_settings["xml"] = {"filters": "html"}
-let g:user_emmet_settings["xml"]["snippets"] = {"!!!": 
+let g:user_emmet_settings['xml'] = { 'filters': 'html' }
+let g:user_emmet_settings['xml']['snippets'] = { '!!!':
 			\ "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"}
-let g:user_emmet_settings["xml"]["snippets"] = {"xml:rdf":
+let g:user_emmet_settings['xml']['snippets'] = { 'xml:rdf':
 			\ "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" .
 			\ "<rdf:RDF\n" .
 			\ "  xml:lang=\"${lang}\"\n" .
@@ -414,40 +424,115 @@ let g:user_emmet_settings["xml"]["snippets"] = {"xml:rdf":
 
 let g:asciidoctor_fenced_languages = ['c']
 
+
 if exists('g:started_by_firenvim')
 	let g:firenvim_config['globalSettings'] = {
 	  \   '<C-t>': 'default',
 	  \   '<C-n>': 'default',
 	  \   '<C-w>': 'default',
 	  \ }
-	let g:firenvim_config['localSettings']['https?://www\.google\.com/.*'] = {
-	  \   'takeover': 'never',
-	  \   'selector': 'textarea:not([name="q"])',
-	  \   'priority': 1,
+	let g:firenvim_config['localSettings']['https?://www\.google\.com/.*'] = #{
+	  \   takeover: 'never',
+	  \   selector: 'textarea:not([name="q"])',
+	  \   priority: 1,
 	  \ }
-	let g:firenvim_config['localSettings']['https?://.*\.github\.dev/.*'] = {
-	  \   'takeover': 'never',
-	  \   'selector': 'textarea:not(.xterm-helper-textarea) div.monaco-mouse-cursor-text',
-	  \   'priority': 1,
+	let g:firenvim_config['localSettings']['https?://.*\.github\.dev/.*'] = #{
+	  \   takeover: 'never',
+	  \   selector: 'textarea:not(.xterm-helper-textarea) div.monaco-mouse-cursor-text',
+	  \   priority: 1,
 	  \ }
-	let g:firenvim_config['localSettings']['https?://discord\.com/.*'] = {
-	  \   'takeover': 'never',
-	  \   'selector': '',
-	  \   'priority': 1,
+	let g:firenvim_config['localSettings']['https?://discord\.com/.*'] = #{
+	  \   takeover: 'never',
+	  \   selector: '',
+	  \   priority: 1,
 	  \ }
-	let g:firenvim_config['localSettings']['https?://copy\.sh/v86/.*'] = {
-	  \   'takeover': 'never',
-	  \   'selector': '',
-	  \   'priority': 1,
+	"let g:firenvim_config['localSettings']['https?://www\.nicovideo\.jp/.*'] = {
+	"  \   'takeover': 'never',
+	"  \   'selector': '',
+	"  \   'priority': 1,
+	"  \ }
+	let g:firenvim_config['localSettings']['https?://copy\.sh/v86/.*'] = #{
+	  \   takeover: 'never',
+	  \   selector: '',
+	  \   priority: 1,
 	  \ }
 	let g:firenvim_config['localSettings']['https?://dlt\.kitetu\.com/.*'] = {
 	  \   'selector': 'div:not(.xpd) textarea.src',
 	  \   'priority': 1,
 	  \ }
+	let g:firenvim_config['localSettings']['https?://github\.com/.*'] = #{
+	  \   takeover: 'never',
+	  \   selector: 'textarea:not(#read-only-cursor-text-area)',
+	  \   priority: 1,
+	  \ }
+
 	packadd firenvim-0.2.15
+
 	set guifont=Sarasa\ Term\ Slab\ J:h18
 	set showtabline=1
-	autocmd TextChanged,TextChangedI * ++nested write
+	" set shortmess+=W
+	" autocmd BufEnter www.nicovideo.jp* CommentInput-textarea
+	" www.nicovideo.jp_watch-sm42241937_V-1-DIV-2-DIV-1-DIV-1-TEXTAREA-1_2024-01-13T09-19-06-282Z.txt
+
+	" [_Esc_]を2回押すと離脱
+	nnoremap <Esc><Esc> <Cmd>call firenvim#focus_page()<Enter>
+
+	autocmd BufEnter * let b:timer_started = v:false
+	function! s:writeasync_sub()
+		let b:timer_started = v:false
+		silent write
+	endfunction
+	function! s:writeasync()
+		if b:timer_started | return | endif
+		if ! empty(&buftype) | return | endif
+		let b:timer_started = v:true
+		call timer_start(1000, { -> s:writeasync_sub() })
+	endfunction
+	autocmd TextChanged,TextChangedI * ++nested call s:writeasync()
+	" autocmd TextChanged,TextChangedI * ++nested
+	"   \  if g:timer_started | return | endif
+	"   \| let g:timer_started = v:true
+	"   \| call timer_start(1000, { -> s:writeasync_sub() })
+
+	" 改行して即座に送信する類のWeb用地
+	autocmd BufEnter www.nicovideo.jp*
+	  \  inoremap <silent> <Enter> <Cmd>silent write <Bar> call firenvim#press_keys('<LT>Enter>') <Bar> quit!<Enter>
+
+	" 保存して即座に送信する類のWeb用地
+	autocmd VimLeave dlt.kitetu.com*,b.hatena.ne.jp*,crowdin.com*
+	  \  if ! (line('$') == 1 && getline(1) == '')
+	  \| 	call firenvim#press_keys('<LT>C-Enter>')
+	  \| endif
+
+	" 下見機能
+	let g:firenvim_preview_script = {
+	  \   'dlt.kitetu.com':
+	  \     [ 'document.querySelector("button.pvw.hid").click()',
+	  \       'document.querySelector("button.pvw.shw").click()' ],
+	  \ }
+	" for k, v in g:firenvim_preview_script->items()
+	" 	call autocmd_add(#{
+	" 				\ replace: v:true,
+	" 				\ group: v:none;
+	" 				\ event: 'BufEnter';
+	" 				\ pattern: k .. '*'
+	" 				\ cmd: s:__a(v)
+	" 				\ })
+	" "	b:firenvim_prewiew_showed = v:false
+	" endfor
+	" function! s:__a(script)
+	" 	'let b:firenvim_prewiew_showed = v:false'
+	" 	.. 'nnoremap <C-w>z <Cmd>let b:firenvim_prewiew_showed ='
+	" 	.. a:script ' b:firenvim_prewiew_showed)<Enter>'
+	" endfunction
+	function! g:firenvim_preview_script.SwitchPreview(key, pvwstat)
+		call firenvim#eval_js(self[a:key][(a:pvwstat ? 1 : 0)])
+		return ! a:pvwstat
+	endfunction
+	" command SwitchPreview
+	autocmd BufEnter dlt.kitetu.com*
+				\  let b:firenvim_prewiew_showed = v:false
+				\| nnoremap <C-w>z <Cmd>let b:firenvim_prewiew_showed = g:firenvim_preview_script.SwitchPreview('dlt.kitetu.com', b:firenvim_prewiew_showed)<Enter>
 endif
 
 filetype plugin indent on
