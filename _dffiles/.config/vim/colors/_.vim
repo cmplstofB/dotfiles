@@ -139,7 +139,7 @@ highlight TabLineFill      term=NONE         cterm=NONE         ctermfg=Black   
 highlight TabLineSel       term=reverse,bold cterm=reverse,bold ctermfg=Gray     ctermbg=Black
 " 補完
 " highlight Directory        term=bold         cterm=bold         ctermfg=Blue     ctermbg=NONE
-exe 'hi! Directory' . ' term=reverse' . ' cterm=reverse' . ' gui=NONE' .
+exe 'hi! Directory' . ' term=bold' . ' cterm=bold' . ' gui=NONE' .
                     \ ' ctermfg=Blue'     . ' ctermbg=NONE' .
                     \ ' guifg='.s:CB_Blue . ' guibg='.s:CB_Black
 " highlight WildMenu         term=reverse      cterm=reverse      ctermfg=DarkGray ctermbg=Black
