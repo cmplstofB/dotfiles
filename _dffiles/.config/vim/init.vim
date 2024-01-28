@@ -111,6 +111,7 @@ set conceallevel=2
 " 編集している譜類の台録に自動移動
 "   網際上の譜類を閲覧する場合にマズいことが置こるので，一旦取り止め。
 "autocmd MyVimrc BufEnter *
+
 "			\ if split(fnamemodify(expand("%"), ":p:h"), "/", 1)[0] !~ "\(file\|https\=\|ftp\):" |
 "			\ 	silent! execute "lchdir" fnamemodify(expand("%"), ":p:h") |
 "			\ endif
@@ -496,7 +497,20 @@ if exists('g:started_by_firenvim')
 
 	" 改行して即座に送信する類のWeb用地
 	autocmd BufEnter www.nicovideo.jp*
-	  \  inoremap <silent> <Enter> <Cmd>silent write <Bar> call firenvim#press_keys('<LT>Enter>') <Bar> quit!<Enter>
+	  \  set nonumber
+	  \| inoremap <silent> <Enter>
+	  \    <Cmd> if line('$') == 1
+	  \    <Bar> 	silent write
+	  \    <Bar> 	call firenvim#eval_js('document.querySelector(' ..
+	  \          	  '"button.ActionButton.CommentPostButton"' ..
+	  \          	').click()')
+	  \    <Bar> 	call firenvim#focus_page()
+	  \    <Bar> 	quit!
+	  \    <Bar> else
+	  \    <Bar> 	normal <Enter>
+	  \    <Bar> endif
+	  \    <Enter>
+	autocmd FocusGained www.nicovideo.jp* startinsert!
 
 	" 保存して即座に送信する類のWeb用地
 	autocmd VimLeave dlt.kitetu.com*,b.hatena.ne.jp*,crowdin.com*
@@ -507,8 +521,8 @@ if exists('g:started_by_firenvim')
 	" 下見機能
 	let g:firenvim_preview_script = {
 	  \   'dlt.kitetu.com':
-	  \     [ 'document.querySelector("button.pvw.hid").click()',
-	  \       'document.querySelector("button.pvw.shw").click()' ],
+	  \     [ 'document.querySelectorAll("button.pvw.hid").forEach($ => $.click())',
+	  \       'document.querySelectorAll("button.pvw.shw").forEach($ => $.click())' ],
 	  \ }
 	" for k, v in g:firenvim_preview_script->items()
 	" 	call autocmd_add(#{
@@ -531,8 +545,11 @@ if exists('g:started_by_firenvim')
 	endfunction
 	" command SwitchPreview
 	autocmd BufEnter dlt.kitetu.com*
-				\  let b:firenvim_prewiew_showed = v:false
-				\| nnoremap <C-w>z <Cmd>let b:firenvim_prewiew_showed = g:firenvim_preview_script.SwitchPreview('dlt.kitetu.com', b:firenvim_prewiew_showed)<Enter>
+	  \  let b:firenvim_prewiew_showed = v:false
+	  \| nnoremap <C-w>z
+	  \    <Cmd> let b:firenvim_prewiew_showed =
+	  \          g:firenvim_preview_script.SwitchPreview('dlt.kitetu.com', b:firenvim_prewiew_showed)
+	  \    <Enter>
 endif
 
 filetype plugin indent on
