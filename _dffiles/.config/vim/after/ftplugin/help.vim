@@ -1,7 +1,9 @@
-" less(1)っぽく
+" less(1)，Web頁っぽく
 nnoremap <buffer> <silent> j <C-e>
 nnoremap <buffer> <silent> k <C-y>
-nnoremap <buffer> <silent> q :<C-u>helpclose<NL>
+nnoremap <buffer> <silent> q <Cmd>helpclose<Enter>
+nnoremap <buffer> <silent> <Esc> <Cmd>helpclose<Enter>
+nnoremap <buffer> <silent> <Enter> <C-]>
 "   <silent>を外すと何故か動作しなくなる……。理由不明。
 " カーソル非表示
 "   反映されないし，wincmdが効かなくなる
