@@ -510,7 +510,7 @@ if exists('g:started_by_firenvim')
 	  \    <Bar> 	normal <Enter>
 	  \    <Bar> endif
 	  \    <Enter>
-	autocmd FocusGained www.nicovideo.jp* startinsert!
+	autocmd BufEnter,FocusGained www.nicovideo.jp* startinsert!
 
 	" 保存して即座に送信する類のWeb用地
 	autocmd VimLeave dlt.kitetu.com*,b.hatena.ne.jp*,crowdin.com*
