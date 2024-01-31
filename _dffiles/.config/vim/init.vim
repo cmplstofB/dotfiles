@@ -428,44 +428,46 @@ let g:asciidoctor_fenced_languages = ['c']
 
 if exists('g:started_by_firenvim')
 	let g:firenvim_config['globalSettings'] = {
-	  \   '<C-t>': 'default',
-	  \   '<C-n>': 'default',
-	  \   '<C-w>': 'default',
-	  \ }
+	\   '<C-t>': 'default',
+	\   '<C-n>': 'default',
+	\   '<C-w>': 'default',
+	\ }
 	let g:firenvim_config['localSettings']['https?://www\.google\.com/.*'] = #{
-	  \   takeover: 'never',
-	  \   selector: 'textarea:not([name="q"])',
-	  \   priority: 1,
-	  \ }
+	\   takeover: 'never',
+	\   selector: 'textarea:not([name="q"])',
+	\   priority: 1,
+	\ }
 	let g:firenvim_config['localSettings']['https?://.*\.github\.dev/.*'] = #{
-	  \   takeover: 'never',
-	  \   selector: 'textarea:not(.xterm-helper-textarea) div.monaco-mouse-cursor-text',
-	  \   priority: 1,
-	  \ }
+	\   takeover: 'never',
+	\   selector: 'textarea:not(.xterm-helper-textarea) div.monaco-mouse-cursor-text',
+	\   priority: 1,
+	\ }
 	let g:firenvim_config['localSettings']['https?://discord\.com/.*'] = #{
-	  \   takeover: 'never',
-	  \   selector: '',
-	  \   priority: 1,
-	  \ }
+	\   takeover: 'never',
+	\   selector: '[role="textbox"] span[data-slate-length="0"]',
+	\   priority: 1,
+	\ }
+	  "\   selector: '[role="textbox"] :where([data-slate-length="0"], [data-slate-string="true"])',
 	"let g:firenvim_config['localSettings']['https?://www\.nicovideo\.jp/.*'] = {
-	"  \   'takeover': 'never',
-	"  \   'selector': '',
-	"  \   'priority': 1,
-	"  \ }
+	"\   'takeover': 'never',
+	"\   'selector': '',
+	"\   'priority': 1,
+	"\ }
 	let g:firenvim_config['localSettings']['https?://copy\.sh/v86/.*'] = #{
-	  \   takeover: 'never',
-	  \   selector: '',
-	  \   priority: 1,
-	  \ }
-	let g:firenvim_config['localSettings']['https?://dlt\.kitetu\.com/.*'] = {
-	  \   'selector': 'div:not(.xpd) textarea.src',
-	  \   'priority': 1,
-	  \ }
+	\   takeover: 'never',
+	\   selector: '',
+	\   priority: 1,
+	\ }
+	" デライトでは他者輪郭のデラングを覗いたときもFirenvimを立ち上げるようにする。
+	let g:firenvim_config['localSettings']['https?://dlt\.kitetu\.com/.*'] = #{
+	\   selector: 'div:not(.xpd) textarea.src',
+	\   priority: 1,
+	\ }
 	let g:firenvim_config['localSettings']['https?://github\.com/.*'] = #{
-	  \   takeover: 'never',
-	  \   selector: 'textarea:not(#read-only-cursor-text-area)',
-	  \   priority: 1,
-	  \ }
+	\   takeover: 'never',
+	\   selector: 'textarea:not(#read-only-cursor-text-area)',
+	\   priority: 1,
+	\ }
 
 	packadd firenvim-0.2.15
 
@@ -495,35 +497,60 @@ if exists('g:started_by_firenvim')
 	"   \| let g:timer_started = v:true
 	"   \| call timer_start(1000, { -> s:writeasync_sub() })
 
+	" 条件に合致したらWeb頁にその鍵を送信する，そうじゃなければVimのものとして実行
+	function! s:PassThroughIf(keys, cond)
+		echo a:cond
+		" if a:cond
+		" 	call firenvim#press_keys(a:keys)
+		" else
+		" 	call feedkeys(a:keys)
+		" endif
+	endfunction
+	"autocmd BufEnter www.nicovideo.jp*
+	"\| nnoremap <expr> k <SID>PassThroughIf('k', (line('$') == 1))
+
 	" 改行して即座に送信する類のWeb用地
+	function! s:PostAndExit(postcmd)
+		silent write
+		call firenvim#eval_js(a:postcmd)
+		call firenvim#focus_page()
+		quit!
+	endfunction
 	autocmd BufEnter www.nicovideo.jp*
-	  \  set nonumber
-	  \| inoremap <silent> <Enter>
-	  \    <Cmd> if line('$') == 1
-	  \    <Bar> 	silent write
-	  \    <Bar> 	call firenvim#eval_js('document.querySelector(' ..
-	  \          	  '"button.ActionButton.CommentPostButton"' ..
-	  \          	').click()')
-	  \    <Bar> 	call firenvim#focus_page()
-	  \    <Bar> 	quit!
-	  \    <Bar> else
-	  \    <Bar> 	normal <Enter>
-	  \    <Bar> endif
-	  \    <Enter>
+	\  set nonumber
+	\| inoremap <silent> <Enter>
+	\    <Cmd> if line('$') == 1
+	\    <Bar> 	silent write
+	\    <Bar> 	call firenvim#eval_js('document.querySelector(' ..
+	\          	  '"button.ActionButton.CommentPostButton"' ..
+	\          	').click()')
+	\    <Bar> 	call firenvim#focus_page()
+	\    <Bar> 	quit!
+	\    <Bar> else
+	\    <Bar> 	call feedkeys("\<Enter>")
+	\    <Bar> endif
+	\    <Enter>
+	"\| nnoremap <silent> k
+	"\    <Cmd> if line('$') == 1
+	"\    <Bar> 	call firenvim#press_keys('k')
+	"\    <Bar> else
+	"\    <Bar> 	normal k
+	"\    <Bar> endif
+	"\    <Enter>
 	autocmd BufEnter,FocusGained www.nicovideo.jp* startinsert!
 
 	" 保存して即座に送信する類のWeb用地
 	autocmd VimLeave dlt.kitetu.com*,b.hatena.ne.jp*,crowdin.com*
-	  \  if ! (line('$') == 1 && getline(1) == '')
-	  \| 	call firenvim#press_keys('<LT>C-Enter>')
-	  \| endif
+	\  if ! (line('$') == 1 && getline(1) == '')
+	\| 	call firenvim#press_keys('<LT>C-Enter>')
+	\| endif
 
 	" 下見機能
 	let g:firenvim_preview_script = {
-	  \   'dlt.kitetu.com':
-	  \     [ 'document.querySelectorAll("button.pvw.hid").forEach($ => $.click())',
-	  \       'document.querySelectorAll("button.pvw.shw").forEach($ => $.click())' ],
-	  \ }
+	\   'dlt.kitetu.com':
+	\     [ 'document.querySelectorAll("button.pvw.hid").forEach($ => $.click())',
+	\       'document.querySelectorAll("button.pvw.shw").forEach($ => $.click())' ],
+	\ }
 	" for k, v in g:firenvim_preview_script->items()
 	" 	call autocmd_add(#{
 	" 				\ replace: v:true,
@@ -545,11 +572,14 @@ if exists('g:started_by_firenvim')
 	endfunction
 	" command SwitchPreview
 	autocmd BufEnter dlt.kitetu.com*
-	  \  let b:firenvim_prewiew_showed = v:false
-	  \| nnoremap <C-w>z
-	  \    <Cmd> let b:firenvim_prewiew_showed =
-	  \          g:firenvim_preview_script.SwitchPreview('dlt.kitetu.com', b:firenvim_prewiew_showed)
-	  \    <Enter>
+	\  let b:firenvim_prewiew_showed = v:false
+	\| nnoremap <C-w>z
+	\    <Cmd> let b:firenvim_prewiew_showed =
+	\          g:firenvim_preview_script.SwitchPreview(
+	\            'dlt.kitetu.com',
+	\            b:firenvim_prewiew_showed
+	\          )
+	\    <Enter>
 endif
 
 filetype plugin indent on
