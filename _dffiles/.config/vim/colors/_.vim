@@ -9,6 +9,7 @@ if exists("syntax_on")
 endif
 
 let s:CB_Black       = '#0c0c0c'
+  let s:CB_bgNONE    = s:CB_Black
 let s:CB_DarkBlue    = '#0037da'
 let s:CB_DarkGreen   = '#13a10e'
 let s:CB_DarkCyan    = '#3a96dd'
@@ -24,6 +25,7 @@ let s:CB_Red         = '#e74856'
 let s:CB_Magenta     = '#b4009e'
 let s:CB_Yellow      = '#f9f1a5'
 let s:CB_White       = '#f2f2f2'
+  let s:CB_fgNONE    = s:CB_White
 
 
 
@@ -110,7 +112,10 @@ exe 'hi! NonText' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
 exe 'hi! SpecialKey' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
                      \ ' ctermfg=Gray'     . ' ctermbg=NONE' .
                      \ ' guifg='.s:CB_Gray . ' guibg='.s:CB_Black
-highlight Folded           term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=DarkGray
+"highlight Folded           term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=DarkGray
+exe 'hi! Folded' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
+                     \ ' ctermfg=NONE' . ' ctermbg=DarkGray' .
+                     \ ' guifg=NONE'   . ' guibg='.s:CB_DarkGray
 highlight SignColumn       term=NONE         cterm=NONE         ctermfg=Yellow   ctermbg=NONE
 highlight IncSearch        term=reverse      cterm=reverse      ctermfg=NONE     ctermbg=Yellow
 "highlight MatchParen       term=reverse      cterm=reverse      ctermfg=NONE     ctermbg=Yellow
@@ -144,12 +149,12 @@ exe 'hi! Directory' . ' term=bold' . ' cterm=bold' . ' gui=NONE' .
                     \ ' guifg='.s:CB_Blue . ' guibg='.s:CB_Black
 " highlight WildMenu         term=reverse      cterm=reverse      ctermfg=DarkGray ctermbg=Black
 exe 'hi! WildMenu' . ' term=reverse' . ' cterm=reverse' . ' gui=NONE' .
-                   \ ' ctermfg=Black'     . ' ctermbg=DarkGray' .
+                   \ ' ctermfg=Black'     . ' ctermbg=NONE' .
                    \ ' guifg='.s:CB_Black . ' guibg='.s:CB_DarkGray
 " highlight Pmenu            term=NONE         cterm=NONE         ctermfg=DarkGray ctermbg=Black
 exe 'hi! Pmenu' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
                  \ ' ctermfg=LightGray' . ' ctermbg=NONE' .
-                 \ ' guifg='.s:CB_White . ' guibg='.s:CB_Black
+                 \ ' guifg='.s:CB_Gray . ' guibg='.s:CB_Black
 highlight PmenuSel         term=reverse      cterm=reverse      ctermfg=DarkGray ctermbg=Black
 highlight PmenuSbar        term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
 highlight PmenuThumb       term=reverse      cterm=reverse      ctermfg=DarkGray ctermbg=NONE
@@ -160,8 +165,14 @@ highlight DiffDelete       term=NONE         cterm=NONE         ctermfg=NONE    
 highlight DiffChange       term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=DarkYellow
 highlight DiffText         term=bold         cterm=bold         ctermfg=NONE     ctermbg=NONE
 " 綴
-highlight SpellBad         term=NONE         cterm=underline    ctermfg=NONE     ctermbg=NONE
-highlight SpellCap         term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
+"highlight SpellBad         term=NONE         cterm=undercurl    ctermfg=NONE     ctermbg=NONE
+exe 'hi! SpellBad' . ' term=undercurl' . ' cterm=undercurl' . ' gui=undercurl'
+                  \. ' ctermfg=NONE' . ' ctermbg=NONE' . (!has('nvim') ? ' ctermul=Red' : '')
+                  \. ' guifg=NONE'   . ' guibg=NONE'   . ' guisp='.s:CB_Red
+"highlight SpellCap         term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
+exe 'hi! SpellCap' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE'
+                  \. ' ctermfg=NONE' . ' ctermbg=NONE' . (!has('nvim') ? ' ctermul=Blue' : '')
+                  \. ' guifg=NONE'   . ' guibg=NONE'   . ' guisp='.s:CB_Blue
 highlight SpellLocal       term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
 highlight SpellRare        term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
 
@@ -187,6 +198,12 @@ highlight StatusLineTermNC term=reverse      cterm=reverse      ctermfg=DarkGray
 
 " 譜類末端
 "highlight link EndOfBuffer Ignore
+" spppell 
+
+" 輪結
+exe 'hi! htmlLink' . ' term=underline' . ' cterm=underline' . ' gui=underline' .
+                   \ ' ctermfg=Blue' . ' ctermbg=NONE' .
+                   \ ' guifg='.s:CB_Blue . ' guibg='.s:CB_Black
 
 let &cpoptions = s:orig_cpo
 unlet s:orig_cpo
