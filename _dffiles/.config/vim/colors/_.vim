@@ -36,7 +36,7 @@ let g:colors_name = "_"
 "highlight Comment          term=NONE         cterm=NONE         ctermfg=Gray     ctermbg=NONE
 exe 'hi! Comment' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
                   \ ' ctermfg=Gray'     . ' ctermbg=NONE' .
-                  \ ' guifg='.s:CB_Gray . ' guibg='.s:CB_Black
+                  \ ' guifg='.s:CB_Gray . ' guibg=NONE'
 
 "highlight Identifier       term=bold,italic  cterm=bold,italic  ctermfg=Magenta  ctermbg=NONE
 exe 'hi! Identifier' . ' term=bold,italic' . ' cterm=bold,italic' . ' gui=bold,italic' .
@@ -84,8 +84,14 @@ exe 'hi! Normal' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
                  \ ' guifg='.s:CB_White . ' guibg='.s:CB_Black
 highlight Cursor           term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
 highlight CursorIM         term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
-highlight CursorColumn     term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=DarkGray
-highlight CursorLine       term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=DarkGray
+" highlight CursorColumn     term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=DarkGray
+exe 'hi! CursorColumn' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
+                       \ ' ctermfg=NONE' . ' ctermbg=DarkGray' .
+                       \ ' guifg=NONE'   . ' guibg='.s:CB_DarkGray
+" highlight CursorLine       term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=DarkGray
+exe 'hi! CursorLine' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
+                     \ ' ctermfg=NONE' . ' ctermbg=DarkGray' .
+                     \ ' guifg=NONE'   . ' guibg='.s:CB_DarkGray
 " 選択
 highlight Visual           term=reverse      cterm=reverse      ctermfg=DarkGray ctermbg=NONE
 highlight VisualNOS        term=reverse      cterm=reverse      ctermfg=DarkGray ctermbg=NONE
@@ -107,11 +113,11 @@ exe 'hi! CursorLineNr' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
 "highlight NonText          term=NONE         cterm=NONE         ctermfg=DarkGrey ctermbg=NONE
 exe 'hi! NonText' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
                   \ ' ctermfg=DarkGray'     . ' ctermbg=NONE' .
-                  \ ' guifg='.s:CB_Gray . ' guibg='.s:CB_Black
+                  \ ' guifg='.s:CB_DarkGray . ' guibg=NONE'
 "highlight SpecialKey       term=NONE         cterm=NONE         ctermfg=Gray     ctermbg=NONE
 exe 'hi! SpecialKey' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
-                     \ ' ctermfg=Gray'     . ' ctermbg=NONE' .
-                     \ ' guifg='.s:CB_Gray . ' guibg='.s:CB_Black
+                     \ ' ctermfg=DarkGray'     . ' ctermbg=NONE' .
+                     \ ' guifg='.s:CB_DarkGray . ' guibg=NONE'
 "highlight Folded           term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=DarkGray
 exe 'hi! Folded' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE' .
                      \ ' ctermfg=NONE' . ' ctermbg=DarkGray' .
@@ -176,7 +182,7 @@ exe 'hi! SpellCap' . ' term=NONE' . ' cterm=NONE' . ' gui=NONE'
 highlight SpellLocal       term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
 highlight SpellRare        term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
 
-" ファイルマネージャ
+" 台類・譜類自体の閲覧 (Netrw)
 highlight netrwBak         term=NONE         cterm=NONE         ctermfg=Gray     ctermbg=NONE
 highlight netrwCompress    term=bold         cterm=bold         ctermfg=Red      ctermbg=NONE
 highlight netrwData        term=NONE         cterm=NONE         ctermfg=NONE     ctermbg=NONE
