@@ -40,11 +40,7 @@ set nofixendofline
 set history=10000
 " 状態の記録
 set viminfo='10000,<10000,s10000,h
-if !has('nvim')
-	execute "set viminfofile=" . expand($XDG_CACHE_HOME) . "/vim/viminfo"
-else
-	execute "set viminfofile=" . expand($XDG_CACHE_HOME) . "/vim/nviminfo"
-endif
+execute "set viminfofile=" .. expand($XDG_CACHE_HOME) .. '/vim/' .. (has('nvim') ? 'nviminfo' : 'viminfo')
 " 遣り直し
 set undofile
 set undolevels=10000
@@ -174,6 +170,11 @@ inoremap <expr> <F5> strftime("%Y-%m-%d", localtime())
 inoremap <expr> <S-F5> strftime("%H:%M:%S", localtime())
 " 現在絶対台録を挿入
 inoremap <expr> <F4> fnamemodify(expand("%"), ":p:h")
+" 日本語入力 (CorvusSKK) をしていると，
+" 「直前の挿入を繰り返す」機能が誤発動することが多いので，
+" とりあえず無効化する。
+inoremap <C-a> <Nop>
+inoremap <C-@> <Nop>
 " 字下げを調整しても依然選択状態を続ける
 vnoremap <Lt> <Lt>gv
 vnoremap > >gv
